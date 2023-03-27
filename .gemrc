@@ -1,0 +1,36 @@
+# Specify the list of gem sources to use
+:sources:
+  - https://rubygems.org
+  - http://rubygems-mirror.org
+
+# Set SSL certificate verification to use the system's certificate store
+:ssl_verify_mode: 2
+
+# Don't install RDoc or RI documentation, enable verbose output
+gem: --no-document --no-ri --verbose
+
+# Skip generating RDoc and RI documentation during gem installation and updates
+install: --no-rdoc --no-ri
+update: --no-rdoc --no-ri
+
+# Update gem sources before performing any operations, show a backtrace on errors
+update_sources: true
+backtrace: true
+
+# Specify a custom installation directory
+# gemhome: /path/to/gem/home
+
+# For Windows users, add the DevKit to enable compilation of Ruby native extensions
+# More information: https://github.com/oneclick/rubyinstaller/wiki/Development-Kit
+# install: --platform=ruby -- --with-cflags=-Wno-warn-absolute-paths
+# rdoc: --platform=ruby -- --with-cflags=-Wno-warn-absolute-paths
+
+# For Mac users, link against a newer version of OpenSSL
+# More information: https://github.com/rubygems/rubygems/issues/2801
+# install: --with-openssl-dir=/usr/local/opt/openssl
+# rdoc: --with-openssl-dir=/usr/local/opt/openssl
+
+# For Linux users, use a specific version of pkg-config
+# More information: https://github.com/rails/rails/issues/36104
+# install: --with-pkg-config=/usr/bin/pkg-config
+# rdoc: --with-pkg-config=/usr/bin/pkg-config
