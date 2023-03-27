@@ -14,7 +14,7 @@ Here is a brief overview of the dotfiles to find in this repository:
 * `.vimrcBefore.vimrc` - Vim config file (before)
 * `.wgetrc` - wget configuration file
 * `bootstrap.sh` - Shell script to install zsh, XCode, Homebrew, Java, Ruby, Rubygems
-* `gitconfig` - Git configuration file (please rename to .gitconfig)
+* `gitignore` - Git configuration file (please rename to .gitignore)
 * `macos.sh` - Initial terminal commands to configure your macOS
 
 All dotfiles in this repository are available under the Creative Commons License for Non-Commercial Use. This means that you are free to use, modify, and share these projects as long as it is for non-commercial purposes. If you wish to use these dotfiles for commercial purposes, please contact the owner of this repository for licensing information.
