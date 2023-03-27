@@ -6,16 +6,21 @@ Here is a brief overview of the dotfiles to find in this repository:
 
 ## Dotfiles
 
-* `.gemrc` - RubyGems configuration file
-* `.htoprc` - htop configuration file
-* `.htoprc.md` - htop configuration documentation
+### macOS specific
+
 * `.hyper.js` - [Hyper.js](https://hyper.is/) App configuration file for macOS (replaced Hyper for Warp)
 * `.vimrcAfter.vimrc` - Vim config file (after)
 * `.vimrcBefore.vimrc` - Vim config file (before)
 * `.wgetrc` - wget configuration file
 * `bootstrap.sh` - Shell script to install zsh, XCode, Homebrew, Java, Ruby, Rubygems
-* `gitignore` - Git configuration file (please rename to .gitignore)
 * `macos.sh` - Initial terminal commands to configure your macOS
+
+### OS agnostic
+
+* `.gemrc` - RubyGems configuration file
+* `.htoprc` - htop configuration file
+* `.htoprc.md` - htop configuration documentation
+* `gitignore` - Git configuration file (please rename to .gitignore)
 
 All dotfiles in this repository are available under the Creative Commons License for Non-Commercial Use. This means that you are free to use, modify, and share these projects as long as it is for non-commercial purposes. If you wish to use these dotfiles for commercial purposes, please contact the owner of this repository for licensing information.
 
