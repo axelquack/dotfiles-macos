@@ -1,0 +1,134 @@
+#############################################
+# PREPARATION
+#############################################
+
+# Preparation
+# Make sure Command Line Tools for Xcode are already installed `xcode-select --install`
+
+# Make sure that the latest Homebrew version in use
+update
+
+# Upgrade any already-installed formulae
+upgrade
+
+
+
+#############################################
+# TAP REPOSITORIES
+#############################################
+
+# Other interesting taps
+## tap 'brewsci/bio'            # Bioinformatics formulae.
+## tap 'brewsci/science'        # Scientific formulae.
+
+
+
+#############################################
+# CASK PRIVATE PACKAGES
+#############################################
+
+install '1password'
+install '1password-cli'
+install 'ascension'
+install 'bartender'
+install 'brave-browser'
+install 'cleanmymac'
+install 'comictagger'
+install 'discord'
+install 'docker' # --cask
+install 'elgato-control-center'
+install 'elgato-stream-deck'
+install 'github'
+install 'google-chrome'
+install 'google-drive'
+install 'ledger-live'
+install 'minecraft'
+install 'moonlight'
+Install 'obsidian'
+install 'plex'
+install 'plexamp'
+install 'protonvpn'
+install 'protonmail-bridge'
+install 'raindropio'
+install 'signal'
+install 'skype'
+Install 'steam'
+install 'telegram'
+install 'transmit'
+install 'visual-studio-code'
+install 'vlc'
+install 'warp'
+install 'whatsapp'
+install 'yacreader'
+
+
+
+#############################################
+# PRIVATE BINARIES
+#############################################
+
+# Version Control
+install 'git' # macOS Catalina does deliver a further old git version, compare `brew info git` with `git --version`.
+
+# Install other useful binaries
+install 'htop'
+install 'm-cli' # Swiss Army Knife for macOS.
+install 'neofetch' # A command-line system information tool.
+install 'nvm' # Node Version Manager.
+install 'ssh-copy-id'
+install 'tor'
+install 'wget'
+install 'ytp-dlp'
+install 'mas'
+
+
+
+#############################################
+# CLEANUP
+#############################################
+
+# Remove outdated versions from the cellar
+cleanup
+
+
+
+
+#############################################
+# APPS FROM THE MAC APP STORE
+#############################################
+
+# mas-cli is a simple command line interface for the Mac App Store.
+# Designed for scripting and automation.
+# https://github.com/mas-cli/mas
+
+# This will not handle the macOS System Updates that also appear in the Mac App Store,
+# but you can run sb to get a list of those and sudo softwareupdate -iva
+# to update them.
+
+mas 'AutoMounter', id: 1160435653
+mas 'DaVinci Resolve', id: 571213070
+mas 'DigiDoc 4 Client', id: 1370791134
+mas 'Highlights', id: 1498912833
+mas 'Keynote', id: 409183694
+mas 'Magnet', id: 441258766
+mas 'Meta', id: 558317092 # Music tag editor
+mas 'Microsoft Excel', id: 462058435
+mas 'Microsoft Powerpoint', id: 462062816
+mas 'Microsoft Remote Desktop', id: 1295203466
+mas 'Microsoft Word', id: 462054704
+mas 'Numbers', id: 409203825
+mas 'OneDrive', id: 823766827
+mas 'Pages', id: 409201541
+mas 'PamFax', id: 971138522
+mas 'Pixelmator Pro', id: 1289583905
+mas 'Rename', id: 485334187
+mas 'Screens 4', id: 1224268771
+mas 'Tag Editor', id: 886882234
+mas 'TeRa', id: 1243347809
+mas 'The Unarchiver', id: 425424353
+mas 'Twitter', id: 1482454543
+mas 'Tomato One', id: 907364780
+mas 'Web eID', id: 1576665083
+mas 'Yomu Ebook Reader', id: 562211012
+
+
