@@ -48,7 +48,7 @@ fi
 # Check if Java is installed, if not or outdated install via homebrew
 if ! which java >/dev/null 2>&1; then
   echo "[Info] Java is not installed. Installing the latest version..."
-  brew install --cask adoptopenjdk
+  brew install temurin
   echo "[Info] Java installed."
 else
   echo "[Info] Java is already installed."
@@ -87,7 +87,7 @@ else
   fi
 fi
 
-# Use Homebrew and Homebrew Cask to install everything by using a Brewfile
+# Use Homebrew to install everything by using a Brewfile
 if [ -f "brewfile.private" ]; then
   echo "[Info] Installing brewfile.client"
   echo "[Info] Please make sure you are signed in to the Mac App Store to install apps via mas."
