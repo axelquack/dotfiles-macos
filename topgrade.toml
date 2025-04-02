@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ "$(uname)" != "Darwin" ]; then
+  echo "This script is only for macOS."
+  exit 1
+fi
+
+echo "Starting update process..."
+
+# Update Homebrew
+if which brew >/dev/null 2>&1; then
+  echo "Updating Homebrew..."
+  brew update
+  echo "Upgrading Homebrew packages..."
+  brew upgrade
+  echo "Cleaning up Homebrew..."
+  brew cleanup
+else
+  echo "Homebrew is not installed. Skipping Homebrew updates."
+fi
+
+# Update mas apps
+if which mas >/dev/null 2>&1; then
+  echo "Upgrading Mac App Store apps via mas..."
+  mas upgrade
+else
+  echo "mas is not installed. Skipping mas updates."
+fi
+
+# Update macOS system
+echo "Checking for macOS updates..."
+sudo softwareupdate -l
+echo "Installing all available macOS updates..."
+sudo softwareupdate -i -a
+
+echo "Update process completed."
+echo "If system updates were installed, you may need to restart your computer."
