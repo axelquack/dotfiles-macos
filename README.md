@@ -8,7 +8,6 @@ Here is a brief overview of the dotfiles to find in this repository:
 
 ### macOS specific
 
-* `.hyper.js` - [Hyper.js](https://hyper.is/) App configuration file for macOS (replaced Hyper for Warp)
 * `.vimrcAfter.vimrc` - Vim config file (after)
 * `.vimrcBefore.vimrc` - Vim config file (before)
 * `.wgetrc` - wget configuration file
