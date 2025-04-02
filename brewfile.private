@@ -15,15 +15,6 @@ upgrade
 
 
 
-#############################################
-# TAP REPOSITORIES
-#############################################
-
-# Other interesting taps
-## tap 'brewsci/bio'            # Bioinformatics formulae.
-## tap 'brewsci/science'        # Scientific formulae.
-
-
 
 #############################################
 # CASK PRIVATE PACKAGES
