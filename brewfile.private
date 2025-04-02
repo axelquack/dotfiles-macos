@@ -58,6 +58,7 @@ install 'git' # macOS does deliver a further old git version, compare `brew info
 # Install other useful binaries
 install 'btop'
 install 'fastfetch' # A command-line system information tool.
+install 'topgrade'
 install 'wget'
 install 'yt-dlp'
 install 'mas'
