@@ -90,6 +90,7 @@ fi
 # Use Homebrew and Homebrew Cask to install everything by using a Brewfile
 if [ -f "brewfile.private" ]; then
   echo "[Info] Installing brewfile.client"
+  echo "[Info] Please make sure you are signed in to the Mac App Store to install apps via mas."
   brew bundle --file=brewfile.private
 else
   echo "[Info] brewfile.private not found. Skipping installation with brew bundle."
