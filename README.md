@@ -21,7 +21,15 @@ Here is a brief overview of the dotfiles to find in this repository:
 * `.htoprc.md` - htop configuration documentation
 * `gitignore` - Git configuration file (please rename to .gitignore)
 
-All dotfiles in this repository are available under the Creative Commons License for Non-Commercial Use. This means that you are free to use, modify, and share these projects as long as it is for non-commercial purposes. If you wish to use these dotfiles for commercial purposes, please contact the owner of this repository for licensing information.
+## Installation
+
+* `brewfile.private` - Installs all relevant Homebrew packages and apps from macOS AppStore
+
+## Updating
+
+* `topgrade.tml` - should be placed under `~/.config/topgrade.toml` and can be used to update Homebrew, installed macOS AppStore apps, as well as looking for OS-specific updates.
+
+All files in this repository are available under the Creative Commons License for Non-Commercial Use. This means that you are free to use, modify, and share these projects as long as it is for non-commercial purposes. If you wish to use these dotfiles for commercial purposes, please contact the owner of this repository for licensing information.
 
 If you have any questions or feedback, please do not hesitate to reach out to the owner of this repository.
 
