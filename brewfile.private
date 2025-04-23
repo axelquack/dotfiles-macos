@@ -56,17 +56,19 @@ install 'zotero'
 install 'git' # macOS does deliver a further old git version, compare `brew info git` with `git --version`.
 
 # Install other useful binaries
-install 'btop' # As a replacement for thop
-install 'eza' # Asa replacement for ls
-install 'fastfetch' # A command-line system information tool.
-install 'fnm' # Switchted to fnm instead nvm
-install 'rmtrash' # Instead of using rm this could be leveraged to move files the trash folder
-install 'starfish'
+install 'btop'                      # As a replacement for thop
+install 'eza'                       # Asa replacement for ls
+install 'fastfetch'                 # A command-line system information tool.
+install 'fnm'                       # Switched to fnm instead nvm
+install 'rbenv'                     # Switched to rbenv instead of rvm 
+install 'rmtrash'                   # Instead of using rm this could be leveraged to move files the trash folder
+install 'ruby-build'                # An rbenv plugin needed to actually install Ruby versions
+install 'starfish'                  # Replament for oh-my-zsh
 install 'topgrade'
 install 'wget'
 install 'yt-dlp'
-install 'zsh-completions'
-install 'mas'
+install 'zsh-completions'           # Addition to starfish
+install 'mas'                       # Install macOS Store apps
 
 # manually install
 ## zimaspace - https://find.zimaspace.com
