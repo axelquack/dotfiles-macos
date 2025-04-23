@@ -1,39 +1,60 @@
-#!/usr/bin/env bash
+[misc]
+# ~/.config/topgrade.toml - Configuration for the Topgrade system updater
 
-set -e
+# --- Disable Specific Steps ---
 
-if [ "$(uname)" != "Darwin" ]; then
-  echo "This script is only for macOS."
-  exit 1
-fi
+# Disable steps by adding their names to this list.
+# I disabled 'uv' because it's installed via Homebrew and updating it via
+# `uv self update` (which Topgrade tries by default) fails for managed installations.
+# Homebrew will handle updating uv correctly during its step.
+disable = ["uv"]
 
-echo "Starting update process..."
+# --- Git Repositories (Example - Currently Disabled) ---
+# Automatically pull updates for specified local Git repositories.
 
-# Update Homebrew
-if which brew >/dev/null 2>&1; then
-  echo "Updating Homebrew..."
-  brew update
-  echo "Upgrading Homebrew packages..."
-  brew upgrade
-  echo "Cleaning up Homebrew..."
-  brew cleanup
-else
-  echo "Homebrew is not installed. Skipping Homebrew updates."
-fi
+# Uncomment the next line to enable Git repository updates.
+# git_repos = true
 
-# Update mas apps
-if which mas >/dev/null 2>&1; then
-  echo "Upgrading Mac App Store apps via mas..."
-  mas upgrade
-else
-  echo "mas is not installed. Skipping mas updates."
-fi
+# Uncomment and populate the list below with the full paths to your local Git repositories.
+# git_repo_paths = [
+#    "~/dotfiles",                # Example: Your dotfiles repository
+#    "~/git/my-scripts",          # Example: A personal scripts repository
+#    "~/Work/project-template",   # Example: A project template repository
+# ]
 
-# Update macOS system
-echo "Checking for macOS updates..."
-sudo softwareupdate -l
-echo "Installing all available macOS updates..."
-sudo softwareupdate -i -a
+# Optional: Use a different command instead of the default 'git pull'.
+# git_commands = ["git pull --rebase --autostash"]
 
-echo "Update process completed."
-echo "If system updates were installed, you may need to restart your computer."
+
+# --- Language/Package Managers ---
+# Settings for specific package managers detected by Topgrade.
+# Example: Disable checking global npm packages even if npm is installed.
+# (Could also add "npm_global_packages" to the disable list above)
+# npm_global_packages = false
+
+
+# --- Pre/Post Hooks (Optional) ---
+# Define custom commands to run before or after Topgrade's main steps.
+
+# Example: Trigger Atuin sync explicitly (Optional, as Atuin usually syncs automatically)
+# post_hooks = [
+#    { command = "atuin", args = ["sync"] }
+# ]
+
+
+# --- General Configuration ---
+# These settings control Topgrade's overall behavior.
+# Note: Root-level boolean flags like confirm=true, cleanup=true caused parse errors.
+# Topgrade likely uses sensible defaults for these or they are command-line flags.
+
+# Example: Ask for confirmation before running potentially disruptive steps (Default behavior)
+# confirm = true # This caused parse errors previously
+
+# Example: Run cleanup steps automatically (Default behavior)
+# cleanup = true # This caused parse errors previously
+
+# Example: Prevent errors by disabling steps if tool is missing (Default behavior)
+# disable_missing_tools = true # This caused parse errors previously
+
+# Optional: Set the number of concurrent tasks Topgrade runs (default depends on CPU cores)
+# max_concurrent_tasks = 4
