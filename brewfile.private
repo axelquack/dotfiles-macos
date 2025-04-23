@@ -57,8 +57,10 @@ install 'git' # macOS does deliver a further old git version, compare `brew info
 
 # Install other useful binaries
 install 'btop' # As a replacement for thop
+install 'eza' # Asa replacement for ls
 install 'fastfetch' # A command-line system information tool.
 install 'fnm' # Switchted to fnm instead nvm
+install 'rmtrash' # Instead of using rm this could be leveraged to move files the trash folder
 install 'starfish'
 install 'topgrade'
 install 'wget'
