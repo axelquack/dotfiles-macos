@@ -90,7 +90,7 @@ This setup utilizes:
 
 ## License
 
-The code and configuration files in this repository are licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+The code and configuration files in this repository are licensed under the **MIT License**. See the [LICENSE](LICENSE.md) file for details.
 
 ## Feedback
 
