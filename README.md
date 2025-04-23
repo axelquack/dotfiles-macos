@@ -1,6 +1,6 @@
 # My macOS Dotfiles
 
-Welcome to my personal collection of dotfiles and setup scripts for macOS, available at [github.com/axelquack/dotfiles-macos](https://github.com/axelquack/dotfiles-macos). This repository contains configurations for Zsh, Starship, various development tools, and system preferences, aiming for a productive command-line environment.
+Welcome to my personal collection of dotfiles and setup scripts for macOS, available at [github.com/axelquack/dotfiles-macos](https://github.com/axelquack/dotfiles-macos). This repository contains configurations for Zsh, Starship, various development tools, system preferences, and setup automation, aiming for a productive command-line environment.
 
 ## Overview
 
@@ -15,8 +15,9 @@ This setup utilizes:
     *   Python: `pyenv` + `uv`
     *   Ruby: `rbenv` + `ruby-build`
     *   Node.js: `fnm`
-*   **macOS Configuration:** Script using `defaults write` (`macOs.sh`)
+*   **macOS Configuration:** Script using `defaults write` (`macos.sh`)
 *   **Other Tools:** `eza`, `btop`, `wget`, `rmtrash`, `colima`/`docker`, etc.
+*   *(Note: Neovim/Vim configuration is managed in a separate repository).*
 
 ## Prerequisites
 
@@ -31,7 +32,7 @@ This setup utilizes:
     cd ~/dotfiles
     ```
 
-2.  **Review Configuration:** Look through `brewfile.private` and `macOs.sh` to ensure you agree with the software being installed and the system settings being applied. Comment out or remove anything you don't want.
+2.  **Review Configuration:** Look through `brewfile.private` and `macos.sh` to ensure you agree with the software being installed and the system settings being applied. Comment out or remove anything you don't want.
 
 3.  **Run Bootstrap Script:** This script handles prerequisites (Xcode Command Line Tools check, Homebrew install) and then installs applications listed in `brewfile.private`.
     ```bash
@@ -40,9 +41,9 @@ This setup utilizes:
     *   *Note:* The script expects `brewfile.private` to be in the same directory it's run from (`~/dotfiles/brewfile.private` based on the clone path above). Adjust the `BREWFILE_PATH` inside `bootstrap.sh` if needed.
     *   You might be prompted for your password for Homebrew or MAS installs. Ensure you're logged into the App Store if installing MAS apps.
 
-4.  **Apply macOS Settings:** The `macOs.sh` script applies various system and application preferences using `defaults write`. Run it separately:
+4.  **Apply macOS Settings:** The `macos.sh` script applies various system and application preferences using `defaults write`. Run it separately:
     ```bash
-    ./macOs.sh
+    ./macos.sh
     ```
     *   This script requires `sudo` privileges for some commands.
     *   Some changes may require a logout/restart to take full effect.
@@ -67,7 +68,6 @@ This setup utilizes:
 *   **`.wgetrc`:** Default configuration settings for the `wget` download utility.
 *   **`.gitignore`:** A comprehensive global Git ignore file. Can be used as `~/.gitignore_global` or copied/adapted for individual projects.
 *   **`.gemrc`:** Configuration file for RubyGems (e.g., disabling documentation install).
-*   **`.vimrcAfter.vimrc`, `.vimrcBefore.vimrc`:** *(Under Review)* Vim configuration files. These likely need updating or consolidation into a modern Vim/Neovim setup.
 
 ## Installation & Bootstrap
 
@@ -76,7 +76,7 @@ This setup utilizes:
 
 ## macOS Configuration
 
-*   **`macOs.sh`:** Applies various macOS system preferences and application settings using `defaults write` and other commands. Run manually after `bootstrap.sh`.
+*   **`macos.sh`:** Applies various macOS system preferences and application settings using `defaults write` and other commands. Run manually after `bootstrap.sh`.
 
 ## Updating Tools
 
@@ -86,10 +86,13 @@ This setup utilizes:
 ## Manual Steps & Notes
 
 *   **Docker/Colima:** This setup uses Colima for a CLI-based Docker environment. Remember to run `colima start` before using Docker commands and `colima stop` when finished.
+*   **Editor Configuration:** Vim/Neovim configuration is managed in a separate repository.
 
 ## License
 
 The code and configuration files in this repository are licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+*(Ensure you have a file named `LICENSE` in your repository containing the full text of the MIT License.)*
 
 ## Feedback
 
