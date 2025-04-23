@@ -62,9 +62,11 @@ install 'fastfetch'                 # A command-line system information tool.
 install 'fnm'                       # Switched to fnm instead nvm
 install 'rbenv'                     # Switched to rbenv instead of rvm 
 install 'rmtrash'                   # Instead of using rm this could be leveraged to move files the trash folder
+install 'pyenv'                     # Use Pyenv instead of Conda in combination with UV
 install 'ruby-build'                # An rbenv plugin needed to actually install Ruby versions
 install 'starfish'                  # Replament for oh-my-zsh
 install 'topgrade'
+install 'uv'                        # Use UV instead of Conda in combination with Pyenv
 install 'wget'
 install 'yt-dlp'
 install 'zsh-completions'           # Addition to starfish
