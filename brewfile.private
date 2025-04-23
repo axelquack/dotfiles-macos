@@ -60,6 +60,7 @@ install 'btop'                      # As a replacement for thop
 install 'eza'                       # Asa replacement for ls
 install 'fastfetch'                 # A command-line system information tool.
 install 'fnm'                       # Switched to fnm instead nvm
+install 'ngrep'                     # Network sniffing
 install 'rbenv'                     # Switched to rbenv instead of rvm 
 install 'rmtrash'                   # Instead of using rm this could be leveraged to move files the trash folder
 install 'pyenv'                     # Use Pyenv instead of Conda in combination with UV
