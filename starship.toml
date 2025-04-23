@@ -1,0 +1,196 @@
+# ~/.config/starship.toml - Configuration file for the Starship prompt (starship.rs)
+
+# --- Global Settings ---
+
+# `add_newline`: If true, adds a blank line before drawing the prompt.
+# Useful for separating the prompt visually from previous command output.
+add_newline = true
+
+# `format`: Defines the overall layout and order of modules in the prompt.
+# Each variable (e.g., `$hostname`, `$directory`) represents a configured module.
+# The order listed here determines the order they appear in the prompt.
+# The multi-line string """...""" with '\' at the end of lines concatenates
+# them without adding extra spaces or newlines between modules.
+# Add spaces directly (e.g., `$hostname $directory`) if you want space between them.
+format = """$hostname\
+$username\
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$ruby\
+$python\
+$cmd_duration\
+$time\
+$character"""
+
+# --- Module Configurations ---
+# Sections below configure the appearance and behavior of individual modules
+# referenced in the main `format` string above.
+
+# `[hostname]`: Configures the display of the system's hostname.
+[hostname]
+# `ssh_only`: If true, only show the hostname module when inside an SSH session.
+ssh_only = true
+# `format`: How the hostname module should be displayed.
+#   - [$hostname]: The actual hostname.
+#   - ($style): Applies the defined style to the output.
+format = "on [$hostname]($style) "
+# `style`: The visual style (color, attributes) for this module.
+style = "bold dimmed green"
+# `disabled`: Set to true to completely hide this module, even if in the main `format`.
+disabled = false
+
+# `[username]`: Configures the display of the current user's name.
+# Note: You uncommented this section.
+[username]
+# `style_user`: Style applied specifically to the username ($user).
+style_user = "bold dimmed blue"
+# `format`: How the username module should be displayed.
+#   - [$user]: The actual username.
+#   - ($style): Applies the default style (can be overridden by style_user/style_root).
+format = "[$user]($style) in "
+# `show_always`: If true, always show the username. If false (default), it's often hidden
+# unless the user is root or in an SSH session.
+show_always = true
+
+# `[directory]`: Configures the display of the current working directory.
+[directory]
+# `truncation_length`: Shortens the path display. Shows only the last N path components.
+truncation_length = 4
+# `style`: The visual style for the directory path.
+style = "bold yellow"
+# `format`: How the directory module should be displayed.
+#   - [$path]: The (potentially truncated) path.
+#   - [$read_only]: Displays the `read_only` symbol if the directory is read-only.
+#   - ($style): Applies the main style.
+#   - ($read_only_style): Applies the specific style for the read_only indicator.
+format = "[$path]($style)[$read_only]($read_only_style) "
+# `read_only`: The symbol to display when the directory is read-only.
+read_only = " 🔒"
+# `read_only_style`: The style for the `read_only` symbol.
+read_only_style = "red"
+
+# `[git_branch]`: Configures the display of the current Git branch.
+[git_branch]
+# `symbol`: The icon/text displayed before the branch name.
+symbol = "🌳"
+# `style`: The visual style for this module.
+style = "bold blue"
+# `format`: How the Git branch module should be displayed.
+#   - [$symbol]: The defined symbol.
+#   - [$branch]: The name of the current Git branch.
+#   - ($style): Applies the main style.
+format = "[$symbol $branch]($style) "
+
+# `[git_status]`: Configures the display of the Git repository status (dirty, ahead/behind, etc.).
+[git_status]
+# `style`: The visual style applied to the status symbols.
+style = "bold red"
+# `format`: How the Git status indicators should be grouped and displayed.
+#   - [$all_status]: Represents the combined symbols for modified, staged, etc.
+#   - [$ahead_behind]: Represents the symbols for ahead/behind upstream.
+#   - ($style): Applies the main style.
+format = '([$all_status$ahead_behind]($style) )'
+# Symbols for various Git states:
+conflicted = "⚠️ " # Files with merge conflicts.
+ahead = "🚀 "      # Commits ahead of the remote branch.
+behind = "⚓ "     # Commits behind the remote branch.
+diverged = "🔀 "   # Both ahead and behind the remote branch.
+untracked = "📄 "  # Untracked files present.
+stashed = "💾 "    # Stashed changes present.
+modified = "✏️ "   # Modified files present.
+staged = "☑️ "     # Staged changes present (changes added to index).
+renamed = "↪ "     # Renamed files present.
+deleted = "🗑️"     # Deleted files present.
+
+# `[nodejs]`: Configures the display of the Node.js version.
+[nodejs]
+# `symbol`: The icon/text displayed for Node.js context.
+symbol = "🟩"
+# `format`: How the Node.js module should be displayed.
+#   - [$symbol]: The defined symbol.
+#   - ($version): The detected Node.js version.
+#   - ($style): Applies the main style.
+format = '[ $symbol ($version) ]($style)'
+# `style`: The visual style for this module.
+style = "bold green"
+# `disabled`: Set to true to hide this module.
+disabled = false
+
+# `[ruby]`: Configures the display of the Ruby version.
+[ruby]
+# `symbol`: The icon/text displayed for Ruby context.
+symbol = "💎"
+# `format`: How the Ruby module should be displayed.
+#   - [$symbol]: The defined symbol.
+#   - ($version): The detected Ruby version.
+#   - ($style): Applies the main style.
+format = '[ $symbol ($version) ]($style)'
+# `style`: The visual style for this module.
+style = "bold red"
+# `disabled`: Set to true to hide this module.
+disabled = false
+
+# `[python]`: Configures the display of the Python version and environment.
+[python]
+# `symbol`: The icon/text displayed for Python context.
+symbol = "🐍"
+# `format`: How the Python module should be displayed.
+#   - [$symbol]: The defined symbol.
+#   - [$pyenv_prefix]: Prefix shown when using pyenv.
+#   - ($version): The detected Python version.
+#   - ($virtualenv): The name of the active virtual environment (e.g., venv, conda).
+#   - ($style): Applies the main style.
+format = '[ ${symbol}${pyenv_prefix}(${version})(($virtualenv) )]($style)'
+# `style`: The visual style for this module.
+style = "bold yellow"
+# `pyenv_version_name`: If true, uses the pyenv environment name if available.
+pyenv_version_name = true
+# `disabled`: Set to true to hide this module.
+disabled = false
+
+# `[cmd_duration]`: Configures the display of the execution time of the last command.
+[cmd_duration]
+# `min_time`: Only display the duration if the command took at least this many milliseconds.
+min_time = 500
+# `format`: How the command duration should be displayed.
+#   - [$duration]: The formatted execution time (e.g., 1s234ms).
+#   - ($style): Applies the main style.
+format = "took [$duration]($style) "
+# `style`: The visual style for this module.
+style = "yellow bold"
+# `disabled`: Set to true to hide this module.
+disabled = false
+
+# `[time]`: Configures the display of the current time.
+[time]
+# `disabled`: Set to true to hide this module. Set to false to enable it.
+disabled = false
+# `format`: How the time should be displayed.
+#   - [$time]: The formatted time string.
+#   - ($style): Applies the main style.
+format = 'at [$time]($style) '
+# `style`: The visual style for this module.
+style = "bright-black"
+# `time_format`: The format string for the time, using standard strftime codes.
+#   - %T: Equivalent to %H:%M:%S (e.g., 14:30:59).
+time_format = "%T"
+
+# `[character]`: Configures the final prompt character (e.g., $, %, ➜).
+[character]
+# `success_symbol`: The symbol displayed when the last command executed successfully (exit code 0).
+#   - [➜](bold green): Displays ➜ in bold green.
+success_symbol = "[➜](bold green)"
+# `error_symbol`: The symbol displayed when the last command failed (non-zero exit code).
+#   - [✗](bold red): Displays ✗ in bold red.
+error_symbol = "[✗](bold red)"
+# `vimcmd_symbol`: The symbol displayed when in Vim command mode (vi mode in shell).
+#   - [❮](bold green): Displays ❮ in bold green.
+vimcmd_symbol = "[❮](bold green)"
+# `format`: How the final character symbol should be displayed.
+#   - $symbol: Represents the appropriate symbol based on success/error/vimcmd state.
+#   - The trailing space ensures separation from user input.
+format = "$symbol "
+
+# --- End of Configuration ---
