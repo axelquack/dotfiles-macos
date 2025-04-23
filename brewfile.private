@@ -62,6 +62,7 @@ install 'starfish'
 install 'topgrade'
 install 'wget'
 install 'yt-dlp'
+install 'zsh-completions'
 install 'mas'
 
 # manually install
