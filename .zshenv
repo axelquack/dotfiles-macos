@@ -1,18 +1,19 @@
-# Since .zshenv is always sourced, it often contains exported variables that should be available to other programs. 
-# For example, $PATH, $EDITOR, and $PAGER are often set in .zshenv. Also, you can set $ZDOTDIR in .zshenv to specify an alternative location for the rest of your zsh configuration.
+# ~/.zshenv
+# Sourced FIRST for ALL zsh instances (interactive, non-interactive, scripts).
+# Primarily used for setting universally needed ENVIRONMENT VARIABLES.
 
-# Specify your defaults in this environment variable
-## caskroom usually /opt/homebrew-cask/Caskroom
-# Link Homebrew casks in `/Applications` rather than `~/Applications`
-export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+# Set the default text editor for command-line tools (e.g., git commit, crontab -e).
+# Choose ONE of the following lines based on your preference:
+export EDITOR="vim"
+# export EDITOR="nvim" # If you use Neovim
+# export EDITOR="nano"
+# export EDITOR="code -w" # For Visual Studio Code (requires 'code' command in PATH, '-w' waits for close)
 
-# --caskroom=/my/path determines where the actual applications will be located. Default is /opt/homebrew-cask/Caskroom
-# --appdir=/my/path changes the path where the symlinks to the applications (above) will be generated. This is commonly used to create the links in the root Applications directory instead of the home Applications directory by specifying --appdir=/Applications. Default is ~/Applications.
-# --prefpanedir=/my/path changes the path for PreferencePane symlinks. Default is ~/Library/PreferencePanes
-# --qlplugindir=/my/path changes the path for Quicklook Plugin symlinks. Default is ~/Library/QuickLook
-# --widgetdir=/my/path changes the path for Dashboard Widget symlinks. Default is ~/Library/Widgets
-# --fontdir=/my/path changes the path for Fonts symlinks. Default is ~/Library/Fonts
-# --binarydir=/my/path changes the path for binary symlinks. Default is /usr/local/bin
+# Set the default pager for displaying long output (e.g., man pages, git log).
+# 'less' is the standard, powerful pager.
+export PAGER="less"
+# export PAGER="bat" # Optional: If you install 'bat' (`brew install bat`) for syntax highlighting.
 
-# export EDITOR="vim"
-# export ALTERNATE_EDITOR=""
+# Optional: Set ZDOTDIR here if you want to move your Zsh config files
+# (like .zshrc, .zshenv, etc.) to a different directory (e.g., ~/.config/zsh).
+# export ZDOTDIR="$HOME/.config/zsh"
