@@ -56,6 +56,7 @@ install 'zotero'
 install 'git' # macOS does deliver a further old git version, compare `brew info git` with `git --version`.
 
 # Install other useful binaries
+install 'atuin'                     # A tool to replace the standard shell history 
 install 'btop'                      # As a replacement for thop
 install 'eza'                       # Asa replacement for ls
 install 'fastfetch'                 # A command-line system information tool.
