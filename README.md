@@ -17,8 +17,6 @@ Here is a brief overview of the dotfiles to find in this repository:
 ### OS agnostic
 
 * `.gemrc` - RubyGems configuration file
-* `.htoprc` - htop configuration file
-* `.htoprc.md` - htop configuration documentation
 * `gitignore` - Git configuration file (please rename to .gitignore)
 
 ## Installation
