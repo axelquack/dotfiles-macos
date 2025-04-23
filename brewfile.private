@@ -7,12 +7,6 @@
 # Preparation
 # Make sure Command Line Tools for Xcode are already installed `xcode-select --install`
 
-# Make sure that the latest Homebrew version in use
-update
-
-# Upgrade any already-installed formulae
-upgrade
-
 
 
 
@@ -53,38 +47,33 @@ install 'zotero'
 #############################################
 
 # Version Control
-install 'git' # macOS does deliver a further old git version, compare `brew info git` with `git --version`.
+install 'git'                       # Install latest Git (macOS version is often older)
 
 # Install other useful binaries
-install 'atuin'                     # A tool to replace the standard shell history 
-install 'btop'                      # As a replacement for thop
-install 'eza'                       # Asa replacement for ls
-install 'fastfetch'                 # A command-line system information tool.
-install 'fnm'                       # Switched to fnm instead nvm
-install 'ngrep'                     # Network sniffing
-install 'rbenv'                     # Switched to rbenv instead of rvm 
-install 'rmtrash'                   # Instead of using rm this could be leveraged to move files the trash folder
-install 'pyenv'                     # Use Pyenv instead of Conda in combination with UV
-install 'ruby-build'                # An rbenv plugin needed to actually install Ruby versions
-install 'starfish'                  # Replament for oh-my-zsh
-install 'topgrade'
-install 'uv'                        # Use UV instead of Conda in combination with Pyenv
-install 'wget'
-install 'yt-dlp'
-install 'zsh-completions'           # Addition to starfish
-install 'mas'                       # Install macOS Store apps
+install 'atuin'                     # Enhanced shell history with sync 
+install 'btop'                      # Modern replacement for top
+install 'colima'                    # VM environment for running Docker daemon (CLI alternative to Docker Desktop)
+install 'docker'                    # Docker CLI client (connects to Colima's daemon)
+install 'docker-compose'            # Docker Compose CLI (for multi-container apps)
+install 'eza'                       # Modern replacement for 'ls'
+install 'fastfetch'                 # System information tool (alternative to neofetch)
+install 'fnm'                       # Node.js version management
+install 'ngrep'                     # Network grep utility (used in .zshrc alias)
+install 'rbenv'                     # Ruby version manager
+install 'rmtrash'                   # Safe alternative to 'rm', moves files to macOS Trash
+install 'pyenv'                     # Python version management
+install 'ruby-build'                # Required rbenv plugin to install Ruby versions
+install 'starship'                  # The prompt system used in .zshrc
+install 'topgrade'                  # Tool to update everything (including brew, mas, system)
+install 'uv'                        # Fast Python package installer & venv manager (used with pyenv)
+install 'wget'                      # File downloader utility
+install 'yt-dlp'                    # Video downloader (successor to youtube-dl)
+install 'zsh-completions'           # Additional completions for Zsh
+install 'mas'                       # Command-line interface for macOS App Store
 
 # manually install
 ## zimaspace - https://find.zimaspace.com
 ## atem software control
-
-
-#############################################
-# CLEANUP
-#############################################
-
-# Remove outdated versions from the cellar
-cleanup
 
 
 
@@ -104,8 +93,8 @@ cleanup
 mas 'AutoMounter', id: 1160435653
 mas 'DaVinci Resolve', id: 571213070
 mas 'Filebot', id: 905384638
-mas 'Infuse Video Player‘, id: 1136220934
-mas 'Home Assistant‘, id: 1099568401
+mas 'Infuse Video Player', id: 1136220934
+mas 'Home Assistant', id: 1099568401
 mas 'Keynote', id: 409183694
 mas 'Meta', id: 558317092 # Music tag editor
 mas 'Microsoft Excel', id: 462058435
