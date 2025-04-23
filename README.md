@@ -55,7 +55,6 @@ This setup utilizes:
     *   `.gemrc` -> `~/.gemrc`
     *   `starship.toml` -> `~/.config/starship.toml`
     *   `topgrade.toml` -> `~/.config/topgrade.toml`
-    *   *(Vim files need review - see below)*
 
 6.  **Restart Terminal:** Open a new terminal window or tab for all Zsh settings, PATH changes, and tool initializations to take effect.
 
@@ -87,7 +86,6 @@ This setup utilizes:
 ## Manual Steps & Notes
 
 *   **Docker/Colima:** This setup uses Colima for a CLI-based Docker environment. Remember to run `colima start` before using Docker commands and `colima stop` when finished.
-*   **Vim Configuration:** The included Vim files (`.vimrcBefore`, `.vimrcAfter`) are noted as potentially outdated or needing review. They might need to be replaced with a modern Vim/Neovim setup using a plugin manager.
 
 ## License
 
