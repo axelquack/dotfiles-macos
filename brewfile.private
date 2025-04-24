@@ -90,6 +90,7 @@ mas "Microsoft Word", id: 462054704        # Microsoft's word processor applicat
 mas "Numbers", id: 409203825               # Apple's spreadsheet software (iWork)
 mas "OneDrive", id: 823766827              # Microsoft OneDrive cloud storage client
 mas "Pages", id: 409201541                 # Apple's word processor software (iWork)
+mas "PDF Squeezer", id: 1502111349         # Tool to reduce PDF size
 mas "Perplexity", id: 6714467650           # AI search and discovery application
 mas "Pixelmator Pro", id: 1289583905       # Advanced image editing application (alternative to Photoshop)
 mas "Rename", id: 485334187                # Simple file renaming utility
@@ -103,3 +104,4 @@ mas "Yomu Ebook Reader", id: 562211012     # Ebook reader application
 # These require manual download/installation outside of Homebrew/MAS.
 # - ZimaSpace Client: https://find.zimaspace.com
 # - ATEM Software Control (from Blackmagic Design website)
+# - Backdrop: https://cindori.com/backdrop
