@@ -37,35 +37,36 @@ cask "zotero"                # Free tool to help you collect, organize, cite, an
 # Define command-line tools installed via `brew install <formula>`
 
 # Version Control
-brew "git"                   # Install latest Git (macOS version is often older)
+brew "git"                      # Install latest Git (macOS version is often older)
 
 # Shell & Prompt & History
-brew "starship"              # The prompt system used in .zshrc
-brew "zsh-completions"       # Additional completions for Zsh
-brew "atuin"                 # Enhanced shell history with sync
+brew "starship"                 # The prompt system used in .zshrc
+brew "zsh-completions"          # Additional completions for Zsh
+brew "atuin"                    # Enhanced shell history with sync
 
 # Language Version Managers & Related
-brew "pyenv"                 # Python version management
-brew "uv"                    # Fast Python package installer & venv manager (used with pyenv)
-brew "rbenv"                 # Ruby version management
-brew "ruby-build"            # Required rbenv plugin to install Ruby versions
-brew "fnm"                   # Node.js version management
+brew "pyenv"                    # Python version management
+brew "uv"                       # Fast Python package installer & venv manager (used with pyenv)
+brew "rbenv"                    # Ruby version management
+brew "ruby-build"               # Required rbenv plugin to install Ruby versions
+brew "fnm"                      # Node.js version management
 
 # System Monitoring & File Management
-brew "eza"                   # Modern replacement for 'ls'
-brew "btop"                  # Modern replacement for 'top'
-brew "rmtrash"               # Safe alternative to 'rm', moves files to macOS Trash
-brew "fastfetch"             # System information tool (alternative to neofetch)
+brew "eza"                      # Modern replacement for 'ls'
+brew "btop"                     # Modern replacement for 'top'
+brew "rmtrash"                  # Safe alternative to 'rm', moves files to macOS Trash
+brew "fastfetch"                # System information tool (alternative to neofetch)
 
 # Utilities & Development
-brew "colima"                # VM environment for running Docker daemon (CLI alternative to Docker Desktop)
-brew "docker"                # Docker CLI client (connects to Colima's daemon)
-brew "docker-compose"        # Docker Compose CLI (for multi-container apps)
-brew "mas"                   # Command-line interface for Mac App Store
-brew "topgrade"              # Tool to update everything (including brew, mas, system)
-brew "ngrep"                 # Network grep utility (used in .zshrc alias)
-brew "wget"                  # File downloader utility
-brew "yt-dlp"                # Video downloader (successor to youtube-dl)
+brew "colima"                   # VM environment for running Docker daemon (CLI alternative to Docker Desktop)
+brew "docker"                   # Docker CLI client (connects to Colima's daemon)
+brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
+brew "font-fira-code-nerd-font" # Nerd Font to use with macOS Terminal applciation
+brew "mas"                      # Command-line interface for Mac App Store
+brew "topgrade"                 # Tool to update everything (including brew, mas, system)
+brew "ngrep"                    # Network grep utility (used in .zshrc alias)
+brew "wget"                     # File downloader utility
+brew "yt-dlp"                   # Video downloader (successor to youtube-dl)
 
 # --- Mac App Store Applications ---
 # Define apps installed via the Mac App Store using `mas`.
