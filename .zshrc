@@ -39,6 +39,21 @@ path=(
 # Export the configured 'path' array to the standard PATH environment variable.
 export PATH
 
+
+# --- Aerospace Tiling Window Manager Configuration ---
+# Requires aerspace to be installed (e.g., `brew tap nikitabobko/tap`). uv (`brew install aerospace`).
+
+# Ensure Aerospace config path is recognized (optional, since ~/.config is the default)
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# Start Aerospace at login (optional, if not enabled in the app settings)
+if [ -x "/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ]; then
+    # Check if Aerospace is already running to avoid multiple instances
+    if ! pgrep -x "AeroSpace" > /dev/null; then
+        open -a AeroSpace &
+    fi
+fi
+
 # --- Tool Initialization ---
 # Load configuration and environment settings for various command-line tools.
 # Order can sometimes matter; version managers usually come before prompt setup.
@@ -109,6 +124,11 @@ alias lt='eza --tree --level=2' # List files in a tree structure, 2 levels deep
 # Alias for rmtrash (safer alternative to 'rm')
 # Assumes 'rmtrash' is installed (`brew install rmtrash`)
 alias trash='rmtrash'
+
+# Aliases for common Aerospace commands (optional, for convenience)
+alias aero-reload="aerospace reload-config"
+alias aero-workspace-1="aerospace workspace 1"
+alias aero-workspace-2="aerospace workspace 2"
 
 # Process listing (Top command with specific sorting/display options)
 # I am currently using btop instead: 'brew install btop'
