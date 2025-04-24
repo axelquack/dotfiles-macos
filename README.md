@@ -7,10 +7,11 @@ Welcome to my personal collection of dotfiles and setup scripts for macOS, avail
 This setup utilizes:
 
 *   **Shell:** Zsh (configured via `.zshrc` and `.zshenv`)
-*   **Prompt:** Starship (`starship.toml`)
-*   **History:** Atuin (`atuin init zsh` in `.zshrc`)
-*   **Package Manager:** Homebrew (managed via `brewfile.private`)
-*   **Updating:** Topgrade (`topgrade.toml`)
+*   **Prompt:** [Starship](https://github.com/starship/starship) (`starship.toml`)
+*   **Tile Manager:** [Aerospace](https://github.com/nikitabobko/AeroSpace) (`aerospace.toml`)
+*   **History:** [Atuin](https://github.com/atuinsh/atuin) (`atuin init zsh` in `.zshrc`)
+*   **Package Manager:** [Homebrew](https://brew.sh/) (managed via `brewfile.private`)
+*   **Updating:** [Topgrade](https://github.com/topgrade-rs/topgrade) (`topgrade.toml`)
 *   **Language Version Managers:**
     *   Python: `pyenv` + `uv`
     *   Ruby: `rbenv` + `ruby-build`
@@ -54,6 +55,7 @@ This setup utilizes:
     *   `.wgetrc` -> `~/.wgetrc`
     *   `.gitignore` -> Copy contents to `~/.gitignore_global` or project `.gitignore`.
     *   `.gemrc` -> `~/.gemrc`
+    *   `starship.toml` -> `~/.config/aerospace/aerospace.toml`
     *   `starship.toml` -> `~/.config/starship.toml`
     *   `topgrade.toml` -> `~/.config/topgrade.toml`
 
@@ -61,9 +63,10 @@ This setup utilizes:
 
 ## Included Configuration Files
 
-*   **`.zshrc`:** Main configuration file for **interactive** Zsh sessions. Sets up PATH, initializes version managers (`pyenv`, `rbenv`, `fnm`), Starship prompt, Atuin history, aliases, and functions.
+*   **`.zshrc`:** Main configuration file for **interactive** Zsh sessions. Sets up PATH, initializes version managers (`pyenv`, `rbenv`, `fnm`), Starship prompt, Aerospace, Atuin history, aliases, and functions.
 *   **`.zshenv`:** Sourced for **all** Zsh sessions. Used for setting essential environment variables like `$EDITOR` and `$PAGER`.
 *   **`starship.toml`:** Configuration for the Starship cross-shell prompt. Place in `~/.config/starship.toml`.
+*   **`aerospace.toml`** Configuration for the Aerospace tile mananger. Place in `~/.config/aerospace.toml`.
 *   **`topgrade.toml`:** Configuration for the Topgrade universal updater tool. Place in `~/.config/topgrade.toml`.
 *   **`.wgetrc`:** Default configuration settings for the `wget` download utility.
 *   **`.gitignore`:** A comprehensive global Git ignore file. Can be used as `~/.gitignore_global` or copied/adapted for individual projects.
