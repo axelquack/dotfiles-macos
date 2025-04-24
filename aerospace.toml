@@ -1,56 +1,185 @@
-# Normalization settings for consistent layouts
+# ~/.config/aerospace/aerospace.toml
+# Configuration file for AeroSpace Tiling Window Manager for macOS
+# Version in use: 0.18.2-Beta
+
+# -----------------------------------------------------------------------------
+# General Settings
+# -----------------------------------------------------------------------------
+
+# Auto-start AeroSpace at login using macOS launchd.
+# Set to 'false' to disable.
+# Using launchd is recommended for reliability.
+start-at-login = true
+
+# Normalization helps maintain clean and predictable container structures.
+# enable-normalization-flatten-containers: Removes redundant intermediate containers.
 enable-normalization-flatten-containers = true
+# enable-normalization-opposite-orientation-for-nested-containers: Automatically switches
+# between horizontal and vertical layouts for nested containers, optimizing space.
 enable-normalization-opposite-orientation-for-nested-containers = true
 
-# Layout settings
-accordion-padding = 30
-default-root-container-layout = 'tiles'  # Default tiling layout
-default-root-container-orientation = 'auto'  # Adapts to monitor shape
+# -----------------------------------------------------------------------------
+# Layout Behavior
+# -----------------------------------------------------------------------------
 
-# Move mouse to center of focused monitor
+# Default layout for new workspaces or empty monitors. Options: 'tiles', 'accordion', 'auto'.
+default-root-container-layout = 'tiles'
+
+# Default orientation for the 'tiles' layout. 'auto' adjusts based on monitor aspect ratio.
+# Options: 'horizontal', 'vertical', 'auto'.
+default-root-container-orientation = 'auto'
+
+# Padding between windows in the accordion layout.
+accordion-padding = 30
+
+# -----------------------------------------------------------------------------
+# Event-Driven Actions
+# -----------------------------------------------------------------------------
+# Execute commands when specific events occur.
+# 'move-mouse monitor-lazy-center': When focus switches to a different monitor,
+# move the mouse cursor to the center of that monitor only if it's not already there.
+# NOTE: This must be a top-level setting, not inside other sections like [key-mapping].
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-# Key mapping (adjust if you use a non-QWERTY layout)
+# -----------------------------------------------------------------------------
+# Keyboard Mapping
+# -----------------------------------------------------------------------------
+# Configures how keyboard input is interpreted.
 [key-mapping]
-preset = 'qwertz'
+    # Explicitly set the keyboard layout preset.
+    # NOTE: AeroSpace version (0.18.2-Beta) did not recognize 'qwertz' or
+    #       'macos-keyboard-layout-id = true'. I am using 'qwerty' as the
+    #       closest supported alternative for my German layout. Most keys
+    #       should map correctly, but please double-check symbols if needed.
+    preset = 'qwerty'
+    # NOTE: The following setting was not recognized in v0.18.2-Beta, keep it commented out
+    # macos-keyboard-layout-id = true
 
-# Gaps between windows and monitor edges
+# -----------------------------------------------------------------------------
+# Gaps Configuration
+# -----------------------------------------------------------------------------
+# Defines spacing around and between windows.
 [gaps]
-inner.horizontal = 0
-inner.vertical = 0
-outer.left = 'auto'
-outer.bottom = 'auto'
-outer.top = 'auto'
-outer.right = 'auto'
+    # Space between adjacent tiled windows.
+    inner.horizontal = 10
+    inner.vertical =   10
 
-# Layout toggles
-alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
+    # Space between the outermost windows and the screen edges.
+    # Ensure these are numbers (Integers), not strings (no quotes needed).
+    outer.left =       10
+    outer.bottom =     10
+    outer.top =        10
+    outer.right =      10
 
-# Focus windows
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
+# -----------------------------------------------------------------------------
+# Mode 'main': Default Bindings
+# -----------------------------------------------------------------------------
+# Keybindings active in the standard operating mode.
+[mode.main.binding]
+    # --- Layout Switching ---
+    # Cycle through tiling orientations (horizontal/vertical/auto)
+    alt-slash = 'layout tiles horizontal vertical' # '/' is Alt+Shift+7 on German layout
+    # Switch to accordion layout
+    alt-comma = 'layout accordion'
 
-# Move windows
-alt-shift-h = 'move left'
-alt-shift-j = 'move down'
-alt-shift-k = 'move up'
-alt-shift-l = 'move right'
+    # --- Focus Control (Vim-style HJKL -- Alternative) ---
+    # alt-h = 'focus left'    # Focus window to the left
+    # alt-j = 'focus down'    # Focus window below
+    # alt-k = 'focus up'      # Focus window above
+    # alt-l = 'focus right'   # Focus window to the right
 
-# Resize windows
-alt-minus = 'resize smart -50'
-alt-equal = 'resize smart +50'
+    # --- Focus Control (Arrow Keys) ---
+    alt-left = 'focus left'   # Focus window to the left
+    alt-down = 'focus down'   # Focus window below
+    alt-up = 'focus up'     # Focus window above
+    alt-right = 'focus right'  # Focus window to the right
 
-# Switch workspaces
-alt-1 = 'workspace 1'
-alt-2 = 'workspace 2'
-alt-3 = 'workspace 3'
-alt-4 = 'workspace 4'
-alt-5 = 'workspace 5'
-alt-6 = 'workspace 6'
-alt-7 = 'workspace 7'
-alt-8 = 'workspace 8'
-alt-9 = 'workspace 9'
-alt-0 = 'workspace 10'
+    # --- Window Movement (Vim-style HJKL - Alternative) ---
+    # alt-shift-h = 'move left'    # Move focused window left
+    # alt-shift-j = 'move down'    # Move focused window down
+    # alt-shift-k = 'move up'      # Move focused window up
+    # alt-shift-l = 'move right'   # Move focused window right
+
+    # --- Window Movement (Arrow Keys) ---
+    alt-shift-left = 'move left'   # Move focused window left
+    alt-shift-down = 'move down'   # Move focused window down
+    alt-shift-up = 'move up'     # Move focused window up
+    alt-shift-right = 'move right'  # Move focused window right
+
+    # --- Workspace Switching (Using Names) ---
+    # Switch focus to the specified workspace by name.
+    alt-cmd-1 = 'workspace web'     # Workspace 1 -> "web"
+    alt-cmd-2 = 'workspace code'    # Workspace 2 -> "code"
+    alt-cmd-3 = 'workspace term'    # Workspace 3 -> "term" (for terminals)
+    alt-cmd-4 = 'workspace chat'    # Workspace 4 -> "chat"
+    alt-cmd-5 = 'workspace mail'    # Workspace 5 -> "mail"
+    alt-cmd-6 = 'workspace music'   # Workspace 6 -> "music"
+    alt-cmd-7 = 'workspace files'   # Workspace 7 -> "files"
+    alt-cmd-8 = 'workspace misc'    # Workspace 8 -> "misc" (miscellaneous)
+    alt-cmd-9 = 'workspace sys'     # Workspace 9 -> "sys" (system monitors, etc.)
+    alt-cmd-0 = 'workspace tmp'     # Workspace 10 -> "tmp" (temporary)
+
+    # --- Moving Window to Workspace (Using Names) ---
+    # Move the currently focused window to the specified workspace by name.
+    # IMPORTANT: Use the exact same names as defined above for consistency.
+    alt-shift-1 = 'move-node-to-workspace web'
+    alt-shift-2 = 'move-node-to-workspace code'
+    alt-shift-3 = 'move-node-to-workspace term'
+    alt-shift-4 = 'move-node-to-workspace chat'
+    alt-shift-5 = 'move-node-to-workspace mail'
+    alt-shift-6 = 'move-node-to-workspace music'
+    alt-shift-7 = 'move-node-to-workspace files'
+    alt-shift-8 = 'move-node-to-workspace misc'
+    alt-shift-9 = 'move-node-to-workspace sys'
+    alt-shift-0 = 'move-node-to-workspace tmp'
+
+    # --- Window State Management ---
+    alt-f = 'layout floating tiling'         # Toggle floating state for the focused window
+    alt-shift-f = 'macos-native-fullscreen'  # Toggle native macOS fullscreen for the focused window
+    alt-shift-c = 'close'                    # Close the focused window
+
+    # --- Mode Switching ---
+    # Enter the 'resize' mode defined below.
+    alt-r = 'mode resize'
+
+    # --- AeroSpace Actions ---
+    # Reload the configuration file without restarting AeroSpace. Very useful for testing changes.
+    alt-shift-r = 'reload-config'
+
+    # Quit AeroSpace (Binding Disabled).
+    # NOTE: The 'exec' command is not recognized in my AeroSpace version (0.18.2-Beta).
+    #       This binding is commented out. You need to quit via other means (e.g., killall).
+    #       If you update AeroSpace to a newer stable version, you can likely uncomment this
+    #       using the list syntax shown below.
+    # alt-shift-q = ['exec', '/usr/bin/killall', 'AeroSpace']
+
+
+# -----------------------------------------------------------------------------
+# Mode 'resize': Window Resizing Bindings
+# -----------------------------------------------------------------------------
+# Keybindings active only after pressing 'alt-r' (or your chosen binding) to enter resize mode.
+[mode.resize.binding]
+    # --- Resizing Actions (Vim-style HJKL) ---
+    # Resize the focused window edge.
+    h = 'resize width -50'  # Decrease width by 50 pixels
+    j = 'resize height +50' # Increase height by 50 pixels
+    k = 'resize height -50' # Decrease height by 50 pixels
+    l = 'resize width +50'  # Increase width by 50 pixels
+
+    # --- Resizing Actions (Arrow Keys - Alternative, uncomment if desired) ---
+    # If you prefer arrows for resizing, uncomment these lines.
+    # left = 'resize width -50'
+    # down = 'resize height +50'
+    # up = 'resize height -50'
+    # right = 'resize width +50'
+
+    # --- Smart Resizing ---
+    # 'smart' resize attempts to expand/shrink towards the next adjacent window or monitor edge.
+    minus = 'resize smart -50' # Make window smaller towards neighbor/edge
+    equal = 'resize smart +50' # Make window bigger towards neighbor/edge (uses '=' key)
+
+    # --- Exit Resize Mode ---
+    # Return to the 'main' mode.
+    # NOTE: Use 'esc', as 'escape' was not recognized in earlier tests.
+    esc = 'mode main'   # Exit resize mode using Escape key
+    enter = 'mode main' # Exit resize mode using Enter key
