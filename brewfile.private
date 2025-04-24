@@ -4,9 +4,13 @@
 # Updates should be handled separately (e.g., using `topgrade` or `brew upgrade`).
 # Documentation: https://github.com/Homebrew/homebrew-bundle#usage
 
+# --- Custom Taps (for additional formulae/casks) ---
+tap "nikitabobko/tap"        # Adds casks for Aerospace
+
 # --- Homebrew Casks (GUI Applications & Fonts/Drivers) ---
 # Define GUI applications installed via `brew install --cask <cask>`
 
+cask "aerospace"             # i3-like tiling window manager for macOS
 cask "automounterhelper"     # Helper application for AutoMounter (network share mounting)
 cask "balenaetcher"          # Flash OS images to SD cards & USB drives
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
