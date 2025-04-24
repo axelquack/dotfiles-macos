@@ -1,0 +1,56 @@
+# Normalization settings for consistent layouts
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Layout settings
+accordion-padding = 30
+default-root-container-layout = 'tiles'  # Default tiling layout
+default-root-container-orientation = 'auto'  # Adapts to monitor shape
+
+# Move mouse to center of focused monitor
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Key mapping (adjust if you use a non-QWERTY layout)
+[key-mapping]
+preset = 'qwertz'
+
+# Gaps between windows and monitor edges
+[gaps]
+inner.horizontal = 0
+inner.vertical = 0
+outer.left = 'auto'
+outer.bottom = 'auto'
+outer.top = 'auto'
+outer.right = 'auto'
+
+# Layout toggles
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# Focus windows
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# Move windows
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Resize windows
+alt-minus = 'resize smart -50'
+alt-equal = 'resize smart +50'
+
+# Switch workspaces
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
