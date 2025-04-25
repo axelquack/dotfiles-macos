@@ -42,6 +42,77 @@ accordion-padding = 30
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # -----------------------------------------------------------------------------
+# Application Specific Rules (Uncomment Block and Desired Rules to Enable)
+# -----------------------------------------------------------------------------
+# Define rules for how specific application windows should behave when detected.
+# IMPORTANT: Verify 'app-id' (Bundle ID) values for your specific installations!
+# Use: mdls -name kMDItemCFBundleIdentifier /path/to/app.app
+# Place this entire block as a top-level setting in the file.
+on-window-detected = [
+    # --- Utilities / Windows to Float ---
+    { if.app-id = 'io.balena.etcher', run = 'layout floating' },                                 # BalenaEtcher
+    { if.app-id = 'com.macpaw.CleanMyMac5', run = 'layout floating' },                           # CleanMyMac
+    { if.app-id = 'com.ledger.live', run = 'layout floating' },                                  # Ledger Live
+    { if.app-id = 'ch.protonvpn.mac', run = 'layout floating' },                                 # Proton VPN
+    { if.app-id = 'me.proton.pass.electron', run = 'layout floating' },                          # Proton Pass
+    { if.app-id = 'org.prismlauncher.PrismLauncher', run = 'layout floating' },                  # PrismLauncher
+    { if.app-id = 'io.raindrop.macapp', run = 'layout floating' },                               # Raindrop.io
+    { if.app-id = 'com.panic.Transmit', run = 'layout floating' },                               # Transmit
+    { if.app-id = 'io.robbie.HomeAssistant', run = 'layout floating' },                          # Home Assistant
+    { if.app-id = 'com.macappstuff.rename', run = 'layout floating' },                           # Rename
+    { if.app-id = 'com.apple.TestFlight', run = 'layout floating' },                             # Test Flight
+    { if.app-id = 'cx.c3.theunarchiver', run = 'layout floating' },                              # The Unarchiver
+    { if.app-id = 'com.blackmagic-design.DaVinciResolveLite', run = 'layout floating' },         # DaVinci Resolve
+    { if.app-id = 'com.blackmagic-design.switchers.softwarecontrol', run = 'layout floating' },  # ATEM Software Control
+    { if.app-id = 'com.microsoft.rdc.macos', run = 'layout floating' },                          # Windows App (VNC/RDP)
+    # --- Apps optionsl to Float ---
+    # { if.app-id = 'com.brave.Browser', run = 'layout floating' },                              # Brave Browser
+    # { if.app-id = 'md.obsidian', run = 'layout floating' },                                    # Obsidian
+
+    # --- Move apps to specific Workspaces ---
+    # --- Workspace 1: web ---
+    { if.app-id = 'ai.perplexity.mac', run = 'move-node-to-workspace web' },                     # Perplexity -> web
+    # --- Workspace 2: code ---
+    { if.app-id = 'com.microsoft.VSCode', run = 'move-node-to-workspace code' },                 # VS Code -> code
+    # --- Workspace 4: comms ---
+    { if.app-id = 'org.whispersystems.signal-desktop', run = 'move-node-to-workspace comms' },   # Signal -> comms
+    { if.app-id = 'org.telegram.desktop', run = 'move-node-to-workspace comms' },                # Telegram Desktop -> comms
+    { if.app-id = 'ch.protonmail.desktop', run = 'move-node-to-workspace comms' },               # Proton Mail -> comms
+    # --- Workspace 5: docs ---
+    { if.app-id = 'org.zotero.zotero', run = 'move-node-to-workspace docs' },                    # Zotero -> docs
+    { if.app-id = 'com.apple.iWork.Keynote', run = 'move-node-to-workspace docs' },              # Keynote -> docs
+    { if.app-id = 'com.apple.iWork.Pages', run = 'move-node-to-workspace docs' },                # Pages -> docs
+    { if.app-id = 'com.apple.iWork.Numbers', run = 'move-node-to-workspace docs' },              # Numbers -> docs
+    { if.app-id = 'com.microsoft.Excel', run = 'move-node-to-workspace docs' },                  # Excel -> docs
+    { if.app-id = 'com.microsoft.PowerPoint', run = 'move-node-to-workspace docs' },             # Powerpoint -> docs
+    { if.app-id = 'com.microsoft.Word', run = 'move-node-to-workspace docs' },                   # Word -> docs
+    { if.app-id = 'com.google.drivefs.shortcuts.sheets', run = 'move-node-to-workspace docs' },  # Sheets -> docs
+    { if.app-id = 'com.google.drivefs.shortcuts.slides', run = 'move-node-to-workspace docs' },  # Slides -> docs
+    { if.app-id = 'com.google.drivefs.shortcuts.docs', run = 'move-node-to-workspace docs' },    # Docs -> docs
+
+    # --- Workspace 6: media ---
+    { if.app-id = 'com.apple.ibooks', run = 'move-node-to-workspace media' },                    # Apple Books --> media
+    { if.app-id = 'com.apple.podcasts', run = 'move-node-to-workspace media' },                  # Apple Podcasts --> media
+    { if.app-id = 'com.apple.TV', run = 'move-node-to-workspace media' },                        # Apple TV --> media
+    { if.app-id = 'net.filebot.FileBot', run = 'move-node-to-workspace media' },                 # Filebot -> media
+    { if.app-id = 'com.nightbirdsevolve.Meta', run = 'move-node-to-workspace media' },           # Meta (Music Tagger) --> media
+    { if.app-id = 'net.cecinestpasparis.yomu', run = 'move-node-to-workspace media' },           # Yomu Ebook Reader -> media
+    { if.app-id = 'tv.plex.desktop', run = 'move-node-to-workspace media' },                     # Plex Client -> media
+    { if.app-id = 'tv.plex.plexamp', run = 'move-node-to-workspace media' },                     # Plexamp -> media
+    { if.app-id = 'com.roon.Roon', run = 'move-node-to-workspace media' },                       # Roon -> media
+    { if.app-id = 'org.videolan.vlc', run = 'move-node-to-workspace media' },                    # VLC -> media
+    { if.app-id = 'com.firecore.infuse', run = 'move-node-to-workspace media' },                 # Infuse -> media
+    # --- Workspace 7: files ---
+    { if.app-id = 'ch.protonmail.drive', run = 'move-node-to-workspace files' },                 # Proton Drive -> files
+    # --- Workspace 8: games ---
+    { if.app-id = 'com.mojang.minecraftlauncher', run = 'move-node-to-workspace games' },        # Minecraft Launcher -> games
+    { if.app-id = 'com.valvesoftware.steam', run = 'move-node-to-workspace games' },             # Steam -> games
+    # --- Workspace 9: design ---
+    { if.app-id = 'com.cindori.Backdrop', run = 'move-node-to-workspace design' },               # Backrdop -> design
+    { if.app-id = 'com.pixelmatorteam.pixelmator.x', run = 'move-node-to-workspace design' },    # Pixelmator Pro -> design
+]
+
+# -----------------------------------------------------------------------------
 # Keyboard Mapping
 # -----------------------------------------------------------------------------
 # Configures how keyboard input is interpreted.
@@ -106,32 +177,30 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     alt-shift-up = 'move up'     # Move focused window up
     alt-shift-right = 'move right'  # Move focused window right
 
-    # --- Workspace Switching (Using Names) ---
-    # Switch focus to the specified workspace by name.
-    alt-cmd-1 = 'workspace web'     # Workspace 1 -> "web"
-    alt-cmd-2 = 'workspace code'    # Workspace 2 -> "code"
-    alt-cmd-3 = 'workspace term'    # Workspace 3 -> "term" (for terminals)
-    alt-cmd-4 = 'workspace chat'    # Workspace 4 -> "chat"
-    alt-cmd-5 = 'workspace mail'    # Workspace 5 -> "mail"
-    alt-cmd-6 = 'workspace music'   # Workspace 6 -> "music"
-    alt-cmd-7 = 'workspace files'   # Workspace 7 -> "files"
-    alt-cmd-8 = 'workspace misc'    # Workspace 8 -> "misc" (miscellaneous)
-    alt-cmd-9 = 'workspace sys'     # Workspace 9 -> "sys" (system monitors, etc.)
-    alt-cmd-0 = 'workspace tmp'     # Workspace 10 -> "tmp" (temporary)
+    # --- Workspace Switching (Using Refined Names & Alt+Cmd Modifier) ---
+    alt-cmd-1 = 'workspace web'     # Browsers, AI Search
+    alt-cmd-2 = 'workspace code'    # Code Editors
+    alt-cmd-3 = 'workspace term'    # Terminals
+    alt-cmd-4 = 'workspace comms'   # Chat, Mail
+    alt-cmd-5 = 'workspace docs'    # Notes, Office, PDF, eBooks
+    alt-cmd-6 = 'workspace media'   # Music, Video Players
+    alt-cmd-7 = 'workspace files'   # File Sync/Transfer Apps
+    alt-cmd-8 = 'workspace games'   # Game Launchers, Games
+    alt-cmd-9 = 'workspace design'  # Graphics, Video Editing
+    alt-cmd-0 = 'workspace misc'    # Miscellaneous Tasks
 
-    # --- Moving Window to Workspace (Using Names) ---
-    # Move the currently focused window to the specified workspace by name.
+    # --- Moving Window to Workspace (Using Refined Names & Alt+Shift Modifier) ---
     # IMPORTANT: Use the exact same names as defined above for consistency.
     alt-shift-1 = 'move-node-to-workspace web'
     alt-shift-2 = 'move-node-to-workspace code'
     alt-shift-3 = 'move-node-to-workspace term'
-    alt-shift-4 = 'move-node-to-workspace chat'
-    alt-shift-5 = 'move-node-to-workspace mail'
-    alt-shift-6 = 'move-node-to-workspace music'
+    alt-shift-4 = 'move-node-to-workspace comms'
+    alt-shift-5 = 'move-node-to-workspace docs'
+    alt-shift-6 = 'move-node-to-workspace media'
     alt-shift-7 = 'move-node-to-workspace files'
-    alt-shift-8 = 'move-node-to-workspace misc'
-    alt-shift-9 = 'move-node-to-workspace sys'
-    alt-shift-0 = 'move-node-to-workspace tmp'
+    alt-shift-8 = 'move-node-to-workspace games'
+    alt-shift-9 = 'move-node-to-workspace design'
+    alt-shift-0 = 'move-node-to-workspace misc'
 
     # --- Window State Management ---
     alt-f = 'layout floating tiling'         # Toggle floating state for the focused window
@@ -152,7 +221,6 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
     #       If you update AeroSpace to a newer stable version, you can likely uncomment this
     #       using the list syntax shown below.
     # alt-shift-q = ['exec', '/usr/bin/killall', 'AeroSpace']
-
 
 # -----------------------------------------------------------------------------
 # Mode 'resize': Window Resizing Bindings
