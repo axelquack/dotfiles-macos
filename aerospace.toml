@@ -102,6 +102,7 @@ on-window-detected = [
     { if.app-id = 'com.roon.Roon', run = 'move-node-to-workspace media' },                       # Roon -> media
     { if.app-id = 'org.videolan.vlc', run = 'move-node-to-workspace media' },                    # VLC -> media
     { if.app-id = 'com.firecore.infuse', run = 'move-node-to-workspace media' },                 # Infuse -> media
+    { if.app-id = 'com.apple.Music', run = 'move-node-to-workspace media' },                     # Apple Music -> media    
     # --- Workspace 7: files ---
     { if.app-id = 'ch.protonmail.drive', run = 'move-node-to-workspace files' },                 # Proton Drive -> files
     # --- Workspace 8: games ---
