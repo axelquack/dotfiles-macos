@@ -77,7 +77,7 @@ on-window-detected = [
     # --- Workspace 4: comms ---
     { if.app-id = 'org.whispersystems.signal-desktop', run = 'move-node-to-workspace comms' },   # Signal -> comms
     { if.app-id = 'org.telegram.desktop', run = 'move-node-to-workspace comms' },                # Telegram Desktop -> comms
-    { if.app-id = 'com.hnc.Discord', run = 'move-node-to-workspace comms' },               # Discord -> comms
+    { if.app-id = 'com.hnc.Discord', run = 'move-node-to-workspace comms' },                     # Discord -> comms
     { if.app-id = 'ch.protonmail.desktop', run = 'move-node-to-workspace comms' },               # Proton Mail -> comms
     # --- Workspace 5: docs ---
     { if.app-id = 'org.zotero.zotero', run = 'move-node-to-workspace docs' },                    # Zotero -> docs
