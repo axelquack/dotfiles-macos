@@ -15,6 +15,7 @@ cask "automounterhelper"     # Helper application for AutoMounter (network share
 cask "balenaetcher"          # Flash OS images to SD cards & USB drives
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
 cask "cleanmymac"            # System cleaning and optimization utility (Subscription-based)
+cask "discord"               # Voice and text chat software
 cask "elgato-control-center" # Control Elgato lighting and other devices
 cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "ledger-live"           # Desktop application for Ledger hardware crypto wallets
