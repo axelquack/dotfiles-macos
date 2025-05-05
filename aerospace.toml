@@ -67,7 +67,8 @@ on-window-detected = [
     { if.app-id = 'com.blackmagic-design.switchers.softwarecontrol', run = 'layout floating' },  # ATEM Software Control
     { if.app-id = 'com.microsoft.rdc.macos', run = 'layout floating' },                          # Windows App (VNC/RDP)
     { if.app-id = 'com.apple.AppStore', run = 'layout floating' },                               # Apple AppStore
-    # --- Apps optionsl to Float ---
+    { if.app-id = 'com.apple.ActivityMonitor', run = 'layout floating' },                        # Apple Activity Monitor
+    # --- Apps options to Float ---
     # { if.app-id = 'com.brave.Browser', run = 'layout floating' },                              # Brave Browser
     # { if.app-id = 'md.obsidian', run = 'layout floating' },                                    # Obsidian
 
