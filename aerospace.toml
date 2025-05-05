@@ -47,6 +47,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # Define rules for how specific application windows should behave when detected.
 # IMPORTANT: Verify 'app-id' (Bundle ID) values for your specific installations!
 # Use: mdls -name kMDItemCFBundleIdentifier /path/to/app.app
+# Optional use: osascript -e 'id of app "App Name"'
 # Place this entire block as a top-level setting in the file.
 on-window-detected = [
     # --- Utilities / Windows to Float ---
@@ -65,7 +66,7 @@ on-window-detected = [
     { if.app-id = 'com.blackmagic-design.DaVinciResolveLite', run = 'layout floating' },         # DaVinci Resolve
     { if.app-id = 'com.blackmagic-design.switchers.softwarecontrol', run = 'layout floating' },  # ATEM Software Control
     { if.app-id = 'com.microsoft.rdc.macos', run = 'layout floating' },                          # Windows App (VNC/RDP)
-    { if.app-id = 'com.apple.appstore', run = 'layout floating' },                               # Apple AppStore
+    { if.app-id = 'com.apple.AppStore', run = 'layout floating' },                               # Apple AppStore
     # --- Apps optionsl to Float ---
     # { if.app-id = 'com.brave.Browser', run = 'layout floating' },                              # Brave Browser
     # { if.app-id = 'md.obsidian', run = 'layout floating' },                                    # Obsidian
