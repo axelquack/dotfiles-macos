@@ -24,6 +24,7 @@ cask "obsidian"              # Powerful knowledge base and Markdown note-taking 
 cask "plex"                  # Plex Media Server management and client interface (separate from server install)
 cask "plexamp"               # Dedicated music player app for Plex Media Server
 cask "proton-mail"           # Desktop client for Proton Mail encrypted email service
+cask "proton-mail-bridge"    # Bridge for Apple Mail
 cask "proton-drive"          # Desktop client for Proton Drive encrypted cloud storage
 cask "protonvpn"             # Desktop client for Proton VPN service
 cask "proton-pass"           # Desktop client for Proton Pass password manager
