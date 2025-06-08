@@ -101,6 +101,7 @@ mas "Steam Link", id: 1246969117            # Stream games from your Steam PC to
 mas "Test Flight", id: 899247664            # Apple's platform for beta testing apps
 mas "The Unarchiver", id: 425424353         # Popular utility for decompressing various archive formats
 mas "We Love Lights", id: 1479422551        # Control Philips Hue light system
+mas "WhatsApp", id: 310633997               # Cloud-based instant messaging platform
 mas "Windows App", id: 1295203466           # Microsoft app for connecting to Windows 365, AVD, Remote Desktop, etc.
 mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 
