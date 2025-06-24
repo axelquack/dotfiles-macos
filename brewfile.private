@@ -20,6 +20,7 @@ cask "elgato-control-center" # Control Elgato lighting and other devices
 cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "ledger-live"           # Desktop application for Ledger hardware crypto wallets
 cask "minecraft"             # Official Minecraft game launcher (requires account)
+cask "moonlight"             # Moonlight uses the NVIDIA GameStream protocol (or Sunshine for broader compatibility) to stream a PC's display and input to another device.
 cask "obsidian"              # Powerful knowledge base and Markdown note-taking app
 cask "plex"                  # Plex Media Server management and client interface (separate from server install)
 cask "plexamp"               # Dedicated music player app for Plex Media Server
