@@ -16,6 +16,7 @@ cask "balenaetcher"          # Flash OS images to SD cards & USB drives
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
 cask "cleanmymac"            # System cleaning and optimization utility (Subscription-based)
 cask "discord"               # Voice and text chat software
+cask "elgato-camera-hub      # Control Elgato prompter device
 cask "elgato-control-center" # Control Elgato lighting and other devices
 cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "ledger-live"           # Desktop application for Ledger hardware crypto wallets
