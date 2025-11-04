@@ -18,6 +18,7 @@ cask "cleanmymac"            # System cleaning and optimization utility (Subscri
 cask "discord"               # Voice and text chat software
 cask "elgato-camera-hub      # Control Elgato prompter device
 cask "elgato-control-center" # Control Elgato lighting and other devices
+cask "epilogue-playback"     # Control GB Operator and SNES Operator
 cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "ledger-live"           # Desktop application for Ledger hardware crypto wallets
 cask "minecraft"             # Official Minecraft game launcher (requires account)
