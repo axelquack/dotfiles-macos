@@ -55,7 +55,7 @@ This setup utilizes:
     *   `.wgetrc` -> `~/.wgetrc`
     *   `.gitignore` -> Copy contents to `~/.gitignore_global` or project `.gitignore`.
     *   `.gemrc` -> `~/.gemrc`
-    *   `starship.toml` -> `~/.config/aerospace/aerospace.toml`
+    *   `aerospace.toml` -> `~/.config/aerospace/aerospace.toml`
     *   `starship.toml` -> `~/.config/starship.toml`
     *   `topgrade.toml` -> `~/.config/topgrade.toml`
 
