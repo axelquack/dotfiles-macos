@@ -119,7 +119,7 @@ mas "Test Flight", id: 899247664            # Apple's platform for beta testing 
 mas "The Unarchiver", id: 425424353         # Popular utility for decompressing various archive formats
 mas "We Love Lights", id: 1479422551        # Control Philips Hue light system
 mas "WhatsApp", id: 310633997               # Cloud-based instant messaging platform
-mas "WiFiman", id: ???                      # WiFi analyzer (need ID)
+mas "WiFiman", id: 1385561119               # WiFi analyzer (iOS app on Mac)
 mas "Windows App", id: 1295203466           # Microsoft app for connecting to Windows 365, AVD, Remote Desktop, etc.
 mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 
