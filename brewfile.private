@@ -13,33 +13,44 @@ tap "nikitabobko/tap"        # Adds casks for Aerospace
 cask "aerospace"             # i3-like tiling window manager for macOS
 cask "automounterhelper"     # Helper application for AutoMounter (network share mounting)
 cask "balenaetcher"          # Flash OS images to SD cards & USB drives
+cask "block-goose"           # Agentic AI assistant from Block
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
+cask "claude"                # Anthropic's Claude AI assistant
 cask "cleanmymac"            # System cleaning and optimization utility (Subscription-based)
+cask "crossover"             # Windows compatibility layer (Paid)
 cask "discord"               # Voice and text chat software
-cask "elgato-camera-hub      # Control Elgato prompter device
+cask "elgato-camera-hub"     # Control Elgato prompter device
 cask "elgato-control-center" # Control Elgato lighting and other devices
 cask "epilogue-playback"     # Control GB Operator and SNES Operator
+cask "gog-galaxy"            # GOG Galaxy game launcher
 cask "google-drive"          # Google Drive cloud storage desktop sync client
-cask "ledger-live"           # Desktop application for Ledger hardware crypto wallets
+cask "heroic"                # Open source game launcher (Epic, GOG, Amazon)
+cask "jdownloader"           # Download manager for file hosting sites
+cask "ledger-wallet"         # Desktop application for Ledger hardware wallets
+cask "macwhisper"            # Audio transcription tool (whisper.cpp)
+cask "microsoft-teams"       # Microsoft Teams collaboration
 cask "minecraft"             # Official Minecraft game launcher (requires account)
 cask "moonlight"             # Moonlight uses the NVIDIA GameStream protocol (or Sunshine for broader compatibility) to stream a PC's display and input to another device.
 cask "obsidian"              # Powerful knowledge base and Markdown note-taking app
-cask "plex"                  # Plex Media Server management and client interface (separate from server install)
-cask "plexamp"               # Dedicated music player app for Plex Media Server
-cask "proton-mail"           # Desktop client for Proton Mail encrypted email service
-cask "proton-mail-bridge"    # Bridge for Apple Mail
+cask "opencode-desktop"      # AI coding assistant (opencode.ai)
+cask "orbstack"              # Docker/VM management (alternative to Colima)
+cask "parallels"             # Virtual machine software (Paid)
 cask "proton-drive"          # Desktop client for Proton Drive encrypted cloud storage
 cask "protonvpn"             # Desktop client for Proton VPN service
 cask "proton-pass"           # Desktop client for Proton Pass password manager
 cask "prismlauncher"         # Custom launcher for Minecraft, supports multiple instances/modpacks
 cask "raindropio"            # Cross-platform bookmark manager application
+cask "riverside-studio"      # Podcast/video recording studio
 cask "roon"                  # High-fidelity music management and streaming software (requires Roon Core)
+cask "sdformatter"           # SD CardFormatter tool
 cask "signal"                # End-to-end encrypted messaging and calling application
 cask "steam"                 # Digital distribution platform for PC games
 cask "telegram"              # Cloud-based instant messaging application
 cask "transmit"              # File transfer client (FTP, SFTP, S3, WebDAV, etc.) (Paid App)
 cask "visual-studio-code"    # Widely used, extensible code editor from Microsoft
 cask "vlc"                   # Versatile, free and open-source cross-platform multimedia player
+cask "zed"                   # AI-native code editor
+cask "zoom"                  # Video conferencing
 cask "zotero"                # Free tool to help you collect, organize, cite, and share research
 
 # --- Homebrew Formulae (CLI Tools) ---
@@ -83,6 +94,7 @@ brew "yt-dlp"                   # Video downloader (successor to youtube-dl)
 # Use `mas list` to find app names and IDs, or `mas search <appname>`.
 
 mas "AutoMounter", id: 1160435653           # Automatically mount network shares
+mas "DaisyDisk", id: 411643860              # Disk space analyzer
 mas "DaVinci Resolve", id: 571213070        # Professional video editing software
 mas "Filebot", id: 905384638                # Tool for organizing and renaming media files (movies, TV shows)
 mas "Infuse Video Player", id: 1136220934   # Powerful media player with wide format support
@@ -92,24 +104,29 @@ mas "Meta", id: 558317092                   # Music tag editor
 mas "Microsoft Excel", id: 462058435        # Microsoft's spreadsheet application (requires M365 subscription)
 mas "Microsoft Powerpoint", id: 462062816   # Microsoft's presentation application (requires M365 subscription)
 mas "Microsoft Word", id: 462054704         # Microsoft's word processor application (requires M365 subscription)
+mas "MuffinTerm", id: 1583236494            # Terminal emulator
 mas "Numbers", id: 409203825                # Apple's spreadsheet software (iWork)
 mas "OneDrive", id: 823766827               # Microsoft OneDrive cloud storage client
 mas "Pages", id: 409201541                  # Apple's word processor software (iWork)
 mas "PDF Squeezer", id: 1502111349          # Tool to reduce PDF size
 mas "Perplexity", id: 6714467650            # AI search and discovery application
 mas "Pixelmator Pro", id: 1289583905        # Advanced image editing application (alternative to Photoshop)
-mas "Raindrop.io extension", id: 1549370672 # Cross-platform bookmark manager application extension
 mas "Rename", id: 485334187                 # Simple file renaming utility
+mas "Save to Raindrop.io", id: 1549370672   # Bookmark manager extension
+mas "SiteSucker", id: 442168834             # Website downloader
 mas "Steam Link", id: 1246969117            # Stream games from your Steam PC to your Mac
 mas "Test Flight", id: 899247664            # Apple's platform for beta testing apps
 mas "The Unarchiver", id: 425424353         # Popular utility for decompressing various archive formats
 mas "We Love Lights", id: 1479422551        # Control Philips Hue light system
 mas "WhatsApp", id: 310633997               # Cloud-based instant messaging platform
+mas "WiFiman", id: ???                      # WiFi analyzer (need ID)
 mas "Windows App", id: 1295203466           # Microsoft app for connecting to Windows 365, AVD, Remote Desktop, etc.
 mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 
 # --- Manual Installs (Notes Section - Not Executed by Brewfile) ---
 # These require manual download/installation outside of Homebrew/MAS.
-# - ZimaSpace Client: https://find.zimaspace.com
 # - ATEM Software Control (from Blackmagic Design website)
 # - Backdrop: https://cindori.com/backdrop
+# - Pocket Sync: https://pocket-sync.com (Analogue Pocket sync client)
+# - ZimaSpace Client: https://find.zimaspace.com
+
