@@ -47,7 +47,6 @@ cask "signal"                # End-to-end encrypted messaging and calling applic
 cask "steam"                 # Digital distribution platform for PC games
 cask "telegram"              # Cloud-based instant messaging application
 cask "transmit"              # File transfer client (FTP, SFTP, S3, WebDAV, etc.) (Paid App)
-cask "visual-studio-code"    # Widely used, extensible code editor from Microsoft
 cask "vlc"                   # Versatile, free and open-source cross-platform multimedia player
 cask "zed"                   # AI-native code editor
 cask "zoom"                  # Video conferencing
@@ -78,7 +77,6 @@ brew "rmtrash"                  # Safe alternative to 'rm', moves files to macOS
 brew "fastfetch"                # System information tool (alternative to neofetch)
 
 # Utilities & Development
-brew "colima"                   # VM environment for running Docker daemon (CLI alternative to Docker Desktop)
 brew "docker"                   # Docker CLI client (connects to Colima's daemon)
 brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
 brew "font-fira-code-nerd-font" # Nerd Font to use with macOS Terminal applciation
