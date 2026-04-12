@@ -207,9 +207,9 @@ alias dex="docker exec -i -t"      # Execute a command inside a running containe
 
 # Docker Functions (provide more complex logic than simple aliases)
 # Stop all running containers
-dstop() { docker stop $(docker ps -aq); } # Use -aq to get IDs of all containers
+dstop() { docker stop "$(docker ps -aq)"; } # Use -aq to get IDs of all containers
 # Remove all stopped containers
-drm() { docker rm $(docker ps -aq -f status=exited); } # Use filter for stopped
+drm() { docker rm "$(docker ps -aq -f status=exited)"; } # Use filter for stopped
 # Stop and remove all containers (use with caution!)
 alias drmf='dstop && drm' # Chain the stop and remove functions
 # Remove all dangling images (unused image layers, saves disk space)
@@ -217,11 +217,11 @@ alias drimd='docker image prune -f' # Use the modern prune command
 # Remove all images (use with extreme caution! Left commented out by default)
 # dri() { docker rmi $(docker images -q); }
 # Build a Docker image with a specified tag (e.g., dbu my-image)
-dbu() { docker build -t=$1 .; }
+dbu() { docker build -t "$1" .; }
 # List Docker aliases and functions defined in this file
 dalias() { alias | grep 'docker'; functions | grep '^d[a-z]* ()'; } # Show aliases and functions starting with 'd' related to docker
 # Get an interactive bash shell inside a running container (pass container name/ID, e.g., dbash my-container)
-dbash() { docker exec --interactive --tty $(docker ps -aqf "name=$1") bash; }
+dbash() { docker exec --interactive --tty "$(docker ps -aqf "name=$1")" bash; }
 
 # --- Final Setup ---
 
