@@ -31,7 +31,7 @@ $character"""
 # `[hostname]`: Configures the display of the system's hostname.
 [hostname]
 # `ssh_only`: If true, only show the hostname module when inside an SSH session.
-ssh_only = true
+ssh_only = false
 # `format`: How the hostname module should be displayed.
 #   - [$hostname]: The actual hostname.
 #   - ($style): Applies the defined style to the output.
