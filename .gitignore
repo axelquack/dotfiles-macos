@@ -23,4 +23,11 @@ secrets/
 
 # Local-only files (not pushed to remote)
 CHANGELOG.md
+
+# AI coding assistant instruction files (local only)
 CLAUDE.md
+AGENTS.md
+GEMINI.md
+OPENCODE.md
+CODEX.md
+COPILOT.md
