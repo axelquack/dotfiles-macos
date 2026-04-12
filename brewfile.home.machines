@@ -90,6 +90,7 @@ brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
 brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
+brew "shellcheck"               # Static analysis tool for shell scripts — catches bugs and security issues
 brew "rustup"                   # Rust toolchain installer and version manager
 brew "topgrade"                 # Tool to update everything (including brew, mas, system)
 brew "ngrep"                    # Network grep utility (used in .zshrc alias)
