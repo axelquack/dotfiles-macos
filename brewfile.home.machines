@@ -16,7 +16,8 @@ cask "automounterhelper"     # Helper application for AutoMounter (network share
 cask "balenaetcher"          # Flash OS images to SD cards & USB drives
 cask "block-goose"           # Agentic AI assistant from Block
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
-cask "claude"                # Anthropic's Claude AI assistant
+cask "claude"                # Anthropic's Claude AI desktop app
+cask "claude-code"           # Anthropic's Claude Code CLI (native install, managed by topgrade)
 cask "cleanmymac"            # System cleaning and optimization utility (Subscription-based)
 cask "crossover"             # Windows compatibility layer (Paid) — Intel Mac: runs x86 Windows apps natively; M4 Mac: runs via Rosetta 2, some apps may not work
 cask "discord"               # Voice and text chat software

@@ -37,7 +37,6 @@ eval "$(fnm env)"
 NPM_LIST=$(npm list -g --depth=0 --json 2>/dev/null)
 
 PACKAGE_NAMES=(
-    "@anthropic-ai/claude-code"
     "@google/gemini-cli"
     "@agentclientprotocol/claude-agent-acp"
     "@zed-industries/codex-acp"
