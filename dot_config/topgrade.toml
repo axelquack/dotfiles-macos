@@ -42,7 +42,7 @@ disable = ["uv", "node"]
 # Run security audit after all updates — checks installed npm versions against OSV.dev
 # and runs shellcheck on all shell scripts.
 [post_commands]
-"Security audit" = "~/Documents/Projects/dotfiles-macos/scripts/audit-security.sh"
+"Security audit" = "$(chezmoi source-path)/scripts/audit-security.sh"
 
 
 # --- General Configuration ---
