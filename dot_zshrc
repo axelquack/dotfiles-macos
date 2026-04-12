@@ -119,11 +119,12 @@ eval "$(atuin init zsh)"
 # -a: Show hidden files (starting with .)
 # --tree: Display as a tree
 # --level=N: Limit tree depth
-alias ls='eza'                  # Basic listing (replaces system 'ls')
-alias l='eza -bghHl --git'      # Detailed list with Git status
-alias ll='eza -bghHl --git -a'  # Detailed list including hidden files, with Git status
-alias la='eza -a'               # List all files (including hidden), basic format
-alias lt='eza --tree --level=2' # List files in a tree structure, 2 levels deep
+alias ls='eza'                   # Basic listing (replaces system 'ls')
+alias l='eza -bghHl'             # Detailed list
+alias ll='eza -bghHl -a'         # Detailed list including hidden files
+alias la='eza -a'                # List all files (including hidden), basic format
+alias lt='eza --tree --level=2'  # List files in a tree structure, 2 levels deep
+alias lg='eza -bghHl --git'      # Detailed list with Git status (explicit — can be slow in large repos)
 
 # Alias for rmtrash (safer alternative to 'rm')
 # Assumes 'rmtrash' is installed (`brew install rmtrash`)
