@@ -131,8 +131,12 @@ mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 
 # --- Manual Installs (Notes Section - Not Executed by Brewfile) ---
 # These require manual download/installation outside of Homebrew/MAS.
-# - ATEM Software Control (from Blackmagic Design website)
-# - Backdrop: https://cindori.com/backdrop
-# - Pocket Sync: https://pocket-sync.com (Analogue Pocket sync client)
-# - ZimaSpace Client: https://find.zimaspace.com
+# - ATEM Software Control — Blackmagic Design website
+# - Backdrop — cindori.com/backdrop
+# - 8BitDo Firmware Updater — support.8bitdo.com
+# - Pocket Sync — pocket-sync.com (Analogue Pocket sync client)
+# - Protect (Ubiquiti) — ui.com/download/protect
+# - Romm — TestFlight (self-hosted ROM manager)
+# - SYSTM (Wahoo) — systmapp.com
+# - ZimaSpace Client — find.zimaspace.com
 

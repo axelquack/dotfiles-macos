@@ -61,7 +61,7 @@ chezmoi init --apply axelquack/dotfiles-macos
 
 This clones the repo via HTTPS to `~/.local/share/chezmoi` and applies all managed dotfiles (including `~/.gitconfig` rendered from your personal data) to your home directory. No SSH keys or GitHub account required — the repo is public. Git is available at this point because the Homebrew installer triggers the Xcode CLT installation.
 
-### Step 3 — Install all packages
+### Step 4 — Install all packages
 
 ```bash
 brew bundle --file=~/.local/share/chezmoi/brewfile.home.machines
@@ -69,7 +69,7 @@ brew bundle --file=~/.local/share/chezmoi/brewfile.home.machines
 
 Sign into the Mac App Store first — required for MAS apps. You may be prompted for your password during installation.
 
-### Step 4 — Apply macOS system settings
+### Step 5 — Apply macOS system settings
 
 ```bash
 ~/.local/share/chezmoi/macOS.sh
@@ -77,7 +77,7 @@ Sign into the Mac App Store first — required for MAS apps. You may be prompted
 
 Requires `sudo`. Some changes (e.g. Dock, Finder) take effect after logout/restart.
 
-### Step 5 — Install npm tools
+### Step 6 — Install npm tools
 
 ```bash
 # ACP agent servers for Obsidian Agent Client
@@ -87,7 +87,7 @@ Requires `sudo`. Some changes (e.g. Dock, Finder) take effect after logout/resta
 ~/.local/share/chezmoi/scripts/install-npm-cli-tools.sh
 ```
 
-### Step 6 — Restart terminal
+### Step 7 — Restart terminal
 
 Open a new terminal window for all PATH changes and tool initializations to take effect.
 
