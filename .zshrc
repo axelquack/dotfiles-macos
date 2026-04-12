@@ -89,15 +89,10 @@ eval "$(starship init zsh)"
 eval "$(atuin init zsh)"
 
 # Docker usage
-# Use Homebrew to install Colima itself, the Docker command-line client, and Docker Compose (which is often needed for multi-container applications).
-# 'brew install colima docker docker-compose'
-#   colima: Installs the Colima VM management tool.
-#   docker: Installs only the docker CLI client.
-#   docker-compose: Installs the Docker Compose CLI (v2).
-# Start the VM & Docker: colima start (Use this whenever you want to use Docker)
-# Stop the VM & Docker: colima stop (Frees up the resources used by the VM)
-# Check Status: colima status
-# Delete the VM: colima delete
+# This setup uses OrbStack for Docker and VM management.
+# OrbStack starts automatically on login — no manual start/stop needed.
+# Install: `brew install --cask orbstack docker docker-compose`
+# Use Docker commands directly (e.g., `docker ps`, `docker compose up`).
 
 # --- Aliases ---
 # Custom shortcuts for frequently used commands.
@@ -187,15 +182,10 @@ alias gstp='git stash pop'                  # Apply and remove the latest stash
 alias gstd='git stash drop'                 # Discard the latest stash
 alias gf='git reflog'                       # Show the reflog (history of HEAD changes)
 
-# --- Aliases & Functions: Docker (using Colima) ---
+# --- Aliases & Functions: Docker (using OrbStack) ---
 # Shortcuts and helper functions for Docker commands.
-# Assumes a CLI-based Docker environment using Colima (or similar).
-# Installation: `brew install colima docker docker-compose`
-# Usage: Run `colima start` before using Docker commands, `colima stop` when done.
-# These aliases will use the standard `docker` CLI, which connects to the Docker daemon provided by Colima.
-alias dcstart='colima start'       # Start the Colima VM/Docker
-alias dcstop='colima stop'         # Stop the Colima VM/Docker daemon
-alias dcstatus='colima status'     # Check Colima VM status
+# Uses OrbStack as the Docker runtime — starts automatically, no manual start/stop needed.
+# Installation: `brew install --cask orbstack docker docker-compose`
 alias dl="docker ps -l -q"         # Show the ID of the last exited container
 alias dps="docker ps"              # List currently running containers
 alias dpa="docker ps -a"           # List all containers (running and stopped)

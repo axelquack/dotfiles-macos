@@ -2,7 +2,7 @@
 # -------------
 # Specifies intentionally untracked files that Git should ignore.
 # See https://git-scm.com/docs/gitignore for syntax details.
-# This file is tailored for a stack including pyenv, uv, rbenv, fnm, Docker (Colima), macOS.
+# This file is tailored for a stack including pyenv, uv, rbenv, fnm, Docker (OrbStack), macOS.
 
 # --- Project Version Files ---
 # It is HIGHLY RECOMMENDED to *COMMIT* these files into your repository.

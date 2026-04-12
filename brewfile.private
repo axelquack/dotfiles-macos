@@ -33,7 +33,7 @@ cask "minecraft"             # Official Minecraft game launcher (requires accoun
 cask "moonlight"             # Moonlight uses the NVIDIA GameStream protocol (or Sunshine for broader compatibility) to stream a PC's display and input to another device.
 cask "obsidian"              # Powerful knowledge base and Markdown note-taking app
 cask "opencode-desktop"      # AI coding assistant (opencode.ai)
-cask "orbstack"              # Docker/VM management (alternative to Colima)
+cask "orbstack"              # Docker/VM management
 cask "parallels"             # Virtual machine software (Paid)
 cask "proton-drive"          # Desktop client for Proton Drive encrypted cloud storage
 cask "protonvpn"             # Desktop client for Proton VPN service
@@ -77,7 +77,7 @@ brew "rmtrash"                  # Safe alternative to 'rm', moves files to macOS
 brew "fastfetch"                # System information tool (alternative to neofetch)
 
 # Utilities & Development
-brew "docker"                   # Docker CLI client (connects to Colima's daemon)
+brew "docker"                   # Docker CLI client (works with OrbStack)
 brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
 brew "font-fira-code-nerd-font" # Nerd Font to use with macOS Terminal applciation
 brew "mas"                      # Command-line interface for Mac App Store

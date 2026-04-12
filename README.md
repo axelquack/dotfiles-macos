@@ -17,7 +17,7 @@ This setup utilizes:
     *   Ruby: `rbenv` + `ruby-build`
     *   Node.js: `fnm`
 *   **macOS Configuration:** Script using `defaults write` (`macOs.sh`)
-*   **Other Tools:** `eza`, `btop`, `wget`, `rmtrash`, `colima`/`docker`, etc.
+*   **Other Tools:** `eza`, `btop`, `wget`, `rmtrash`, `orbstack`/`docker`, etc.
 *   *(Note: Neovim/Vim configuration is managed in a separate repository).*
 
 ## Prerequisites
@@ -88,7 +88,7 @@ This setup utilizes:
 
 ## Manual Steps & Notes
 
-*   **Docker/Colima:** This setup uses Colima for a CLI-based Docker environment. Remember to run `colima start` before using Docker commands and `colima stop` when finished.
+*   **Docker/OrbStack:** This setup uses OrbStack for Docker and VM management. OrbStack starts automatically on login — no manual start/stop commands needed. Use Docker commands directly.
 *   **Editor Configuration:** Vim/Neovim configuration is managed in a separate repository.
 
 ## License
