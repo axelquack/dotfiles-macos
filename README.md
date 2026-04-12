@@ -189,14 +189,23 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 |--------|---------|
 | `macOS.sh` | Applies macOS system preferences via `defaults write` |
 | `scripts/install-npm-acp-agents.sh` | ACP agent servers for [Obsidian Agent Client](https://rait-09.github.io/obsidian-agent-client/agent-setup/) |
-| `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`claude-code`, `gemini-cli`) |
+| `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`gemini-cli` and ACP agents — pinned versions) |
+| `scripts/audit-security.sh` | Security audit: runs `shellcheck` on all scripts and checks installed npm package versions against OSV.dev |
 | `brewfile.home.machines` | All Homebrew casks, formulae, and MAS apps |
 
 ---
 
 ## Updating
 
-Run `topgrade` regularly — it updates Homebrew packages, MAS apps, macOS system updates, and more, using the config in `dot_config/topgrade.toml`.
+Run `topgrade` regularly — it updates Homebrew formulae and casks, MAS apps, macOS system updates, rustup toolchain, Claude Code, and GitHub CLI extensions. A security audit runs automatically at the end via `scripts/audit-security.sh`.
+
+The following are intentionally excluded from topgrade (see `dot_config/topgrade.toml`):
+
+| Excluded | Reason | How to update manually |
+|----------|--------|------------------------|
+| `node` (npm global) | Prevents silent unpinning of versioned packages | Edit version in install scripts → run `scripts/audit-security.sh` → re-run install script |
+| `containers` | Dockerfile-based stacks need rebuild; pulling images without restarting containers gives false confidence | `docker-compose build --pull && docker-compose up -d` (mcp-claude-stack) · `docker-compose pull && docker-compose up -d` (mcp-stack) |
+| `uv` | Managed by Homebrew; `uv self update` fails for brew-managed installs | Updated automatically via Homebrew step |
 
 Language runtimes managed by version managers are updated manually:
 
