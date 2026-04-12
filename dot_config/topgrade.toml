@@ -12,13 +12,12 @@
 # scripts/install-npm-acp-agents.sh after running scripts/audit-security.sh.
 # I disabled 'containers' — mcp-claude-stack images are locally built (no registry),
 # and mcp-stack public images are updated via docker-compose pull in their project folder.
-# I disabled 'cargo' — no cargo packages installed; rustup manages the toolchain via its own step.
-disable = ["uv", "node", "containers", "cargo"]
+disable = ["uv", "node", "containers"]
 
-# Ignore failures for these steps — brew_cask fails because automounterhelper is an
-# 'installer manual' cask that brew cannot upgrade automatically. The app itself
-# is kept up to date manually; this prevents a cosmetic failure in every topgrade run.
-ignore_failures = ["brew_cask"]
+# I disabled 'containers' — mcp-claude-stack uses Dockerfiles (locally built, no registry);
+# updates require `docker-compose build --pull && docker-compose up -d` per project.
+# mcp-stack public images also need `docker-compose pull && docker-compose up -d`.
+# topgrade pulling images without recreating containers gives false confidence.
 
 # --- Git Repositories (Example - Currently Disabled) ---
 # Automatically pull updates for specified local Git repositories.
