@@ -13,10 +13,10 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [Homebrew](https://brew.sh) | Package manager | `brewfile.home.machines` |
 | [Topgrade](https://github.com/topgrade-rs/topgrade) | Update everything | `dot_config/topgrade.toml` |
 | [chezmoi](https://chezmoi.io) | Dotfile manager | `chezmoi apply` |
-| pyenv + uv | Python version management | `dot_zshrc` |
-| rbenv + ruby-build | Ruby version management | `dot_zshrc` |
-| fnm | Node.js version management | `dot_zshrc` |
-| OrbStack | Docker / VM runtime | — |
+| [pyenv](https://github.com/pyenv/pyenv) + [uv](https://github.com/astral-sh/uv) | Python version management | `dot_zshrc` |
+| [rbenv](https://github.com/rbenv/rbenv) + [ruby-build](https://github.com/rbenv/ruby-build) | Ruby version management | `dot_zshrc` |
+| [fnm](https://github.com/Schniz/fnm) | Node.js version management | `dot_zshrc` |
+| [OrbStack](https://orbstack.dev) | Docker / VM runtime | — |
 
 *(Neovim/Vim config is managed in a separate repository.)*
 
