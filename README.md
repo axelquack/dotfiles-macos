@@ -16,7 +16,10 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [pyenv](https://github.com/pyenv/pyenv) + [uv](https://github.com/astral-sh/uv) | Python version management | `dot_zshrc` |
 | [rbenv](https://github.com/rbenv/rbenv) + [ruby-build](https://github.com/rbenv/ruby-build) | Ruby version management | `dot_zshrc` |
 | [fnm](https://github.com/Schniz/fnm) | Node.js version management | `dot_zshrc` |
+| [rustup](https://rustup.rs) | Rust toolchain management | `dot_zshrc`, `dot_zshenv` |
 | [OrbStack](https://orbstack.dev) | Docker / VM runtime | — |
+| [Deno](https://deno.com) | JavaScript / TypeScript runtime | — |
+| [OpenCode](https://opencode.ai) | AI coding agent CLI | — |
 
 *(Neovim/Vim config is managed in a separate repository.)*
 
