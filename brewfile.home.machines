@@ -43,6 +43,7 @@ cask "proton-drive"          # Desktop client for Proton Drive encrypted cloud s
 cask "protonvpn"             # Desktop client for Proton VPN service
 cask "proton-pass"           # Desktop client for Proton Pass password manager
 cask "prismlauncher"         # Custom launcher for Minecraft, supports multiple instances/modpacks
+cask "devpod"                # Dev environments as code — open-source DevPod
 cask "raindropio"            # Cross-platform bookmark manager application
 cask "riverside-studio"      # Podcast/video recording studio
 cask "roon"                  # High-fidelity music management and streaming software (requires Roon Core)
@@ -94,6 +95,7 @@ brew "opencode"                 # OpenCode AI coding agent CLI (separate from op
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
 brew "shellcheck"               # Static analysis tool for shell scripts — catches bugs and security issues
 brew "rustup"                   # Rust toolchain installer and version manager
+brew "syncthing"                # Continuous file synchronisation across devices
 brew "topgrade"                 # Tool to update everything (including brew, mas, system)
 brew "ngrep"                    # Network grep utility (used in .zshrc alias)
 brew "wget"                     # File downloader utility
