@@ -1,0 +1,90 @@
+# Global Gitignore — ~/.gitignore_global
+# Applies to all repositories on this machine.
+# Stack: Python (pyenv + uv), Ruby (rbenv), Node.js (fnm), Rust (rustup), Deno, Docker (OrbStack), macOS, Zed
+
+# --- Project Version Files ---
+# Commit these into your repos — they ensure correct language versions across environments.
+# Uncomment only if you have a specific reason NOT to track them.
+# .python-version
+# .ruby-version
+# .node-version
+# .nvmrc
+
+# --- Python ---
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+*.egg-info/
+*.egg
+.ipynb_checkpoints/
+
+# --- Ruby ---
+/.bundle/
+/vendor/bundle/
+*.gem
+
+# --- Node.js ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.next/
+.nuxt/
+out/
+
+# --- Rust ---
+target/
+
+# --- macOS ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon*
+
+# --- Editor ---
+*.swp
+*.swo
+.vscode/
+*.code-workspace
+
+# --- Environment ---
+.env
+.env.*
+!.env.example
+
+# --- Temp, Cache & Backup ---
+*~
+*.bak
+*.tmp
+*.orig
+*.rej
+.cache/
+
+# --- Logs & Databases ---
+*.log
+*.db
+*.sqlite
+
+# --- Archives ---
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+
+# --- Debug Symbols ---
+*.dSYM/

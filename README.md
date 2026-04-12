@@ -136,6 +136,8 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 |---|---|---|
 | `dot_zshrc` | `~/.zshrc` | Interactive Zsh config: PATH, version managers, aliases |
 | `dot_zshenv` | `~/.zshenv` | All-session env vars: `$EDITOR`, `$PAGER`, Cargo |
+| `dot_gitconfig.tmpl` | `~/.gitconfig` | Git identity and global settings (chezmoi template) |
+| `dot_gitignore_global` | `~/.gitignore_global` | Global gitignore for all repos |
 | `dot_gemrc` | `~/.gemrc` | RubyGems config (disables doc install) |
 | `dot_wgetrc` | `~/.wgetrc` | wget defaults |
 | `dot_config/starship.toml` | `~/.config/starship.toml` | Starship prompt config |
