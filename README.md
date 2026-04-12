@@ -40,21 +40,43 @@ Add Homebrew to your PATH for the current session (detects architecture automati
 eval "$($([ "$(uname -m)" = "arm64" ] && echo /opt/homebrew || echo /usr/local)/bin/brew shellenv)"
 ```
 
-### Step 2 — Configure chezmoi with your Proton Pass vault
+### Step 2 — Install chezmoi and clone dotfiles
 
-Git identity (name, email) is fetched from Proton Pass at apply time via `pass-cli`. You need to store your details in Proton Pass and reference the vault/item IDs in a local chezmoi config that is **never committed**.
+```bash
+brew install chezmoi
+chezmoi init axelquack/dotfiles-macos
+```
 
-**2a — Create a "Git Identity" login item in your Proton Pass Personal vault** with:
+This clones the repo to `~/.local/share/chezmoi` without applying yet. No SSH keys or GitHub account required — the repo is public.
+
+### Step 3 — Install all packages
+
+```bash
+brew bundle --file=~/.local/share/chezmoi/brewfile.home.machines
+```
+
+Sign into the Mac App Store first — required for MAS apps. This also installs `pass-cli` (Proton Pass CLI), needed in the next step.
+
+### Step 4 — Configure Proton Pass for chezmoi
+
+Git identity (name, email) is fetched from Proton Pass at apply time. This file is **never committed** — it stays on your machine only.
+
+**4a — Log in to Proton Pass:**
+```bash
+pass-cli login
+```
+
+**4b — Create a "Git Identity" login item in your Personal vault** with:
 - Username: your full name
 - Email: your git email
 
-**2b — Get the vault and item IDs:**
+**4c — Get the vault and item IDs:**
 ```bash
-pass-cli vault list         # copy your Personal vault ID
-pass-cli item list Personal # find your Git Identity item ID
+pass-cli vault list          # copy your Personal vault ID
+pass-cli item list Personal  # find your Git Identity item ID
 ```
 
-**2c — Create the local chezmoi config:**
+**4d — Create the local chezmoi config:**
 ```bash
 mkdir -p ~/.config/chezmoi
 cat > ~/.config/chezmoi/chezmoi.toml << 'EOF'
@@ -69,25 +91,15 @@ sourceDir = "~/.local/share/chezmoi"
 EOF
 ```
 
-### Step 3 — Install chezmoi and apply dotfiles
+### Step 5 — Apply dotfiles
 
 ```bash
-brew install chezmoi
-pass-cli login               # authenticate with Proton Pass
-chezmoi init --apply axelquack/dotfiles-macos
+chezmoi apply
 ```
 
-This clones the repo via HTTPS to `~/.local/share/chezmoi` and applies all managed dotfiles (including `~/.gitconfig` rendered with your identity from Proton Pass) to your home directory. No SSH keys or GitHub account required — the repo is public. Git is available at this point because the Homebrew installer triggers the Xcode CLT installation.
+This applies all managed dotfiles (including `~/.gitconfig` rendered with your identity from Proton Pass) to your home directory.
 
-### Step 4 — Install all packages
-
-```bash
-brew bundle --file=~/.local/share/chezmoi/brewfile.home.machines
-```
-
-Sign into the Mac App Store first — required for MAS apps. You may be prompted for your password during installation.
-
-### Step 5 — Apply macOS system settings
+### Step 6 — Apply macOS system settings
 
 ```bash
 ~/.local/share/chezmoi/macOS.sh
@@ -95,7 +107,7 @@ Sign into the Mac App Store first — required for MAS apps. You may be prompted
 
 Requires `sudo`. Some changes (e.g. Dock, Finder) take effect after logout/restart.
 
-### Step 6 — Install npm tools
+### Step 7 — Install npm tools
 
 ```bash
 # ACP agent servers for Obsidian Agent Client
@@ -105,7 +117,7 @@ Requires `sudo`. Some changes (e.g. Dock, Finder) take effect after logout/resta
 ~/.local/share/chezmoi/scripts/install-npm-cli-tools.sh
 ```
 
-### Step 7 — Restart terminal
+### Step 8 — Restart terminal
 
 Open a new terminal window for all PATH changes and tool initializations to take effect.
 
