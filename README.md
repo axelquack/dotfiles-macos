@@ -8,7 +8,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 |------|---------|--------|
 | Zsh | Shell | `dot_zshrc`, `dot_zshenv` |
 | [Starship](https://starship.rs) | Prompt | `dot_config/starship.toml` |
-| [AeroSpace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager | `dot_config/aerospace/aerospace.toml` |
+| [AeroSpace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager | `dot_config/aerospace/aerospace.toml` · [shortcuts](docs/aerospace/SHORTCUTS.md) · [workspaces](docs/aerospace/WORKSPACES.md) |
 | [Atuin](https://github.com/atuinsh/atuin) | Shell history | `dot_zshrc` |
 | [Homebrew](https://brew.sh) | Package manager | `brewfile.home.machines` |
 | [Topgrade](https://github.com/topgrade-rs/topgrade) | Update everything | `dot_config/topgrade.toml` |
@@ -126,6 +126,15 @@ $(chezmoi source-path)/macOS.sh
 
 ---
 
+## Documentation
+
+| File | Description |
+|------|-------------|
+| [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
+| [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
+
+---
+
 ## Repository Contents
 
 ### Dotfiles (managed by chezmoi)
@@ -175,7 +184,11 @@ The following require manual download/installation outside of Homebrew or the Ap
 
 - **ATEM Software Control** — Blackmagic Design website
 - **Backdrop** — cindori.com/backdrop
+- **8BitDo Firmware Updater** — support.8bitdo.com
 - **Pocket Sync** — pocket-sync.com
+- **Protect** (Ubiquiti) — ui.com/download/protect
+- **Romm** — TestFlight (self-hosted ROM manager)
+- **SYSTM** (Wahoo) — systmapp.com
 - **ZimaSpace Client** — find.zimaspace.com
 
 ---
