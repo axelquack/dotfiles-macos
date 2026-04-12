@@ -17,3 +17,7 @@ export PAGER="less"
 # Optional: Set ZDOTDIR here if you want to move your Zsh config files
 # (like .zshrc, .zshenv, etc.) to a different directory (e.g., ~/.config/zsh).
 # export ZDOTDIR="$HOME/.config/zsh"
+
+# Rust / Cargo environment (added by rustup installer).
+# Sourced here so cargo binaries are available in all Zsh sessions (not just interactive).
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"

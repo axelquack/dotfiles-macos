@@ -8,6 +8,10 @@
 
 # --- Initial Setup ---
 
+# Detect system architecture once; used throughout the script for arch-specific settings.
+# Apple Silicon returns "arm64"; Intel returns "x86_64".
+ARCH="$(uname -m)"
+
 # Ask for the administrator password upfront to avoid prompts later.
 echo "Requesting administrator privileges for setup..."
 sudo -v
@@ -23,7 +27,9 @@ echo "Sudo credentials cached."
 echo "Applying General UI/UX settings..."
 
 # Disable the sound effects on boot (requires sudo).
-# Note: This changes an NVRAM variable, affecting the boot chime.
+# Works on both Intel and Apple Silicon Macs via NVRAM.
+# Note: On Apple Silicon, the startup chime is also controllable via
+# System Settings → Sound → "Play sound on startup".
 sudo nvram SystemAudioVolume=" "
 
 # Set default Finder view style to List View (`Nlsv`).
@@ -52,10 +58,12 @@ echo "Applying Input Device settings..."
 # defaults write NSGlobalDomain com.apple.mouse.tapBehavior -int 1
 
 # Automatically illuminate built-in MacBook keyboard in low light conditions.
-defaults write com.apple.BezelServices kDim -bool true
-
-# Turn off keyboard illumination automatically after 5 minutes of inactivity (300 seconds).
-defaults write com.apple.BezelServices kDimTime -int 300
+# Intel Macs only — on Apple Silicon (M1/M2/M3/M4) this is managed by the system automatically.
+if [[ "$ARCH" != "arm64" ]]; then
+  defaults write com.apple.BezelServices kDim -bool true
+  # Turn off keyboard illumination automatically after 5 minutes of inactivity (300 seconds).
+  defaults write com.apple.BezelServices kDimTime -int 300
+fi
 
 ###############################################################################
 # Screen & Screensaver                                                        #
@@ -115,8 +123,10 @@ defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
 ###############################################################################
 echo "Applying Menu Bar settings..."
 
-# Show battery percentage in the menu bar.
-defaults write com.apple.menuextra.battery ShowPercent -string "YES"
+# Note: Battery percentage in the menu bar is configured via
+# System Settings → Control Center → Battery → Show Percentage
+# The `defaults write com.apple.menuextra.battery ShowPercent` key is deprecated
+# since macOS Ventura and has no effect on modern macOS versions.
 
 # Optional: Customize which icons appear in the Menu Bar Control Center vs always visible.
 # This often requires more complex plist manipulation or GUI interaction.

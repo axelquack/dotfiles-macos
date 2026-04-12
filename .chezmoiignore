@@ -1,0 +1,11 @@
+# .chezmoiignore
+# Files in this repo that should NOT be deployed to the home directory.
+# These are repo-level files (docs, scripts, package lists) — not dotfiles.
+
+LICENSE.md
+README.md
+CHANGELOG.md
+brewfile.home.machines
+gitignore
+macOS.sh
+scripts/

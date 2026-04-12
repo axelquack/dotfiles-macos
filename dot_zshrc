@@ -5,9 +5,18 @@
 # Load Zsh Profiling Module (Optional: Uncomment for startup time debugging)
 # zmodload zsh/zprof
 
+# Detect system architecture and set Homebrew prefix accordingly.
+# Apple Silicon (arm64): /opt/homebrew  |  Intel (x86_64): /usr/local
+ARCH="$(uname -m)"
+if [[ "$ARCH" == "arm64" ]]; then
+    HOMEBREW_PREFIX="/opt/homebrew"
+else
+    HOMEBREW_PREFIX="/usr/local"
+fi
+
 # Add Homebrew Zsh completions to the function path
 # This ensures completions installed by Homebrew are found before system ones.
-fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=("$HOMEBREW_PREFIX/share/zsh-completions" $fpath)
 
 # Initialize the Zsh completion system (with caching)
 # - autoload: Loads the compinit function only when needed.
@@ -25,10 +34,10 @@ autoload -Uz compinit && compinit -C
 typeset -U path # Ensure path elements are unique
 path=(
     # User-specific binary directory
-    ~/bin
-    # Homebrew binaries (preferred over system binaries)
-    /usr/local/bin
-    /usr/local/sbin
+    ~/.bin
+    # Homebrew binaries (preferred over system binaries, path depends on architecture)
+    "$HOMEBREW_PREFIX/bin"
+    "$HOMEBREW_PREFIX/sbin"
     # Standard system binaries
     /usr/bin
     /bin
@@ -44,15 +53,15 @@ export PATH
 # Requires aerspace to be installed (e.g., `brew tap nikitabobko/tap`). uv (`brew install aerospace`).
 
 # Ensure Aerospace config path is recognized (optional, since ~/.config is the default)
-export XDG_CONFIG_HOME="$HOME/.config"
+# export XDG_CONFIG_HOME="$HOME/.config"
 
 # Start Aerospace at login (optional, if not enabled in the app settings)
-if [ -x "/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ]; then
-    # Check if Aerospace is already running to avoid multiple instances
-    if ! pgrep -x "AeroSpace" > /dev/null; then
-        open -a AeroSpace &
-    fi
-fi
+# Aerospace uses launchd (start-at-login = true in aerospace.toml) — no need to start here.
+# if [ -x "/Applications/AeroSpace.app/Contents/MacOS/AeroSpace" ]; then
+#     if ! pgrep -x "AeroSpace" > /dev/null; then
+#         open -a AeroSpace &
+#     fi
+# fi
 
 # --- Tool Initialization ---
 # Load configuration and environment settings for various command-line tools.
@@ -121,9 +130,9 @@ alias lt='eza --tree --level=2' # List files in a tree structure, 2 levels deep
 alias trash='rmtrash'
 
 # Aliases for common Aerospace commands (optional, for convenience)
-alias aero-reload="aerospace reload-config"
-alias aero-workspace-1="aerospace workspace 1"
-alias aero-workspace-2="aerospace workspace 2"
+# alias aero-reload="aerospace reload-config"
+# alias aero-workspace-1="aerospace workspace 1"
+# alias aero-workspace-2="aerospace workspace 2"
 
 # Process listing (Top command with specific sorting/display options)
 # I am currently using btop instead: 'brew install btop'
@@ -156,8 +165,8 @@ alias downloads='cd ~/Downloads'
 alias desktop='cd ~/Desktop'
 
 # Application shortcuts
-alias markdown='open -a /Applications/Obsidian.app/'        # Open Obsidian application
-alias code='open -a /Applications/Visual\ Studio\ Code.app' # Open Visual Studio Code application
+alias markdown='open -a "Obsidian"'  # Open Obsidian (macOS resolves app by name, no path needed)
+alias code='open -a "Zed"'          # Open Zed editor
 
 # --- Aliases: Git ---
 # Common Git command shortcuts to speed up workflow.
@@ -214,6 +223,17 @@ dalias() { alias | grep 'docker'; functions | grep '^d[a-z]* ()'; } # Show alias
 dbash() { docker exec --interactive --tty $(docker ps -aqf "name=$1") bash; }
 
 # --- Final Setup ---
+
+# Rust / Cargo environment (added by rustup installer)
+# Sets up PATH for Cargo-installed binaries (e.g., ~/.cargo/bin).
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+# OpenCode CLI — adds the opencode binary to PATH.
+# Installed via: brew install opencode
+[[ -d "$HOME/.opencode/bin" ]] && export PATH="$HOME/.opencode/bin:$PATH"
+
+# User-local binaries (e.g., installed via pip install --user or pipx).
+[[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
 # Zsh Profiling Output (Optional: Uncomment for startup time debugging)
 # Make sure this is the *very last* command executed in .zshrc

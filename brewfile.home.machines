@@ -1,4 +1,4 @@
-# ~/.config/brewfile.private - Brewfile for Homebrew Bundle
+# ~/.config/brewfile.home.machines - Brewfile for Homebrew Bundle
 # Defines packages, applications, and MAS apps to be installed via Homebrew.
 # Use with `brew bundle install --file=PATH_TO_THIS_FILE`.
 # Updates should be handled separately (e.g., using `topgrade` or `brew upgrade`).
@@ -17,16 +17,17 @@ cask "block-goose"           # Agentic AI assistant from Block
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
 cask "claude"                # Anthropic's Claude AI assistant
 cask "cleanmymac"            # System cleaning and optimization utility (Subscription-based)
-cask "crossover"             # Windows compatibility layer (Paid)
+cask "crossover"             # Windows compatibility layer (Paid) — Intel Mac: runs x86 Windows apps natively; M4 Mac: runs via Rosetta 2, some apps may not work
 cask "discord"               # Voice and text chat software
 cask "elgato-camera-hub"     # Control Elgato prompter device
 cask "elgato-control-center" # Control Elgato lighting and other devices
 cask "epilogue-playback"     # Control GB Operator and SNES Operator
+cask "font-fira-code-nerd-font" # Nerd Font to use with macOS Terminal application
 cask "gog-galaxy"            # GOG Galaxy game launcher
 cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "heroic"                # Open source game launcher (Epic, GOG, Amazon)
 cask "jdownloader"           # Download manager for file hosting sites
-cask "ledger-wallet"         # Desktop application for Ledger hardware wallets
+cask "ledger-wallet"         # Desktop application for Ledger hardware wallets (also available as ledger-live)
 cask "macwhisper"            # Audio transcription tool (whisper.cpp)
 cask "microsoft-teams"       # Microsoft Teams collaboration
 cask "minecraft"             # Official Minecraft game launcher (requires account)
@@ -57,6 +58,7 @@ cask "zotero"                # Free tool to help you collect, organize, cite, an
 
 # Version Control
 brew "git"                      # Install latest Git (macOS version is often older)
+brew "chezmoi"                  # Dotfile manager — manages and applies dotfiles across machines
 
 # Shell & Prompt & History
 brew "starship"                 # The prompt system used in .zshrc
@@ -77,10 +79,16 @@ brew "rmtrash"                  # Safe alternative to 'rm', moves files to macOS
 brew "fastfetch"                # System information tool (alternative to neofetch)
 
 # Utilities & Development
+brew "deno"                     # JavaScript/TypeScript runtime (alternative to Node.js)
 brew "docker"                   # Docker CLI client (works with OrbStack)
 brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
-brew "font-fira-code-nerd-font" # Nerd Font to use with macOS Terminal applciation
+brew "ffmpeg"                   # Audio/video processing and conversion tool
+brew "gh"                       # GitHub CLI — manage repos, PRs, issues from the terminal
+brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
+brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
+brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
+brew "rustup"                   # Rust toolchain installer and version manager
 brew "topgrade"                 # Tool to update everything (including brew, mas, system)
 brew "ngrep"                    # Network grep utility (used in .zshrc alias)
 brew "wget"                     # File downloader utility
