@@ -1,6 +1,6 @@
 [user]
-    name  = {{ .git_name }}
-    email = {{ .git_email }}
+    name  = {{ protonPass (printf "pass://%s/%s/username" .proton_vault_id .proton_git_item_id) | trim }}
+    email = {{ protonPass (printf "pass://%s/%s/email" .proton_vault_id .proton_git_item_id) | trim }}
 
 [core]
     excludesfile = ~/.gitignore_global
