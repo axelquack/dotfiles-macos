@@ -7,7 +7,10 @@
 # I disabled 'uv' because it's installed via Homebrew and updating it via
 # `uv self update` (which Topgrade tries by default) fails for managed installations.
 # Homebrew will handle updating uv correctly during its step.
-disable = ["uv"]
+# I disabled 'node' (npm global update) to prevent silent unpinning of npm packages.
+# Update npm packages manually via scripts/install-npm-cli-tools.sh and
+# scripts/install-npm-acp-agents.sh after running scripts/audit-security.sh.
+disable = ["uv", "node"]
 
 # --- Git Repositories (Example - Currently Disabled) ---
 # Automatically pull updates for specified local Git repositories.
@@ -36,10 +39,10 @@ disable = ["uv"]
 # --- Pre/Post Hooks (Optional) ---
 # Define custom commands to run before or after Topgrade's main steps.
 
-# Example: Trigger Atuin sync explicitly (Optional, as Atuin usually syncs automatically)
-# post_hooks = [
-#    { command = "atuin", args = ["sync"] }
-# ]
+# Run security audit after all updates — checks installed npm versions against OSV.dev
+# and runs shellcheck on all shell scripts.
+[post_commands]
+"Security audit" = "~/.local/share/chezmoi/scripts/audit-security.sh"
 
 
 # --- General Configuration ---

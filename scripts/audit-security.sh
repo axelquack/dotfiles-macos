@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 # Security audit for dotfiles-macos
-# Runs shellcheck on all shell scripts and checks npm package versions against OSV.dev
+# Runs shellcheck on all shell scripts and checks installed npm package versions against OSV.dev
 # Run before committing changes to scripts, dotfiles, or package version pins
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -28,35 +28,67 @@ if [[ "$SHELLCHECK_FAILED" -eq 0 ]]; then
     echo "    shellcheck: all files passed"
 fi
 
-# --- OSV.dev vulnerability check ---
+# --- Resolve installed npm package versions ---
 echo ""
-echo "==> Checking npm packages against OSV.dev..."
+echo "==> Resolving installed npm package versions..."
+
+eval "$(fnm env)"
+
+NPM_LIST=$(npm list -g --depth=0 --json 2>/dev/null)
+
+PACKAGE_NAMES=(
+    "@anthropic-ai/claude-code"
+    "@google/gemini-cli"
+    "@agentclientprotocol/claude-agent-acp"
+    "@zed-industries/codex-acp"
+)
+
+PACKAGE_VERSIONS=()
+for pkg in "${PACKAGE_NAMES[@]}"; do
+    version=$(echo "$NPM_LIST" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+deps = data.get('dependencies', {})
+pkg = deps.get('$pkg', {})
+print(pkg.get('version', ''))
+" 2>/dev/null)
+    if [[ -z "$version" ]]; then
+        echo "    SKIP: $pkg — not installed"
+        PACKAGE_VERSIONS+=("SKIP")
+    else
+        echo "    Found: $pkg@$version"
+        PACKAGE_VERSIONS+=("$version")
+    fi
+done
+
+# --- Build OSV.dev query from installed versions ---
+echo ""
+echo "==> Checking installed versions against OSV.dev..."
+
+QUERIES="["
+QUERY_PACKAGES=()
+for i in "${!PACKAGE_NAMES[@]}"; do
+    version="${PACKAGE_VERSIONS[$i]}"
+    if [[ "$version" == "SKIP" ]]; then
+        continue
+    fi
+    pkg="${PACKAGE_NAMES[$i]}"
+    QUERIES+="{\"package\":{\"name\":\"$pkg\",\"ecosystem\":\"npm\"},\"version\":\"$version\"},"
+    QUERY_PACKAGES+=("$pkg@$version")
+done
+QUERIES="${QUERIES%,}]"
 
 OSV_RESPONSE=$(curl -sf -X POST "https://api.osv.dev/v1/querybatch" \
     -H "Content-Type: application/json" \
-    -d '{
-        "queries": [
-            {"package": {"name": "@anthropic-ai/claude-code", "ecosystem": "npm"}, "version": "2.1.104"},
-            {"package": {"name": "@google/gemini-cli", "ecosystem": "npm"}, "version": "0.37.1"},
-            {"package": {"name": "@agentclientprotocol/claude-agent-acp", "ecosystem": "npm"}, "version": "0.26.0"},
-            {"package": {"name": "@zed-industries/codex-acp", "ecosystem": "npm"}, "version": "0.11.1"}
-        ]
-    }')
-
-PACKAGES=(
-    "@anthropic-ai/claude-code@2.1.104"
-    "@google/gemini-cli@0.37.1"
-    "@agentclientprotocol/claude-agent-acp@0.26.0"
-    "@zed-industries/codex-acp@0.11.1"
-)
+    -d "{\"queries\":$QUERIES}")
 
 OSV_FAILED=0
-INDEX=0
-for pkg in "${PACKAGES[@]}"; do
+for i in "${!QUERY_PACKAGES[@]}"; do
+    pkg="${QUERY_PACKAGES[$i]}"
     VULNS=$(echo "$OSV_RESPONSE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
-result = data['results'][$INDEX]
+result = data['results'][$i]
 vulns = result.get('vulns', [])
 print(len(vulns))
 for v in vulns:
@@ -70,7 +102,6 @@ for v in vulns:
         echo "$VULNS" | tail -n +2
         OSV_FAILED=1
     fi
-    INDEX=$((INDEX + 1))
 done
 
 # --- Summary ---
