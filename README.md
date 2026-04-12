@@ -39,14 +39,27 @@ Add Homebrew to your PATH for the current session (detects architecture automati
 eval "$($([ "$(uname -m)" = "arm64" ] && echo /opt/homebrew || echo /usr/local)/bin/brew shellenv)"
 ```
 
-### Step 2 — Install chezmoi and apply dotfiles
+### Step 2 — Configure chezmoi with your personal data
+
+Before applying dotfiles, create a local chezmoi config with your personal details. This file is **never committed** — it stays on your machine only.
+
+```bash
+mkdir -p ~/.config/chezmoi
+cat > ~/.config/chezmoi/chezmoi.toml << 'EOF'
+[data]
+    git_name  = "Your Name"
+    git_email = "your@email.com"
+EOF
+```
+
+### Step 3 — Install chezmoi and apply dotfiles
 
 ```bash
 brew install chezmoi
 chezmoi init --apply axelquack/dotfiles-macos
 ```
 
-This clones the repo via HTTPS to `~/.local/share/chezmoi` and applies all managed dotfiles to your home directory. No SSH keys or GitHub account required — the repo is public. Git is available at this point because the Homebrew installer triggers the Xcode CLT installation.
+This clones the repo via HTTPS to `~/.local/share/chezmoi` and applies all managed dotfiles (including `~/.gitconfig` rendered from your personal data) to your home directory. No SSH keys or GitHub account required — the repo is public. Git is available at this point because the Homebrew installer triggers the Xcode CLT installation.
 
 ### Step 3 — Install all packages
 
