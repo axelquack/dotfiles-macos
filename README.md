@@ -222,6 +222,7 @@ fnm install --lts
 The following require manual download/installation outside of Homebrew or the App Store:
 
 - **AutoMounter Helper** — install from AutoMounter app preferences after installing the MAS app
+- **Parallels Desktop** — parallels.com/download (brew cask fails on Intel due to inittool preinitialization error)
 - **ATEM Software Control** — Blackmagic Design website
 - **Backdrop** — cindori.com/backdrop
 - **8BitDo Firmware Updater** — support.8bitdo.com
