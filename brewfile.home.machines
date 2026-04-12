@@ -12,7 +12,8 @@ tap "protonpass/tap"         # Adds formulae for Proton Pass CLI
 # Define GUI applications installed via `brew install --cask <cask>`
 
 cask "aerospace"             # i3-like tiling window manager for macOS
-cask "automounterhelper"     # Helper application for AutoMounter (network share mounting)
+# cask "automounterhelper" — removed: installer manual type, brew cannot upgrade it automatically.
+#   Install manually from the AutoMounter app preferences after installing the MAS app.
 cask "balenaetcher"          # Flash OS images to SD cards & USB drives
 cask "block-goose"           # Agentic AI assistant from Block
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
