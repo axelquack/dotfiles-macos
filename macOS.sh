@@ -139,11 +139,14 @@ echo "Applying Dock & Hot Corners settings..."
 # Automatically hide and show the Dock.
 defaults write com.apple.dock autohide -bool true
 
-# Optional: Change Dock position (left, bottom, right)
-# defaults write com.apple.dock orientation -string "left"
+# Dock position (left, bottom, right)
+defaults write com.apple.dock orientation -string "left"
 
-# Optional: Set the icon size of Dock items in pixels
-# defaults write com.apple.dock tilesize -int 36
+# Icon size of Dock items in pixels
+defaults write com.apple.dock tilesize -int 64
+
+# Hide recent apps section in Dock
+defaults write com.apple.dock show-recents -bool false
 
 # Optional: Minimize windows into their application’s icon
 # defaults write com.apple.dock minimize-to-application -bool true
