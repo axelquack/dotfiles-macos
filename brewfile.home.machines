@@ -6,6 +6,7 @@
 
 # --- Custom Taps (for additional formulae/casks) ---
 tap "nikitabobko/tap"        # Adds casks for Aerospace
+tap "protonpass/tap"         # Adds formulae for Proton Pass CLI
 
 # --- Homebrew Casks (GUI Applications & Fonts/Drivers) ---
 # Define GUI applications installed via `brew install --cask <cask>`
@@ -59,6 +60,7 @@ cask "zotero"                # Free tool to help you collect, organize, cite, an
 # Version Control
 brew "git"                      # Install latest Git (macOS version is often older)
 brew "chezmoi"                  # Dotfile manager — manages and applies dotfiles across machines
+brew "protonpass/tap/pass-cli"  # Proton Pass CLI — access secrets from Proton Pass in terminal and chezmoi templates
 
 # Shell & Prompt & History
 brew "starship"                 # The prompt system used in .zshrc
