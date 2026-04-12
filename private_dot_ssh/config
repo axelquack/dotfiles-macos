@@ -1,0 +1,12 @@
+# Added by OrbStack: 'orb' SSH host for Linux machines
+# This only works if it's at the top of ssh_config (before any Host blocks).
+# This won't be added again if you remove it.
+Include ~/.orbstack/ssh/config
+
+# Machine-specific host entries (populated from Proton Pass via chezmoi, not tracked in repo)
+Include ~/.ssh/config.local
+
+Host github.com
+  IdentityFile ~/.ssh/id_ed25519
+  AddKeysToAgent yes
+  UseKeychain yes
