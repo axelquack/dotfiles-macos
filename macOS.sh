@@ -266,6 +266,23 @@ defaults write com.apple.TextEdit PlainTextEncoding -int 4
 defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
 
 ###############################################################################
+# Security Hardening                                                          #
+###############################################################################
+echo "Applying security hardening..."
+
+# Disable SSH password authentication and root login.
+# Requires Remote Login (SSH) to be enabled in System Settings → General → Sharing.
+# Creates a drop-in config file so the system sshd_config is not modified directly.
+sudo mkdir -p /etc/ssh/sshd_config.d
+echo "PasswordAuthentication no" | sudo tee /etc/ssh/sshd_config.d/hardening.conf > /dev/null
+echo "PermitRootLogin no" | sudo tee -a /etc/ssh/sshd_config.d/hardening.conf > /dev/null
+sudo launchctl stop com.openssh.sshd 2>/dev/null || true
+
+# Enable automatic check for software updates and auto-install critical security patches.
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate AutomaticCheckEnabled -bool true
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CriticalUpdateInstall -bool true
+
+###############################################################################
 # Kill affected applications to apply changes                                 #
 ###############################################################################
 echo "Restarting affected applications to apply settings..."

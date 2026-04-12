@@ -86,9 +86,15 @@ sourceDir = "~/.local/share/chezmoi"
     command = "pass-cli"
 
 [data]
-    proton_vault_id    = "YOUR_VAULT_ID"
-    proton_git_item_id = "YOUR_ITEM_ID"
+    proton_vault_id         = "YOUR_VAULT_ID"
+    proton_git_item_id      = "YOUR_ITEM_ID"
+    proton_ssh_host_item_id = "YOUR_SSH_HOST_ITEM_ID"
 EOF
+```
+
+Get `proton_ssh_host_item_id` by looking up the **"SSH Host Config"** note in your Personal vault:
+```bash
+pass-cli item list Personal | grep "SSH Host Config"
 ```
 
 ### Step 5 — Apply dotfiles
@@ -97,7 +103,7 @@ EOF
 chezmoi apply
 ```
 
-This applies all managed dotfiles (including `~/.gitconfig` rendered with your identity from Proton Pass) to your home directory.
+This applies all managed dotfiles (including `~/.gitconfig` and `~/.ssh/config.local` rendered with data from Proton Pass) to your home directory.
 
 ### Step 6 — Apply macOS system settings
 
@@ -182,6 +188,8 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `dot_config/starship.toml` | `~/.config/starship.toml` | Starship prompt config |
 | `dot_config/topgrade.toml` | `~/.config/topgrade.toml` | Topgrade updater config |
 | `dot_config/aerospace/aerospace.toml` | `~/.config/aerospace/aerospace.toml` | AeroSpace window manager config |
+| `private_dot_ssh/config` | `~/.ssh/config` | SSH base config: OrbStack include, GitHub host entry |
+| `private_dot_ssh/config.local.tmpl` | `~/.ssh/config.local` | Machine-specific SSH host entries — populated from Proton Pass at apply time, never committed |
 
 ### Setup scripts
 
