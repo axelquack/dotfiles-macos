@@ -86,6 +86,7 @@ brew "fastfetch"                # System information tool (alternative to neofet
 
 # Utilities & Development
 brew "deno"                     # JavaScript/TypeScript runtime (alternative to Node.js)
+brew "ansible"                  # IT automation — apply config to Proxmox nodes after rebuild
 brew "docker"                   # Docker CLI client (works with OrbStack)
 brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
 brew "ffmpeg"                   # Audio/video processing and conversion tool
