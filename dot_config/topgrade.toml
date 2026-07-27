@@ -10,11 +10,13 @@
 # I disabled 'node' (npm global update) to prevent silent unpinning of npm packages.
 # Update npm packages manually via scripts/install-npm-cli-tools.sh and
 # scripts/install-npm-acp-agents.sh after running scripts/audit-security.sh.
-# I disabled 'containers' — mcp-claude-stack images are locally built (no registry),
+# I disabled 'yarn' and 'pnpm' — no global packages are installed via either;
+# globals are managed with npm + pinned install scripts (same reason as 'node').
+# I disabled 'containers' — hermes-stack images are locally built (no registry),
 # and mcp-stack public images are updated via docker-compose pull in their project folder.
-disable = ["uv", "node", "containers"]
+disable = ["uv", "node", "yarn", "pnpm", "containers"]
 
-# I disabled 'containers' — mcp-claude-stack uses Dockerfiles (locally built, no registry);
+# I disabled 'containers' — hermes-stack uses Dockerfiles (locally built, no registry);
 # updates require `docker-compose build --pull && docker-compose up -d` per project.
 # mcp-stack public images also need `docker-compose pull && docker-compose up -d`.
 # topgrade pulling images without recreating containers gives false confidence.

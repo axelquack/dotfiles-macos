@@ -179,7 +179,8 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 
 | File in repo | Deploys to | Purpose |
 |---|---|---|
-| `dot_zshrc` | `~/.zshrc` | Interactive Zsh config: PATH, version managers, aliases |
+| `dot_zshrc` | `~/.zshrc` | Interactive Zsh config: PATH, version managers, aliases; sources `~/.zshrc.local` if present |
+| *(not managed)* | `~/.zshrc.local` | Machine-local secrets and overrides (API keys, Grok env) — create per machine, never commit |
 | `dot_zshenv` | `~/.zshenv` | All-session env vars: `$EDITOR`, `$PAGER`, Cargo |
 | `dot_gitconfig.tmpl` | `~/.gitconfig` | Git identity and global settings (chezmoi template) |
 | `dot_gitignore_global` | `~/.gitignore_global` | Global gitignore for all repos |
@@ -212,8 +213,15 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 | Excluded | Reason | How to update manually |
 |----------|--------|------------------------|
 | `node` (npm global) | Prevents silent unpinning of versioned packages | Edit version in install scripts → run `scripts/audit-security.sh` → re-run install script |
-| `containers` | Dockerfile-based stacks need rebuild; pulling images without restarting containers gives false confidence | `docker-compose build --pull && docker-compose up -d` (mcp-claude-stack) · `docker-compose pull && docker-compose up -d` (mcp-stack) |
+| `yarn` / `pnpm` | No global packages; globals use npm + pinned install scripts (same policy as `node`) | N/A — install project deps with yarn/pnpm in the project; do not use global yarn/pnpm |
+| `containers` | Dockerfile-based stacks need rebuild; pulling images without restarting containers gives false confidence | `docker-compose build --pull && docker-compose up -d` (hermes-stack) · `docker-compose pull && docker-compose up -d` (mcp-stack) |
 | `uv` | Managed by Homebrew; `uv self update` fails for brew-managed installs | Updated automatically via Homebrew step |
+
+**Before `topgrade`:** run `pass-cli login` in an interactive terminal (chezmoi templates need Proton Pass), and ensure your GitHub SSH key is loaded (`ssh-add --apple-use-keychain ~/.ssh/id_ed25519`) so `chezmoi update` does not hang on a passphrase prompt and hit a broken pipe.
+
+**Avoid chezmoi “has changed since last wrote” prompts:**
+- Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.
+- Keep machine SSH hosts in the Proton Pass **"SSH Host Config"** note (source of truth for `~/.ssh/config.local`). Edit the note, then `chezmoi apply` — do not hand-edit `config.local` long-term.
 
 Language runtimes managed by version managers are updated manually:
 

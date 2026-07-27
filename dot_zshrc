@@ -236,6 +236,21 @@ dbash() { docker exec --interactive --tty "$(docker ps -aqf "name=$1")" bash; }
 # User-local binaries (e.g., installed via pip install --user or pipx).
 [[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
 
+# pnpm global bin directory (macOS default: ~/Library/pnpm).
+# Required so `pnpm` global commands can resolve binaries; without this,
+# pnpm errors with: "configured global bin directory ... is not in PATH".
+# Mirrors what `pnpm setup` would append — kept here so chezmoi owns it.
+export PNPM_HOME="${PNPM_HOME:-$HOME/Library/pnpm}"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+
+# Machine-local overrides (API keys, Grok env, one-off PATH).
+# NOT managed by chezmoi — create ~/.zshrc.local on each machine as needed.
+# Keeps secrets out of the dotfiles repo and stops "has changed since last wrote" prompts.
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
 # Zsh Profiling Output (Optional: Uncomment for startup time debugging)
 # Make sure this is the *very last* command executed in .zshrc
 # zprof
