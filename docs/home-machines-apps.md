@@ -1,13 +1,23 @@
 # Home machines — apps & Homebrew (haumea vs moon)
 
-Canonical notes for keeping a **primary** (haumea) and **secondary** (moon) Mac aligned.
+Canonical **inventory and parity** notes for primary (**haumea**) and secondary (**moon**).
 
 > **Public repo:** no real email addresses, vault names, or absolute home paths. Personal inventory belongs in a private notes vault.
 
-| Host | Role | Chip | Homebrew prefix |
-|------|------|------|-----------------|
-| **haumea** | Primary | Apple Silicon (`arm64`) | `/opt/homebrew` |
-| **moon** | Secondary | Intel (`x86_64`) | `/usr/local` |
+| Host | Role | Chip | Homebrew prefix | Host-only notes |
+|------|------|------|-----------------|-----------------|
+| **haumea** | Primary | Apple Silicon (`arm64`) | `/opt/homebrew` | [haumea.md](./haumea.md) |
+| **moon** | Secondary | Intel (`x86_64`) | `/usr/local` | [moon.md](./moon.md) |
+
+**Doc map (do not duplicate)**
+
+| Topic | Where |
+|-------|--------|
+| Primary-only ops (shell, topgrade habits) | [haumea.md](./haumea.md) |
+| Secondary-only ops (Syncthing, Intel, SSH) | [moon.md](./moon.md) |
+| App / cask / formula **tables** (this file) | sections below |
+| AeroSpace keybindings | [aerospace/](./aerospace/) |
+| Automation | [../ansible/README.md](../ansible/README.md) |
 
 **Shared SoT**
 
@@ -17,9 +27,9 @@ Canonical notes for keeping a **primary** (haumea) and **secondary** (moon) Mac 
 | Moon-only packages | [`brewfile.moon.extra`](../brewfile.moon.extra) (Syncthing) |
 | Apply (Ansible) | `cd ansible && ansible-playbook setup-macos.yml --limit haumea` (or `moon`) |
 | Apply packages (manual) | `brew bundle --file="$(chezmoi source-path)/brewfile.home.machines"` |
-| Topgrade (disables Colima step) | [`dot_config/topgrade.toml`](../dot_config/topgrade.toml) |
-| AeroSpace app rules | [`dot_config/aerospace/aerospace.toml`](../dot_config/aerospace/aerospace.toml) |
-| pass-cli / chezmoi PAT quirks | [haumea.md](../haumea.md), [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) |
+| Topgrade | [`dot_config/topgrade.toml`](../dot_config/topgrade.toml) |
+| AeroSpace | [`dot_config/aerospace/aerospace.toml.tmpl`](../dot_config/aerospace/aerospace.toml.tmpl) |
+| pass-cli wrapper | [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) · workflow: [haumea.md](./haumea.md) / [moon.md](./moon.md) |
 
 Inventory date for tables below: **2026-08-04** (re-check with the commands at the end when things drift).
 
@@ -701,7 +711,7 @@ Not app inventory, but required for `chezmoi apply` / topgrade templates on both
 | PAT + `pass://` vault id | PAT share id ≠ user vault id → **422**; use [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) as `[protonPass] command` |
 | Precheck | `scripts/topgrade-precheck.sh` |
 
-Details: [haumea.md](../haumea.md).
+Details: [haumea.md](./haumea.md) (primary) · [moon.md](./moon.md) (secondary, soft Pass over SSH).
 
 ---
 
@@ -870,7 +880,8 @@ rm -rf ~/.colima
 
 ## Related docs
 
-- [haumea.md](../haumea.md) — shell, topgrade pre-check, OpenCode, Marked 2, pass-cli
+- [haumea.md](./haumea.md) — primary host notes
+- [moon.md](./moon.md) — secondary host notes
 - [aerospace/WORKSPACES.md](./aerospace/WORKSPACES.md) — workspace / float map
 - [../brewfile.home.machines](../brewfile.home.machines) — package SoT
 - [../dot_config/topgrade.toml](../dot_config/topgrade.toml) — disabled steps (Colima, containers, …)

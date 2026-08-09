@@ -52,3 +52,9 @@ Defaults (`group_vars/all.yml`):
 - Proton Pass vault IDs in `~/.config/chezmoi/chezmoi.toml` (local secrets)
 - GUI login for `pass-cli` / Keychain
 - Manual apps (ATEM, Backdrop, Protect, …)
+
+## Host notes
+
+- Primary: [docs/haumea.md](../docs/haumea.md)
+- Secondary: [docs/moon.md](../docs/moon.md)
+- Shared inventory: [docs/home-machines-apps.md](../docs/home-machines-apps.md)

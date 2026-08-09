@@ -191,8 +191,9 @@ $(chezmoi source-path)/macOS.sh
 | File | Description |
 |------|-------------|
 | [Ansible setup](ansible/README.md) | Idempotent brew + chezmoi + optional macOS defaults / npm |
-| [Home machines apps](docs/home-machines-apps.md) | Primary vs secondary app policy (public, privacy-neutral) |
-| [Primary host notes](haumea.md) | Shell / topgrade / OpenCode notes |
+| [Home machines apps](docs/home-machines-apps.md) | Shared inventory & parity (haumea vs moon) — no host-only prose |
+| [haumea host notes](docs/haumea.md) | Primary-only ops (shell, topgrade, WM pointers) |
+| [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
 | [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
 | [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
 

@@ -1,0 +1,76 @@
+# haumea — primary host notes
+
+**Role:** daily-driver Mac · Apple Silicon · Homebrew `/opt/homebrew`  
+**Audience:** public (no accounts, vault IDs, or absolute home paths)  
+**Last updated:** 2026-08-09  
+
+## Doc map (avoid duplication)
+
+| Topic | Canonical doc |
+|-------|----------------|
+| App / brew / MAS parity with moon | [home-machines-apps.md](./home-machines-apps.md) |
+| Secondary host quirks | [moon.md](./moon.md) |
+| AeroSpace shortcuts & workspaces | [aerospace/](./aerospace/) |
+| Idempotent apply (brew, chezmoi, …) | [../ansible/README.md](../ansible/README.md) |
+| Shared package list | [../brewfile.home.machines](../brewfile.home.machines) |
+
+This file only covers **haumea-specific** behaviour and pointers. Do not copy inventory tables here.
+
+---
+
+## Policies unique to primary
+
+| Item | Policy |
+|------|--------|
+| **Syncthing** | **Never** on haumea. Moon only — [moon.md](./moon.md) + [../brewfile.moon.extra](../brewfile.moon.extra) |
+| **Docker** | **OrbStack only** (no Colima) — details in [home-machines-apps.md §3](./home-machines-apps.md) |
+| **Secrets** | `~/.zshrc.local` and local `~/.config/chezmoi/chezmoi.toml` only — never commit |
+
+---
+
+## Shell / chezmoi (primary)
+
+- Prefer managed `dot_zshrc` with an **idempotent** `$HOME/.opencode/bin` PATH check (installers sometimes append a hard-coded absolute path).
+- Machine secrets and API keys: **`~/.zshrc.local`** only.
+- Before `topgrade` or `chezmoi apply` that needs Pass templates:
+
+```bash
+pass-cli login   # GUI Terminal (Keychain)
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519   # your GitHub key
+```
+
+- PAT / `pass://` share-id mismatch (HTTP 422): use [../scripts/pass-cli-chezmoi.sh](../scripts/pass-cli-chezmoi.sh) as chezmoi `[protonPass] command`. Full policy table: [home-machines-apps.md §15](./home-machines-apps.md) (high level) — **no vault IDs in git**.
+
+---
+
+## Desktop / WM notes (primary)
+
+- **AeroSpace:** live file `~/.config/aerospace/aerospace.toml` (from `dot_config/aerospace/aerospace.toml.tmpl`). Cheatsheet: [aerospace/SHORTCUTS.md](./aerospace/SHORTCUTS.md).
+- **Terminal:** tabs in one window = one tile; new windows get separate tiles.
+- **Marked 2** (optional): good for Markdown print; float in AeroSpace.
+- **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Documents/Projects`.
+- Obsidian Agent Client / cloud models usually **do not** need the OpenCode GUI running.
+
+---
+
+## Apply / health (primary)
+
+```bash
+# Preferred
+cd "$(git -C ~/Documents/Projects/dotfiles-macos rev-parse --show-toplevel 2>/dev/null || chezmoi source-path)/ansible"
+ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi
+
+# Checks
+aerospace --version
+command -v opencode && opencode --version
+# syncthing must NOT be installed:
+brew list --formula syncthing 2>/dev/null && echo "UNEXPECTED on primary" || echo "syncthing absent (ok)"
+```
+
+---
+
+## See also
+
+- [moon.md](./moon.md) — secondary host  
+- [home-machines-apps.md](./home-machines-apps.md) — shared inventory & drift  
+- [../README.md](../README.md) — setup from scratch  
