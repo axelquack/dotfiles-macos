@@ -487,7 +487,7 @@ CLI: `/Applications/MacWhisper.app/Contents/MacOS/mw`
 | **Apple Speech** language packs | Yes if **macOS 26+** | **No** on 15.x — “native speech requires macOS 26+” |
 | **Apple Foundation Model** (LLM) | macOS 26+ | Not on 15.x |
 | **Cloud STT** (xAI, OpenRouter, ElevenLabs, OpenAI, …) | Yes | **Yes — preferred for quality** |
-| **Transcript LLM** (cloud LLM model) | Yes | Yes (API key) |
+| **Transcript LLM** (cloud provider) | Yes | Yes (API key in keychain) |
 
 **Pro license ≠ Pro Silicon engines.** Gumroad Pro unlocks features; WhisperKit/Parakeet still need Apple Silicon.
 
@@ -531,7 +531,7 @@ Prefs: `configuredCloudTranscriptionProviders` includes
 
 | Provider | In-app | Keychain account | Notes |
 |----------|--------|------------------|--------|
-| **cloud STT** | Cloud-Modelle → **xAI** | `(app keychain account — local only)` | Model **`stt-model-id`**. Same **API key** family as LLM (vendor-api.example). **Not** chat subscription OAuth OAuth. |
+| **Cloud STT** | Cloud models → vendor | `(app keychain account — local only)` | STT model IDs are local; API key often separate from chat subscription OAuth. |
 | **OpenRouter** Whisper Large V3 | OpenRouter row | `openRouterAPIKeyForCloudTranscription_Key` | OpenAI-compatible Whisper via OpenRouter |
 | **ElevenLabs** Scribe | ElevenLabs | `elevenLabsAPIKeyForCloudTranscription_Key` | |
 | **OpenAI** Whisper | OpenAI | `chatGPTAPIKey_Key` | Region pref: **`eu`** (`openAICloudTranscriptionRegion`) |
@@ -549,8 +549,8 @@ Prefs: `configuredAIServices_15july2025`, `selectedAIServiceID`, `selectedAISumm
 | Service | Model | Selected |
 |---------|--------|----------|
 | Apple Foundation Model | system | no (needs macOS 26+) |
-| **xAI** | **`model-id`** | **yes** (chat + summarization) — UUID `(local — do not publish)` |
-| **OpenRouter** | `provider/model-id` | alternate — UUID `(local — do not publish)` |
+| **Cloud LLM A** | model id local | yes (chat + summarization) — UUID local |
+| **OpenRouter** (optional) | model id local | alternate — UUID local |
 | Ollama | empty @ `http://localhost:11434` | optional local |
 
 **Summary behaviour (both):**
@@ -564,7 +564,7 @@ Prefs: `configuredAIServices_15july2025`, `selectedAIServiceID`, `selectedAISumm
 | Timestamps in AI prompt | off |
 | Auto-export AI summary | off |
 
-If `model-id` errors: Settings → AI services → try `model-id` or another OpenRouter `provider/…` id.
+If a model errors: Settings → AI services → try another model id the app accepts.
 
 ### Export, dictation, meetings, Obsidian
 
@@ -587,7 +587,7 @@ Service: `com.goodsnooze.MacWhisper` unless noted.
 | Account | Purpose |
 |---------|---------|
 | `gumroadLicenseKey_Key` | App Pro license |
-| `aiservice-…` (local keychain) | LLM cloud LLM model |
+| `aiservice-…` (local keychain) | LLM provider entry |
 | `aiservice-openrouter-A1B2C3D4-…` | LLM OpenRouter |
 | `(app keychain account — local only)` | **Cloud STT** Grok STT |
 | `openRouterAPIKeyForCloudTranscription_Key` | Cloud STT OpenRouter Whisper |
@@ -604,7 +604,7 @@ Service: `com.goodsnooze.MacWhisper` unless noted.
 | Cloud STT/LLM API | Vendor API key in Keychain (often separate from chat subscription OAuth) |
 | Extra LLM providers | OpenCode env/keychain only — **not** necessarily MacWhisper STT |
 
-### chat subscription OAuth / xAI / Cohere audio vs OpenCode
+### Chat subscription vs API STT vs OpenCode
 
 | Product | Exists? | Use where? |
 |---------|---------|------------|
@@ -613,7 +613,7 @@ Service: `com.goodsnooze.MacWhisper` unless noted.
 | Cohere Transcribe | Yes (`/v2/audio/transcriptions`) | External / future; **not** MacWhisper native |
 | Cohere North / Command | Yes | **OpenCode** chat only |
 
-chat subscription OAuth subscription ≠ free unlimited API STT. STT is API-billed when using console API keys.
+A chat subscription is not the same as unlimited API STT. STT is usually API-billed when using console API keys.
 
 ### How to use day-to-day
 
@@ -628,7 +628,7 @@ chat subscription OAuth subscription ≠ free unlimited API STT. STT is API-bill
 
 1. Local fallback: Whisper C++ **Turbo** (not Large V2).  
 2. Prefer **Cloud-Modelle → xAI (Grok STT)** or OpenRouter Whisper Large V3.  
-3. Same **AI → cloud LLM model** for summaries.  
+3. Same AI service you configured for chat summaries.  
 4. No Apple Speech packs until macOS 26+; no WhisperKit/Parakeet.
 
 ### Parity / ops notes
