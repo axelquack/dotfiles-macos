@@ -47,7 +47,7 @@ They will **not** share:
 
 - Apple Silicon–only iOS-on-Mac apps (Protect, iOS WiFiman, Romm).
 - Install **method** for Parallels (brew on Silicon, vendor installer on Intel).
-- Optional haumea-only tools (Adobe Acrobat, czkawka, …).
+- Optional primary-only extras (Adobe Acrobat, …) — prefer documenting in local `machine.md`.
 - **Syncthing — moon only** (see §10). Do **not** install, start, or propose on **haumea**.
 
 ---
@@ -61,22 +61,21 @@ Same product on both Macs; **different package managers**.
 | App path | `/Applications/Parallels Desktop.app` | same |
 | Bundle ID | `com.parallels.desktop.console` | same |
 | App Store | No | No |
-| **Install method** | **Homebrew cask** `parallels` | **Manual** from [parallels.com](https://www.parallels.com/products/desktop/) |
-| Caskroom | `/opt/homebrew/Caskroom/parallels/…` | **none** |
-| Example version (2026-08-04) | **26.4.0** (brew-upgradable) | **26.3.0** (`prlctl` 26.3.0 / 57392) |
-| First brew record (haumea) | Cask install ~26.2.0, later upgraded | — |
-| App folder date (moon) | — | ~2026-03-20 vendor install |
-| CLI | via cask / app | `/usr/local/bin/prlctl` etc. from vendor install |
+| **Install method** | **Optional Homebrew cask** `parallels` | **Manual only** from [parallels.com](https://www.parallels.com/products/desktop/) |
+| Shared brewfile | **Does not** list `parallels` (would break Intel `brew bundle`) | same |
+| Caskroom | often under `/opt/homebrew/Caskroom/parallels/` if brew-installed | **none** (vendor install) |
+| CLI | via cask / app | vendor paths under `/usr/local/bin` (e.g. `prlctl`) |
 | AeroSpace | workspace `vm` (`com.parallels.desktop.console`) | same |
+| Per-host versions | record in local **`machine.md`** (gitignored) | same |
 
-### Why brew is not used on moon
+### Why the shared brewfile does not enable Parallels
 
-The Homebrew cask runs Parallels’ `inittool` during install. On **Intel** that fails with an **inittool preinitialization error**, so the shared brewfile **does not** enable the cask:
+The Homebrew cask runs Parallels’ `inittool` during install. On **Intel** that fails with an **inittool preinitialization error**. On **Apple Silicon** the cask usually works, but putting it in the **shared** brewfile would still make moon’s `brew bundle` fail.
 
 ```text
-# brewfile.home.machines
-# cask "parallels" — removed: brew cask fails on Intel (inittool preinitialization error).
-#   Install manually from parallels.com/download.
+# brewfile.home.machines (comment only)
+# arm64:  brew install --cask parallels   # optional on primary
+# Intel:  manual from parallels.com/download only
 ```
 
 | Host | Practical rule |
@@ -267,7 +266,9 @@ Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.hom
 |-----------|----------|
 | brewfile missing on haumea | `wifiman`, `8bitdo-firmware-updater` |
 | brewfile missing on moon | `8bitdo-firmware-updater` |
-| In shared brewfile (2026-08-09) | `aionui`, `block-buzz`, `ledger-wallet` |
+| In shared brewfile | `aionui`, `block-buzz`, `ledger-wallet`, `just`, `butane`, `p7zip`, `wakeonlan`, `czkawka`, MAS Marked 2 |
+| Removed from SoT | Perplexity (MAS) |
+
 | Cask tracking only on haumea | `parallels` (see §2 — moon uses vendor install) |
 | Cask only on moon | `wifiman` until haumea installs Desktop |
 

@@ -40,8 +40,10 @@ cask "moonlight"             # Moonlight uses the NVIDIA GameStream protocol (or
 cask "obsidian"              # Powerful knowledge base and Markdown note-taking app
 cask "opencode-desktop"      # AI coding assistant (opencode.ai)
 cask "orbstack"              # Docker/VM management
-# cask "parallels" — removed: brew cask fails on Intel (inittool preinitialization error).
-#   Install manually from parallels.com/download.
+# cask "parallels" — NOT in shared brewfile (arch-dependent):
+#   arm64 (haumea): optional `brew install --cask parallels`
+#   Intel (moon):   manual install only — brew cask fails (inittool preinitialization error)
+#   Details: docs/home-machines-apps.md §2 · local machine.md
 cask "proton-drive"          # Desktop client for Proton Drive encrypted cloud storage
 cask "protonvpn"             # Desktop client for Proton VPN service
 cask "proton-pass"           # Desktop client for Proton Pass password manager
@@ -89,19 +91,24 @@ brew "fastfetch"                # System information tool (alternative to neofet
 # Utilities & Development
 brew "deno"                     # JavaScript/TypeScript runtime (alternative to Node.js)
 brew "ansible"                  # IT automation — apply config to Proxmox nodes after rebuild
+brew "butane"                   # Fedora CoreOS / Flatcar Ignition config transpiler
+brew "czkawka"                  # Multi-functional app to find duplicates / similar media
 brew "docker"                   # Docker CLI client (works with OrbStack)
 brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
 brew "ffmpeg"                   # Audio/video processing and conversion tool
 brew "gh"                       # GitHub CLI — manage repos, PRs, issues from the terminal
+brew "just"                     # Command runner (justfile) — used across project repos
 brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
 brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
+brew "p7zip"                    # 7-Zip file archiver (CLI)
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
 brew "shellcheck"               # Static analysis tool for shell scripts — catches bugs and security issues
 brew "rustup"                   # Rust toolchain installer and version manager
 # brew "syncthing" — NOT on primary (haumea). Secondary (moon) only: see brewfile.moon.extra
 brew "topgrade"                 # Tool to update everything (including brew, mas, system)
 brew "ngrep"                    # Network grep utility (used in .zshrc alias)
+brew "wakeonlan"                # Send Wake-on-LAN magic packets
 brew "wget"                     # File downloader utility
 brew "yt-dlp"                   # Video downloader (successor to youtube-dl)
 
@@ -126,8 +133,8 @@ mas "Numbers", id: 409203825                # Apple's spreadsheet software (iWor
 mas "OneDrive", id: 823766827               # Microsoft OneDrive cloud storage client
 mas "Pages", id: 409201541                  # Apple's word processor software (iWork)
 mas "PDF Squeezer", id: 1502111349          # Tool to reduce PDF size
-mas "Perplexity", id: 6714467650            # AI search and discovery application
 mas "Pixelmator Pro", id: 1289583905        # Advanced image editing application (alternative to Photoshop)
+mas "Marked 2", id: 890031187               # Markdown preview + print (better than editor print)
 mas "Rename", id: 485334187                 # Simple file renaming utility
 mas "Save to Raindrop.io", id: 1549370672   # Bookmark manager extension
 mas "SiteSucker", id: 442168834             # Website downloader
@@ -139,6 +146,7 @@ mas "WhatsApp", id: 310633997               # Cloud-based instant messaging plat
 # WiFiman (id: 1385561119) — iOS app, Apple Silicon only; not available on Intel Macs
 mas "Windows App", id: 1295203466           # Microsoft app for connecting to Windows 365, AVD, Remote Desktop, etc.
 mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
+# Perplexity (id: 6714467650) — removed from SoT (not used)
 
 # --- Manual Installs (Notes Section - Not Executed by Brewfile) ---
 # These require manual download/installation outside of Homebrew/MAS.
@@ -149,9 +157,15 @@ mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 # - Protect (Ubiquiti) — ui.com/download/protect
 # - Romm — TestFlight (self-hosted ROM manager)
 # - SYSTM (Wahoo) — systmapp.com
-# - Parallels Desktop — parallels.com/download (prefer manual; brew cask flaky on Intel)
 # - DisplayLink Manager — synaptics.com (dock firmware; not always in brewfile)
+#
+# Parallels Desktop — ARCH-DEPENDENT (do not put a single rule in the cask list):
+#   Apple Silicon (haumea): brew install --cask parallels   (works; optional)
+#   Intel (moon):           manual from parallels.com/download
+#                           (brew cask fails: inittool preinitialization error)
+#   See docs/home-machines-apps.md §2 and local machine.md (gitignored).
 #
 # Retired / not part of this Mac setup anymore:
 # - ZimaSpace Client — Zima OS boxes use separate repos (e.g. dotfiles-zimaos), not this brewfile
+# - Perplexity MAS app — not in active SoT
 

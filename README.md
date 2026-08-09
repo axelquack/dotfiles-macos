@@ -211,6 +211,7 @@ $(chezmoi source-path)/macOS.sh
 | [Home machines apps](docs/home-machines-apps.md) | Shared inventory & parity (haumea vs moon) — no host-only prose |
 | [haumea host notes](docs/haumea.md) | Primary-only ops (shell, topgrade, WM pointers) |
 | [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
+| [machine.md.example](machine.md.example) | Template for **private** `machine.md` (gitignored: models, specs, serial, LAN) |
 | [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
 | [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
 
@@ -286,7 +287,7 @@ fnm install --lts
 The following require manual download/installation outside of Homebrew or the App Store:
 
 - **AutoMounter Helper** — install from AutoMounter app preferences after installing the MAS app
-- **Parallels Desktop** — parallels.com/download (brew cask fails on Intel due to inittool preinitialization error)
+- **Parallels Desktop** — **arch-dependent:** Apple Silicon may use `brew install --cask parallels`; **Intel must use** parallels.com/download (brew cask fails on inittool). Not in shared brewfile.
 - **ATEM Software Control** — Blackmagic Design website
 - **Backdrop** — cindori.com/backdrop
 - **8BitDo Firmware Updater** — support.8bitdo.com

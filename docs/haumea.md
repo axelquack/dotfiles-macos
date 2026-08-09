@@ -13,8 +13,10 @@
 | AeroSpace shortcuts & workspaces | [aerospace/](./aerospace/) |
 | Idempotent apply (brew, chezmoi, …) | [../ansible/README.md](../ansible/README.md) |
 | Shared package list | [../brewfile.home.machines](../brewfile.home.machines) |
+| **Private** reinstall brief (models, serial, IPs) | `machine.md` (gitignored) — start from [../machine.md.example](../machine.md.example) |
 
 This file only covers **haumea-specific** behaviour and pointers. Do not copy inventory tables here.
+Do **not** put API keys, model defaults, or serial numbers in this public file — use local `machine.md`.
 
 ---
 

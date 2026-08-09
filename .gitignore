@@ -24,6 +24,12 @@ secrets/
 # Local-only files (not pushed to remote)
 CHANGELOG.md
 
+# Per-machine private briefing for reinstall / agents (API models, specs, IPs, …)
+# Commit machine.md.example only — never machine.md
+machine.md
+**/machine.md
+!machine.md.example
+
 # AI coding assistant instruction files (local only)
 CLAUDE.md
 AGENTS.md

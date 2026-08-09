@@ -1,0 +1,118 @@
+# machine.md — private local briefing (DO NOT COMMIT)
+
+Copy to `machine.md` and fill in. Listed in `.gitignore` so it never hits GitHub.
+
+**Purpose:** reinstall this host and brief agents (Grok/Claude/etc.) with facts that are
+useful but **must not** be in the public repo (models, serials, LAN, vault item titles, …).
+
+Public counterparts:
+
+- Shared inventory: `docs/home-machines-apps.md`
+- Host habits: `docs/haumea.md` / `docs/moon.md`
+- Packages: `brewfile.home.machines` (+ `brewfile.moon.extra` on secondary)
+
+---
+
+## Identity
+
+| Field | Value |
+|-------|--------|
+| Hostname | |
+| Role | primary / secondary |
+| Owner login | |
+| macOS version | |
+| Chip | Apple Silicon / Intel |
+| Memory | |
+| Model identifier | |
+| Serial (optional) | |
+| Homebrew prefix | `/opt/homebrew` or `/usr/local` |
+| Primary LAN IPv4 | |
+| Tailnet / VPN notes | |
+
+---
+
+## Parallels (if used)
+
+| Arch | Install method |
+|------|----------------|
+| Apple Silicon | `brew install --cask parallels` (optional) |
+| Intel | Manual from parallels.com only |
+
+Installed version / license notes:
+
+---
+
+## AI stack (local — never paste secrets into git)
+
+### OpenCode
+
+| Field | Value |
+|-------|--------|
+| CLI / desktop versions | |
+| Default model | |
+| Small / fast model | |
+| Enabled providers | |
+| Auth locations | `~/.config/opencode/`, `~/.local/share/opencode/` (mode 600) |
+| Env file | e.g. `~/.config/opencode/.env` — keys only on disk |
+
+### Other agents / editors
+
+| App | Models / notes | Secrets location |
+|-----|----------------|------------------|
+| Zed | | keychain / env — not settings.json |
+| Goose | | app |
+| AionUI | | app |
+| Buzz | | app |
+| Claude / Claude Code | | app |
+| MacWhisper STT / LLM | | keychain |
+| Obsidian Agent Client | default agent, ACP pins | plugin data + npm pins in `scripts/` |
+
+### npm ACP pins (from install scripts)
+
+| Package | Version pin |
+|---------|-------------|
+| claude-agent-acp | |
+| codex-acp | |
+| gemini-cli | |
+
+---
+
+## Syncthing
+
+| Host | Policy |
+|------|--------|
+| primary | never |
+| secondary | `brewfile.moon.extra` |
+
+Folders / device IDs (private):
+
+---
+
+## SSH / secrets plumbing
+
+| Item | Where (local only) |
+|------|---------------------|
+| GitHub key path | |
+| Moon / other host keys | |
+| chezmoi.toml vault/item IDs | `~/.config/chezmoi/chezmoi.toml` |
+| pass-cli PAT file | optional `~/.config/pass-cli/` |
+| `~/.zshrc.local` | API keys sourced for CLI |
+
+---
+
+## Reinstall checklist (this machine)
+
+1. Install Homebrew + clone/apply `dotfiles-macos` (README or `ansible/`).
+2. `pass-cli login` (GUI Terminal) → fill local `chezmoi.toml`.
+3. `ansible-playbook setup-macos.yml --limit <host> --tags brew,chezmoi`.
+4. Parallels: method for **this** arch (table above).
+5. Restore AI auth via app login / private backup — **not** from git.
+6. Restore this `machine.md` from private backup (Pass note, encrypted disk, …).
+
+---
+
+## Changelog (local)
+
+| Date | Note |
+|------|------|
+| | Created from example |

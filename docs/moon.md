@@ -13,8 +13,10 @@
 | AeroSpace (if used on moon) | [aerospace/](./aerospace/) |
 | Idempotent apply | [../ansible/README.md](../ansible/README.md) (`--limit moon`) |
 | Moon-only packages | [../brewfile.moon.extra](../brewfile.moon.extra) |
+| **Private** reinstall brief | `machine.md` on that Mac (gitignored) — [../machine.md.example](../machine.md.example) |
 
 This file only covers **moon-specific** behaviour. Do not repeat full app tables here.
+**Parallels on Intel:** manual install only (not brew) — [home-machines-apps.md §2](./home-machines-apps.md).
 
 ---
 
