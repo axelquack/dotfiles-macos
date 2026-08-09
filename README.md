@@ -217,7 +217,7 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 | `containers` | Dockerfile-based stacks need rebuild; pulling images without restarting containers gives false confidence | `docker-compose build --pull && docker-compose up -d` (hermes-stack) · `docker-compose pull && docker-compose up -d` (mcp-stack) |
 | `uv` | Managed by Homebrew; `uv self update` fails for brew-managed installs | Updated automatically via Homebrew step |
 
-**Before `topgrade`:** run `pass-cli login` in an interactive terminal (chezmoi templates need Proton Pass), and ensure your GitHub SSH key is loaded (`ssh-add --apple-use-keychain ~/.ssh/id_ed25519`) so `chezmoi update` does not hang on a passphrase prompt and hit a broken pipe.
+**Before `topgrade`:** run `pass-cli login` in an interactive terminal (chezmoi templates need Proton Pass), and ensure your GitHub SSH key is loaded (`ssh-add --apple-use-keychain ~/.ssh/id_ed25519  # your GitHub key`) so `chezmoi update` does not hang on a passphrase prompt and hit a broken pipe.
 
 **Avoid chezmoi “has changed since last wrote” prompts:**
 - Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.

@@ -13,10 +13,17 @@ SHELL_FILES=(
     "$REPO_ROOT/macOS.sh"
     "$REPO_ROOT/scripts/install-npm-cli-tools.sh"
     "$REPO_ROOT/scripts/install-npm-acp-agents.sh"
+    "$REPO_ROOT/scripts/pass-cli-chezmoi.sh"
+    # Optional (add when present):
+    # "$REPO_ROOT/scripts/topgrade-precheck.sh"
 )
 
 SHELLCHECK_FAILED=0
 for f in "${SHELL_FILES[@]}"; do
+    if [[ ! -f "$f" ]]; then
+        echo "    SKIP missing: $f"
+        continue
+    fi
     if shellcheck "$f"; then
         echo "    OK: $f"
     else
@@ -25,7 +32,7 @@ for f in "${SHELL_FILES[@]}"; do
 done
 
 if [[ "$SHELLCHECK_FAILED" -eq 0 ]]; then
-    echo "    shellcheck: all files passed"
+    echo "    shellcheck: all present files passed"
 fi
 
 # --- Resolve installed npm package versions ---
@@ -77,14 +84,18 @@ for i in "${!PACKAGE_NAMES[@]}"; do
 done
 QUERIES="${QUERIES%,}]"
 
-OSV_RESPONSE=$(curl -sf -X POST "https://api.osv.dev/v1/querybatch" \
-    -H "Content-Type: application/json" \
-    -d "{\"queries\":$QUERIES}")
+if [[ ${#QUERY_PACKAGES[@]} -eq 0 ]]; then
+    echo "    No npm packages to check"
+    OSV_FAILED=0
+else
+    OSV_RESPONSE=$(curl -sf -X POST "https://api.osv.dev/v1/querybatch" \
+        -H "Content-Type: application/json" \
+        -d "{\"queries\":$QUERIES}")
 
-OSV_FAILED=0
-for i in "${!QUERY_PACKAGES[@]}"; do
-    pkg="${QUERY_PACKAGES[$i]}"
-    VULNS=$(echo "$OSV_RESPONSE" | python3 -c "
+    OSV_FAILED=0
+    for i in "${!QUERY_PACKAGES[@]}"; do
+        pkg="${QUERY_PACKAGES[$i]}"
+        VULNS=$(echo "$OSV_RESPONSE" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
 result = data['results'][$i]
@@ -93,15 +104,16 @@ print(len(vulns))
 for v in vulns:
     print('  -', v.get('id', '?'), v.get('summary', ''))
 ")
-    COUNT=$(echo "$VULNS" | head -1)
-    if [[ "$COUNT" -eq 0 ]]; then
-        echo "    OK: $pkg — no known vulnerabilities"
-    else
-        echo "    VULNERABLE: $pkg"
-        echo "$VULNS" | tail -n +2
-        OSV_FAILED=1
-    fi
-done
+        COUNT=$(echo "$VULNS" | head -1)
+        if [[ "$COUNT" -eq 0 ]]; then
+            echo "    OK: $pkg — no known vulnerabilities"
+        else
+            echo "    VULNERABLE: $pkg"
+            echo "$VULNS" | tail -n +2
+            OSV_FAILED=1
+        fi
+    done
+fi
 
 # --- Summary ---
 echo ""

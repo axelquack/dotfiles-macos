@@ -1,0 +1,324 @@
+# ~/.config/aerospace/aerospace.toml
+# AeroSpace tiling WM — haumea (audited against installed apps 2026-07-29)
+# App version: 0.21.3-Beta · config-version = 2
+#
+# Workspaces (Alt+Cmd+N):
+#   1 web · 2 code · 3 term · 4 comms · 5 docs
+#   6 media · 7 files · 8 games · 9 design · 0 vm
+#
+# Verify IDs: mdls -name kMDItemCFBundleIdentifier -r /Applications/App.app
+# Reload: alt-shift-r  or  aerospace reload-config
+
+config-version = 2
+
+start-at-login = true
+
+# Named workspaces stay alive when empty (config-version = 2)
+persistent-workspaces = [
+    'web', 'code', 'term', 'comms', 'docs',
+    'media', 'files', 'games', 'design', 'vm',
+]
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+accordion-padding = 30
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# -----------------------------------------------------------------------------
+# on-window-detected — float first (utilities), then workspace assignment
+# Rules only cover apps installed on this machine (audited 2026-07-29).
+# -----------------------------------------------------------------------------
+on-window-detected = [
+    # ========== FLOAT: utilities, trays, control panels, dialogs ==========
+    # System
+    { if.app-id = 'com.apple.finder', run = 'layout floating' },
+    { if.app-id = 'com.apple.systempreferences', run = 'layout floating' },
+    { if.app-id = 'com.apple.SystemPreferences', run = 'layout floating' },
+    { if.app-id = 'com.apple.AppStore', run = 'layout floating' },
+    { if.app-id = 'com.apple.ActivityMonitor', run = 'layout floating' },
+    { if.app-id = 'com.apple.Preview', run = 'layout floating' },
+    { if.app-id = 'com.apple.calculator', run = 'layout floating' },
+    { if.app-id = 'com.apple.Stickies', run = 'layout floating' },
+    { if.app-id = 'com.apple.Dictionary', run = 'layout floating' },
+    { if.app-id = 'com.apple.FontBook', run = 'layout floating' },
+    { if.app-id = 'com.apple.DiskUtility', run = 'layout floating' },
+    { if.app-id = 'com.apple.Console', run = 'layout floating' },
+    { if.app-id = 'com.apple.DigitalColorMeter', run = 'layout floating' },
+    { if.app-id = 'com.apple.ColorSyncUtility', run = 'layout floating' },
+    { if.app-id = 'com.apple.AudioMIDISetup', run = 'layout floating' },
+    { if.app-id = 'com.apple.BluetoothFileExchange', run = 'layout floating' },
+    { if.app-id = 'com.apple.airport.airportutility', run = 'layout floating' },
+    { if.app-id = 'com.apple.ScreenSharing', run = 'layout floating' },
+    { if.app-id = 'com.apple.screenshot.launcher', run = 'layout floating' },
+    { if.app-id = 'com.apple.ScriptEditor2', run = 'layout floating' },
+    { if.app-id = 'com.apple.SystemProfiler', run = 'layout floating' },
+    { if.app-id = 'com.apple.VoiceOverUtility', run = 'layout floating' },
+    { if.app-id = 'com.apple.bootcampassistant', run = 'layout floating' },
+    { if.app-id = 'com.apple.MigrateAssistant', run = 'layout floating' },
+    { if.app-id = 'com.apple.printcenter', run = 'layout floating' },
+    { if.app-id = 'com.apple.Magnifier', run = 'layout floating' },
+    { if.app-id = 'com.apple.grapher', run = 'layout floating' },
+    { if.app-id = 'com.apple.Passwords', run = 'layout floating' },
+    { if.app-id = 'com.apple.ScreenContinuity', run = 'layout floating' },
+    { if.app-id = 'com.apple.clock', run = 'layout floating' },
+    { if.app-id = 'com.apple.weather', run = 'layout floating' },
+    { if.app-id = 'com.apple.findmy', run = 'layout floating' },
+    { if.app-id = 'com.apple.Home', run = 'layout floating' },
+    { if.app-id = 'com.apple.maps', run = 'layout floating' },
+    { if.app-id = 'com.apple.iCal', run = 'layout floating' },
+    { if.app-id = 'com.apple.reminders', run = 'layout floating' },
+    { if.app-id = 'com.apple.AddressBook', run = 'layout floating' },
+    { if.app-id = 'com.apple.shortcuts', run = 'layout floating' },
+    { if.app-id = 'com.apple.TestFlight', run = 'layout floating' },
+    { if.app-id = 'com.apple.tips', run = 'layout floating' },
+    { if.app-id = 'com.apple.backup.launcher', run = 'layout floating' },
+
+    # Security / sync trays / installers / hubs
+    { if.app-id = 'ch.protonvpn.mac', run = 'layout floating' },
+    { if.app-id = 'me.proton.pass.electron', run = 'layout floating' },
+    { if.app-id = 'com.google.drivefs', run = 'layout floating' },
+    { if.app-id = 'com.ledger.live', run = 'layout floating' },
+    { if.app-id = 'com.macpaw.CleanMyMac5', run = 'layout floating' },
+    { if.app-id = 'io.balena.etcher', run = 'layout floating' },
+    { if.app-id = 'cx.c3.theunarchiver', run = 'layout floating' },
+    { if.app-id = 'com.macappstuff.rename', run = 'layout floating' },
+    { if.app-id = 'com.daisydiskapp.DaisyDisk', run = 'layout floating' },
+    { if.app-id = 'com.witt-software.PDF-Squeezer', run = 'layout floating' },
+    { if.app-id = 'com.tuxera.SDCardFormatter', run = 'layout floating' },
+    { if.app-id = 'us.sitesucker.mac.sitesucker', run = 'layout floating' },
+    { if.app-id = 'nz.co.pixeleyes.AutoMounter', run = 'layout floating' },
+    { if.app-id = 'com.elgato.CameraHub', run = 'layout floating' },
+    { if.app-id = 'com.corsair.ControlCenter', run = 'layout floating' },
+    { if.app-id = 'com.displaylink.DisplayLinkUserAgent', run = 'layout floating' },
+    { if.app-id = 'com.8bitdo.firmwareupdater', run = 'layout floating' },
+    { if.app-id = 'com.windhahn.welovelights', run = 'layout floating' },
+    { if.app-id = 'io.robbie.HomeAssistant', run = 'layout floating' },
+    { if.app-id = 'com.ubnt.protect', run = 'layout floating' },                                 # UniFi Protect (iOS-on-Mac, Silicon)
+    { if.app-id = 'com.ubnt.wifiman', run = 'layout floating' },                                  # WiFiman iOS-on-Mac (Silicon only)
+    { if.app-id = 'ui.wifiman.desktop', run = 'layout floating' },                                # WiFiman Desktop (brew cask; Intel + Silicon)
+    { if.app-id = 'sh.loft.devpod', run = 'layout floating' },                                    # DevPod
+    { if.app-id = 'io.raindrop.macapp', run = 'layout floating' },
+    { if.app-id = 'io.raindrop.safari', run = 'layout floating' },
+    { if.app-id = 'today.neil.pocket-sync', run = 'layout floating' },
+    { if.app-id = 'dev.kdrag0n.MacVirt', run = 'layout floating' },
+    { if.app-id = 'com.blackmagic-design.atem.utility', run = 'layout floating' },
+    { if.app-id = 'com.blackmagic-design.switchers.softwarecontrol', run = 'layout floating' },
+    { if.app-id = 'com.blackmagic-design.switchers.uninstaller', run = 'layout floating' },
+    { if.app-id = 'org.prismlauncher.PrismLauncher', run = 'layout floating' },
+    { if.app-id = 'com.microsoft.rdc.macos', run = 'layout floating' },
+    { if.app-id = 'bobko.aerospace', run = 'layout floating' },
+    { if.app-id = 'com.brettterpstra.marked2', run = 'layout floating' },                        # Marked 2
+
+    # ========== WORKSPACE: web (1) ==========
+    { if.app-id = 'com.brave.Browser', run = 'move-node-to-workspace web' },
+    { if.app-id = 'com.apple.Safari', run = 'move-node-to-workspace web' },
+
+    # ========== WORKSPACE: code (2) ==========
+    # Zed often opens in macOS native fullscreen (remembers last quit state).
+    # layout tiling alone cannot exit native fullscreen — force-tile script does.
+    { if.app-id = 'dev.zed.Zed', run = [
+        'move-node-to-workspace code',
+        'exec-and-forget {{ .chezmoi.homeDir }}/.config/aerospace/scripts/force-tile-window.sh code',
+    ] },
+    { if.app-id = 'ai.opencode.desktop', run = 'move-node-to-workspace code' },
+    { if.app-id = 'com.electron.goose', run = 'move-node-to-workspace code' },
+    { if.app-id = 'com.anthropic.claudefordesktop', run = 'move-node-to-workspace code' },
+    { if.app-id = 'xyz.block.buzz.app', run = 'move-node-to-workspace code' },
+    { if.app-id = 'com.aionui.app', run = 'move-node-to-workspace code' },
+
+    # ========== WORKSPACE: term (3) ==========
+    { if.app-id = 'com.apple.Terminal', run = 'move-node-to-workspace term' },
+    { if.app-id = 'com.mollysoft.MuffinTerm', run = 'move-node-to-workspace term' },
+
+    # ========== WORKSPACE: comms (4) ==========
+    # Mail is the primary tiled app on `comms` (full width).
+    # Chat / call apps are floated: their own multi-column UIs fight Mail when
+    # both are h_tiles side-by-side (see haumea docs). Still moved to `comms`
+    # so ⌥⌘4 focuses that workspace; float keeps them usable overlays.
+    { if.app-id = 'com.apple.mail', run = 'move-node-to-workspace comms' },
+    { if.app-id = 'com.apple.MobileSMS', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'com.apple.FaceTime', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'com.apple.mobilephone', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'org.whispersystems.signal-desktop', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'ru.keepcoder.Telegram', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'com.hnc.Discord', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'net.whatsapp.WhatsApp', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'com.microsoft.teams2', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+    { if.app-id = 'us.zoom.xos', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },
+
+    # ========== WORKSPACE: docs (5) ==========
+    { if.app-id = 'md.obsidian', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'org.zotero.zotero', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.Notes', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.TextEdit', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.freeform', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.journal', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.iWork.Keynote', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.iWork.Pages', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.iWork.Numbers', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.microsoft.Word', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.microsoft.Excel', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.microsoft.Powerpoint', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.google.drivefs.shortcuts.docs', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.google.drivefs.shortcuts.sheets', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.google.drivefs.shortcuts.slides', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.adobe.Acrobat.Pro', run = 'move-node-to-workspace docs' },
+    { if.app-id = 'com.apple.Automator', run = 'move-node-to-workspace docs' },
+
+    # ========== WORKSPACE: media (6) ==========
+    { if.app-id = 'com.apple.Music', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.TV', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.podcasts', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.iBooksX', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.Photos', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.PhotoBooth', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.QuickTimePlayerX', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.VoiceMemos', run = 'move-node-to-workspace media' },
+    { if.app-id = 'org.videolan.vlc', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.firecore.infuse', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.roon.Roon', run = 'move-node-to-workspace media' },
+    { if.app-id = 'net.cecinestpasparis.yomu', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.nightbirdsevolve.Meta', run = 'move-node-to-workspace media' },
+    { if.app-id = 'net.filebot.FileBot', run = 'move-node-to-workspace media' },
+    { if.app-id = 'org.jdownloader.launcher', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.goodsnooze.MacWhisper', run = 'move-node-to-workspace media' },
+    { if.app-id = 'RVS-Riverside.fm-Mac', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.WahooFitness.SYSTM.desktop', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.Image_Capture', run = 'move-node-to-workspace media' },
+    { if.app-id = 'com.apple.GenerativePlaygroundApp', run = 'move-node-to-workspace media' },
+
+    # ========== WORKSPACE: files (7) ==========
+    { if.app-id = 'ch.protonmail.drive', run = 'move-node-to-workspace files' },
+    { if.app-id = 'com.microsoft.OneDrive-mac', run = 'move-node-to-workspace files' },
+    { if.app-id = 'com.panic.Transmit', run = 'move-node-to-workspace files' },
+
+    # ========== WORKSPACE: games (8) ==========
+    { if.app-id = 'com.valvesoftware.steam', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.valvesoftware.SteamLink17', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.mojang.minecraftlauncher', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.gog.galaxy', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.heroicgameslauncher.hgl', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.moonlight-stream.Moonlight', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.epilogue.playback', run = 'move-node-to-workspace games' },
+    { if.app-id = 'de.ilyashallak.rommanagerplus', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.apple.Chess', run = 'move-node-to-workspace games' },
+    { if.app-id = 'com.apple.games', run = 'move-node-to-workspace games' },
+
+    # ========== WORKSPACE: design (9) ==========
+    { if.app-id = 'com.pixelmatorteam.pixelmator.x', run = 'move-node-to-workspace design' },
+    { if.app-id = 'com.cindori.Backdrop', run = 'move-node-to-workspace design' },
+    { if.app-id = 'com.blackmagic-design.DaVinciResolveLite', run = 'move-node-to-workspace design' },
+
+    # ========== WORKSPACE: vm (0) ==========
+    { if.app-id = 'com.parallels.desktop.console', run = 'move-node-to-workspace vm' },
+    { if.app-id = 'com.codeweavers.CrossOver', run = 'move-node-to-workspace vm' },
+]
+
+[key-mapping]
+    # Physical German keyboard; AeroSpace only ships qwerty/dvorak/colemak presets.
+    preset = 'qwerty'
+
+[gaps]
+    inner.horizontal = 10
+    inner.vertical   = 10
+    outer.left       = 10
+    outer.bottom     = 10
+    outer.top        = 10
+    outer.right      = 10
+
+[mode.main.binding]
+    # Layout
+    alt-slash = 'layout tiles horizontal vertical'
+    alt-comma = 'layout accordion'
+
+    # Focus (arrows — reliable on DE keyboard)
+    alt-left  = 'focus left'
+    alt-down  = 'focus down'
+    alt-up    = 'focus up'
+    alt-right = 'focus right'
+
+    # Move windows
+    alt-shift-left  = 'move left'
+    alt-shift-down  = 'move down'
+    alt-shift-up    = 'move up'
+    alt-shift-right = 'move right'
+
+    # Workspaces
+    alt-cmd-1 = 'workspace web'
+    alt-cmd-2 = 'workspace code'
+    alt-cmd-3 = 'workspace term'
+    alt-cmd-4 = 'workspace comms'
+    alt-cmd-5 = 'workspace docs'
+    alt-cmd-6 = 'workspace media'
+    alt-cmd-7 = 'workspace files'
+    alt-cmd-8 = 'workspace games'
+    alt-cmd-9 = 'workspace design'
+    alt-cmd-0 = 'workspace vm'
+
+    # Move focused window to workspace
+    alt-shift-1 = 'move-node-to-workspace web'
+    alt-shift-2 = 'move-node-to-workspace code'
+    alt-shift-3 = 'move-node-to-workspace term'
+    alt-shift-4 = 'move-node-to-workspace comms'
+    alt-shift-5 = 'move-node-to-workspace docs'
+    alt-shift-6 = 'move-node-to-workspace media'
+    alt-shift-7 = 'move-node-to-workspace files'
+    alt-shift-8 = 'move-node-to-workspace games'
+    alt-shift-9 = 'move-node-to-workspace design'
+    alt-shift-0 = 'move-node-to-workspace vm'
+
+    # Window chrome
+    alt-f       = 'layout floating tiling'
+    alt-shift-f = 'macos-native-fullscreen'
+    alt-shift-c = 'close'
+    alt-tab     = 'workspace-back-and-forth'
+
+    # Modes / meta
+    alt-r       = 'mode resize'
+    alt-shift-r = 'reload-config'
+    alt-shift-q = 'exec-and-forget /usr/bin/killall AeroSpace'
+
+[mode.resize.binding]
+    h     = 'resize width -50'
+    j     = 'resize height +50'
+    k     = 'resize height -50'
+    l     = 'resize width +50'
+    left  = 'resize width -50'
+    down  = 'resize height +50'
+    up    = 'resize height -50'
+    right = 'resize width +50'
+    minus = 'resize smart -50'
+    equal = 'resize smart +50'
+    esc   = 'mode main'
+    enter = 'mode main'
