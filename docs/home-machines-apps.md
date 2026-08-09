@@ -389,7 +389,7 @@ brew install opencode   # OpenCode ACP: opencode acp
 
 | Tool | Package | Role |
 |------|---------|------|
-| **OpenCode** (default agent) | brew `opencode` | `opencode acp` — uses `~/.config/opencode` + `auth.json` |
+| **OpenCode** (default agent) | brew `opencode` | `opencode acp` — uses local OpenCode config + auth (never commit) |
 | **Claude Code ACP** | `@agentclientprotocol/claude-agent-acp@0.37.0` | Agent Client “Claude Code” |
 | **Codex ACP** | `@zed-industries/codex-acp@0.15.0` | Agent Client “Codex” (deprecated name; migrate later) |
 | **Gemini CLI** | `@google/gemini-cli@0.43.0` | `gemini --experimental-acp` |
@@ -438,7 +438,7 @@ Also present on disk (not all always enabled): `opencode-obsidian`, raindrop, te
 1. Fully quit Obsidian on moon (⌘Q) and reopen.  
 2. Open vault **YourVault** under `~/Documents/YourVault`.  
 3. Enable **Agent Client** if needed (Community plugins).  
-4. New chat → agent **OpenCode** → model **provider/model-id** (from OpenCode auth sync).
+4. New chat → agent **OpenCode** → pick a model you have configured locally (do not publish model IDs).
 
 ---
 
@@ -454,8 +454,8 @@ MacWhisper is **not** an agent like OpenCode or Obsidian Agent Client. It does:
 | Concern | OpenCode / Obsidian Agent | MacWhisper |
 |---------|---------------------------|------------|
 | Role | coding / vault agent | STT + enhance **transcripts** |
-| Auth | chat subscription OAuth **OAuth** + keys in `auth.json` | **API keys** in macOS Keychain |
-| Default LLM (our setup) | `provider/model-id` (OAuth) | **cloud LLM model** (API key) |
+| Auth | App OAuth / login | API keys in macOS Keychain (app-managed) |
+| Default LLM | Whatever you configure in each app | Keep keys out of git |
 | Audio / STT models | **Not** in OpenCode model picker | Local engines + **cloud STT** (cloud STT, OpenRouter Whisper, …) |
 
 Do **not** add Grok STT / Cohere Transcribe to `opencode.jsonc` — wire them only in MacWhisper (or separate CLIs).
@@ -531,7 +531,7 @@ Prefs: `configuredCloudTranscriptionProviders` includes
 
 | Provider | In-app | Keychain account | Notes |
 |----------|--------|------------------|--------|
-| **cloud STT** | Cloud-Modelle → **xAI** | `xAIAPIKeyForCloudTranscription_Key` | Model **`stt-model-id`**. Same **API key** family as LLM (vendor-api.example). **Not** chat subscription OAuth OAuth. |
+| **cloud STT** | Cloud-Modelle → **xAI** | `(app keychain account — local only)` | Model **`stt-model-id`**. Same **API key** family as LLM (vendor-api.example). **Not** chat subscription OAuth OAuth. |
 | **OpenRouter** Whisper Large V3 | OpenRouter row | `openRouterAPIKeyForCloudTranscription_Key` | OpenAI-compatible Whisper via OpenRouter |
 | **ElevenLabs** Scribe | ElevenLabs | `elevenLabsAPIKeyForCloudTranscription_Key` | |
 | **OpenAI** Whisper | OpenAI | `chatGPTAPIKey_Key` | Region pref: **`eu`** (`openAICloudTranscriptionRegion`) |
@@ -549,8 +549,8 @@ Prefs: `configuredAIServices_15july2025`, `selectedAIServiceID`, `selectedAISumm
 | Service | Model | Selected |
 |---------|--------|----------|
 | Apple Foundation Model | system | no (needs macOS 26+) |
-| **xAI** | **`model-id`** | **yes** (chat + summarization) — UUID `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
-| **OpenRouter** | `provider/model-id` | alternate — UUID `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` |
+| **xAI** | **`model-id`** | **yes** (chat + summarization) — UUID `(local — do not publish)` |
+| **OpenRouter** | `provider/model-id` | alternate — UUID `(local — do not publish)` |
 | Ollama | empty @ `http://localhost:11434` | optional local |
 
 **Summary behaviour (both):**
@@ -587,9 +587,9 @@ Service: `com.goodsnooze.MacWhisper` unless noted.
 | Account | Purpose |
 |---------|---------|
 | `gumroadLicenseKey_Key` | App Pro license |
-| `aiservice-PROVIDER-UUID-…` | LLM cloud LLM model |
+| `aiservice-…` (local keychain) | LLM cloud LLM model |
 | `aiservice-openrouter-A1B2C3D4-…` | LLM OpenRouter |
-| `xAIAPIKeyForCloudTranscription_Key` | **Cloud STT** Grok STT |
+| `(app keychain account — local only)` | **Cloud STT** Grok STT |
 | `openRouterAPIKeyForCloudTranscription_Key` | Cloud STT OpenRouter Whisper |
 | `elevenLabsAPIKeyForCloudTranscription_Key` | Cloud STT ElevenLabs |
 | `chatGPTAPIKey_Key` | OpenAI Whisper / legacy |
@@ -601,15 +601,15 @@ Service: `com.goodsnooze.MacWhisper` unless noted.
 | Secret | Source of truth |
 |--------|-----------------|
 | OpenRouter | `OPENROUTER_API_KEY` in `~/.zshrc.local` / Pass **OpenRouter** |
-| xAI API | vendor-api.example API key in Keychain (**not** chat subscription OAuth OAuth) |
-| Cohere | OpenCode only (`PROVIDER_API_KEY`) — **not** MacWhisper STT |
+| Cloud STT/LLM API | Vendor API key in Keychain (often separate from chat subscription OAuth) |
+| Extra LLM providers | OpenCode env/keychain only — **not** necessarily MacWhisper STT |
 
 ### chat subscription OAuth / xAI / Cohere audio vs OpenCode
 
 | Product | Exists? | Use where? |
 |---------|---------|------------|
 | cloud STT (`POST /v1/stt`, model stt-model-id) | Yes | **MacWhisper cloud xAI** |
-| xAI Grok chat (chat subscription OAuth OAuth) | Yes | **OpenCode** `provider/model-id` |
+| Provider chat (subscription OAuth) | Optional | Configure in OpenCode UI only |
 | Cohere Transcribe | Yes (`/v2/audio/transcriptions`) | External / future; **not** MacWhisper native |
 | Cohere North / Command | Yes | **OpenCode** chat only |
 
@@ -720,7 +720,7 @@ Do **not** commit this file (contains LiteLLM / Olares tokens). Copy haumea → 
 | Font | **Hack NF** 16 / UI 16 |
 | Keymap | VSCode |
 | Panels | project / outline / collab / git → **right**; agent → **left** |
-| Default agent model | provider **`anthropic`**, model **`claude-sonnet-4-6`** (works with API key; switch to `x_ai`/`model-id` in the model picker) |
+| Default agent model | configure providers in the UI / keychain; do not commit model IDs or keys |
 | Agent servers | `claude-acp`, `gemini`, `codex-acp` (registry); **`opencode`** custom → `opencode acp` |
 | Language models | Ollama + OpenAI-compatible LiteLLM (Olares host URLs) |
 | Context server | `litellm-mcp` (Olares MCP URL + bearer) |
@@ -759,7 +759,7 @@ zed-with-keys
 
 Or paste keys once in **Settings → AI → LLM Providers** so Keychain is owned by Zed.
 
-**Agent model IDs must exist in this Zed build** — e.g. `model-id`, not legacy `model-id` (causes “provider not configured or does not support the configured model”).
+**Agent model IDs must exist in this Zed build** — use IDs the current Zed release accepts (mismatch → “provider not configured or does not support the configured model”).
 
 ### Dependencies on moon (after install)
 
@@ -773,7 +773,7 @@ npm install -g @agentclientprotocol/claude-agent-acp@0.37.0 \
   @google/gemini-cli@0.43.0
 ```
 
-OpenCode config/auth on moon: see **§12** (already synced). chat subscription OAuth/xAI for Zed’s `x_ai` provider may need a one-time sign-in in Zed’s model settings if the agent cannot see Grok.
+OpenCode on the secondary host: see **§12**. Re-authenticate providers in each app after setup; do not copy auth files into git.
 
 ### Re-sync from haumea
 
@@ -790,7 +790,7 @@ tar -C "$HOME/Library/Application Support/Zed/extensions" -cf - installed index.
 
 1. Quit Zed fully if open (⌘Q).  
 2. Open Zed — confirm **Solarized Dark** + **Hack NF**.  
-3. Agent panel: OpenCode / cloud LLM model available.  
+3. Agent panel: preferred local agents available after sign-in.  
 4. If theme missing: Extensions → install **Solarized**.  
 5. Prefer quit **windowed** so AeroSpace force-tile is less needed next open.
 
