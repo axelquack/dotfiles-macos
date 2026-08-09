@@ -19,11 +19,28 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [fnm](https://github.com/Schniz/fnm) | Node.js version management | `dot_zshrc` |
 | [rustup](https://rustup.rs) | Rust toolchain management | `dot_zshrc`, `dot_zshenv` |
 | [OrbStack](https://orbstack.dev) | Docker / VM runtime | — |
-| [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — secrets for chezmoi | `chezmoi.toml` |
-| [Deno](https://deno.com) | JavaScript / TypeScript runtime | — |
-| [OpenCode](https://opencode.ai) | AI coding agent CLI | — |
+| [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — secrets for **chezmoi templates only** | local `~/.config/chezmoi/chezmoi.toml` (never commit) |
+| [Deno](https://deno.com) | JavaScript / TypeScript runtime | brew formula |
+| [OpenCode](https://opencode.ai) | AI coding agent (CLI + desktop) | brew `opencode` + `opencode-desktop`; secrets **local only** |
 
 *(Neovim/Vim config is managed in a separate repository.)*
+
+### AI & agent apps (via Homebrew)
+
+Installed by `brewfile.home.machines`. This repo does **not** manage their API keys or auth files.
+
+| Package | Purpose | Config in this repo |
+|---------|---------|---------------------|
+| `opencode` + `opencode-desktop` | OpenCode CLI + GUI | PATH helpers in `dot_zshrc` only |
+| `claude` + `claude-code` | Anthropic desktop + CLI | — (app-managed) |
+| `block-goose` | Goose agentic assistant | — (app-managed) |
+| `aionui` | GUI for CLI AI agents | — (app-managed) |
+| `block-buzz` | Buzz AI workspace | — (app-managed) |
+| `zed` | AI-native editor | — (do not commit settings with keys) |
+| `devpod` | Dev environments as code | — |
+| npm ACP agents | Obsidian Agent Client bridges | pinned versions in `scripts/install-npm-*.sh` |
+
+**Secrets policy:** app login, OS keychain, or `~/.zshrc.local` / app config under `~/.config` and `~/.local/share` — **never commit**. Full GUI inventory and parity: [docs/home-machines-apps.md](docs/home-machines-apps.md). Host habits: [docs/haumea.md](docs/haumea.md), [docs/moon.md](docs/moon.md).
 
 ---
 

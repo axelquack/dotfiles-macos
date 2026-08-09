@@ -325,42 +325,20 @@ Verify: Mail sidebar shows the account and can send/receive.
 
 ## 12. OpenCode (CLI + desktop)
 
-Shared SoT pieces:
+**Install (SoT):** brew formula `opencode` + cask `opencode-desktop` in `brewfile.home.machines`.
 
-| Piece | Path | Notes |
-|-------|------|--------|
-| Config | `~/.config/opencode/opencode.jsonc` | theme, models, providers, MCP |
-| TUI theme | `~/.config/opencode/tui.json` | e.g. solarized-light |
-| Cohere env | `~/.config/opencode/.env` | `PROVIDER_API_KEY=…` (mode 600) |
-| Auth | `~/.local/share/opencode/auth.json` | OpenCode Zen/Go API keys + **xAI chat subscription OAuth OAuth** + Cohere |
-| CLI | brew formula `opencode` | `/opt/homebrew` or `/usr/local` |
-| Desktop | brew cask `opencode-desktop` | bundle `ai.opencode.desktop` → AeroSpace `code` |
-| PATH | managed `~/.zshrc` | optional `$HOME/.opencode/bin` |
+| Piece | Typical location | In this git repo? |
+|-------|------------------|-------------------|
+| CLI / desktop | Homebrew prefix | package names only |
+| App config / themes | under `~/.config/opencode/` | **no** |
+| Auth / OAuth / API keys | under `~/.local/share/opencode/` and env files | **no** — mode `600`, never commit |
+| PATH helper | managed `~/.zshrc` (optional `$HOME/.opencode/bin`) | yes |
 
-### haumea baseline (working)
+**Do not publish:** provider lists, default model IDs, env file contents, or auth JSON. Prefer app UI login on each machine.
 
-- Default model: **`provider/model-id`** (chat subscription OAuth OAuth)
-- Small model: `opencode/nemotron-3-ultra-free`
-- Enabled providers: `opencode`, `opencode-go`, `cohere`, `xai`
-- Cohere via `{env:PROVIDER_API_KEY}` + `.env`
+**Syncing machines:** copy non-secret preferences only if needed; re-authenticate OAuth providers on the second machine (tokens are often device-bound). Do not commit or paste secrets into git or public docs. Avoid copying large session DBs unless you intentionally migrate chat history.
 
-### moon sync (2026-08-04)
-
-Copied from haumea (do **not** commit these):
-
-- `~/.config/opencode/opencode.jsonc`, `tui.json`, `package.json`, `.gitignore`, `.env`
-- `~/.local/share/opencode/auth.json` (+ `account.json` if present)
-- `~/.zshrc.local` sources `~/.config/opencode/.env` for shell-spawned CLI
-
-Desktop app was already installed (cask). CLI may lag one patch version vs haumea depending on Intel bottle availability.
-
-**If chat subscription OAuth fails after sync:** open OpenCode desktop on moon → sign in to xAI / chat subscription OAuth again (OAuth refresh tokens can be device-bound).
-
-**Do not** copy large `opencode.db` session DBs between machines unless you intend to migrate chat history.
-
-### Ghost project path
-
-Avoid opening missing folders (haumea had a broken `Desktop/OpenCode Test`). Prefer `~/Documents/Projects` or a real repo.
+**Ghost project paths:** do not open missing folders in the desktop app; use a real project directory (e.g. under `~/Documents/Projects`). Host-specific habits: [haumea.md](./haumea.md).
 
 ---
 
