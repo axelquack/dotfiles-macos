@@ -1,0 +1,6 @@
+---
+# Secondary Mac (Intel) — Syncthing allowed
+install_syncthing: true
+macos_role: secondary
+ansible_ssh_common_args: "-o IdentitiesOnly=yes"
+# Prefer: ssh-add --apple-use-keychain ~/.ssh/id_ed25519_moon

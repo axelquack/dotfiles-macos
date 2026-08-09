@@ -8,7 +8,8 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 |------|---------|--------|
 | Zsh | Shell | `dot_zshrc`, `dot_zshenv` |
 | [Starship](https://starship.rs) | Prompt | `dot_config/starship.toml` |
-| [AeroSpace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager | `dot_config/aerospace/aerospace.toml` · [shortcuts](docs/aerospace/SHORTCUTS.md) · [workspaces](docs/aerospace/WORKSPACES.md) |
+| [AeroSpace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager | `dot_config/aerospace/aerospace.toml.tmpl` · [shortcuts](docs/aerospace/SHORTCUTS.md) · [workspaces](docs/aerospace/WORKSPACES.md) |
+| [Ansible](https://docs.ansible.com/) | Idempotent host setup | [`ansible/`](ansible/) (haumea local · moon over SSH) |
 | [Atuin](https://github.com/atuinsh/atuin) | Shell history | `dot_zshrc` |
 | [Homebrew](https://brew.sh) | Package manager | `brewfile.home.machines` |
 | [Topgrade](https://github.com/topgrade-rs/topgrade) | Update everything | `dot_config/topgrade.toml` |
@@ -51,11 +52,27 @@ This clones the repo to `~/.local/share/chezmoi` without applying yet. No SSH ke
 
 ### Step 3 — Install all packages
 
+Sign into the Mac App Store first — required for MAS apps.
+
+**Option A — Ansible (preferred, same pattern as orion/uranus):**
+
 ```bash
-brew bundle --file=~/.local/share/chezmoi/brewfile.home.machines
+brew install ansible
+cd /path/to/dotfiles-macos/ansible
+ansible-playbook setup-macos.yml --limit haumea --tags brew
+# moon (secondary): also installs brewfile.moon.extra (Syncthing)
+# ansible-playbook setup-macos.yml --limit moon --tags brew
 ```
 
-Sign into the Mac App Store first — required for MAS apps. This also installs `pass-cli` (Proton Pass CLI), needed in the next step.
+**Option B — manual brew bundle:**
+
+```bash
+brew bundle --file=~/.local/share/chezmoi/brewfile.home.machines
+# secondary Mac only:
+# brew bundle --file=~/.local/share/chezmoi/brewfile.moon.extra
+```
+
+This also installs `pass-cli` (Proton Pass CLI), needed in the next step.
 
 ### Step 4 — Configure Proton Pass for chezmoi
 
@@ -100,7 +117,11 @@ pass-cli item list Personal | grep "SSH Host Config"
 ### Step 5 — Apply dotfiles
 
 ```bash
+# manual
 chezmoi apply
+
+# or Ansible (from this repo)
+cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags chezmoi
 ```
 
 This applies all managed dotfiles (including `~/.gitconfig` and `~/.ssh/config.local` rendered with data from Proton Pass) to your home directory.
@@ -108,19 +129,22 @@ This applies all managed dotfiles (including `~/.gitconfig` and `~/.ssh/config.l
 ### Step 6 — Apply macOS system settings
 
 ```bash
-~/.local/share/chezmoi/macOS.sh
+# manual
+sudo ./macOS.sh
+
+# or Ansible
+cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags macos_defaults --ask-become-pass
 ```
 
-Requires `sudo`. Some changes (e.g. Dock, Finder) take effect after logout/restart.
+Some changes (e.g. Dock, Finder) take effect after logout/restart.
 
 ### Step 7 — Install npm tools
 
 ```bash
-# ACP agent servers for Obsidian Agent Client
-~/.local/share/chezmoi/scripts/install-npm-acp-agents.sh
+./scripts/install-npm-acp-agents.sh
+./scripts/install-npm-cli-tools.sh
 
-# Standalone AI CLI tools
-~/.local/share/chezmoi/scripts/install-npm-cli-tools.sh
+# or: ansible-playbook setup-macos.yml --limit haumea --tags npm
 ```
 
 ### Step 8 — Restart terminal
@@ -166,6 +190,9 @@ $(chezmoi source-path)/macOS.sh
 
 | File | Description |
 |------|-------------|
+| [Ansible setup](ansible/README.md) | Idempotent brew + chezmoi + optional macOS defaults / npm |
+| [Home machines apps](docs/home-machines-apps.md) | Primary vs secondary app policy (public, privacy-neutral) |
+| [Primary host notes](haumea.md) | Shell / topgrade / OpenCode notes |
 | [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
 | [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
 
@@ -188,19 +215,22 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `dot_wgetrc` | `~/.wgetrc` | wget defaults |
 | `dot_config/starship.toml` | `~/.config/starship.toml` | Starship prompt config |
 | `dot_config/topgrade.toml` | `~/.config/topgrade.toml` | Topgrade updater config |
-| `dot_config/aerospace/aerospace.toml` | `~/.config/aerospace/aerospace.toml` | AeroSpace window manager config |
+| `dot_config/aerospace/aerospace.toml.tmpl` | `~/.config/aerospace/aerospace.toml` | AeroSpace WM (chezmoi template; homeDir for helper scripts) |
 | `private_dot_ssh/config` | `~/.ssh/config` | SSH base config: OrbStack include, GitHub host entry |
 | `private_dot_ssh/config.local.tmpl` | `~/.ssh/config.local` | Machine-specific SSH host entries — populated from Proton Pass at apply time, never committed |
 
-### Setup scripts
+### Setup scripts & packages
 
-| Script | Purpose |
-|--------|---------|
+| Path | Purpose |
+|------|---------|
+| `ansible/setup-macos.yml` | Idempotent setup (brew, chezmoi, optional defaults/npm) |
 | `macOS.sh` | Applies macOS system preferences via `defaults write` |
 | `scripts/install-npm-acp-agents.sh` | ACP agent servers for [Obsidian Agent Client](https://rait-09.github.io/obsidian-agent-client/agent-setup/) |
 | `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`gemini-cli` and ACP agents — pinned versions) |
-| `scripts/audit-security.sh` | Security audit: runs `shellcheck` on all scripts and checks installed npm package versions against OSV.dev |
-| `brewfile.home.machines` | All Homebrew casks, formulae, and MAS apps |
+| `scripts/audit-security.sh` | Security audit: `shellcheck` + OSV.dev for pinned npm packages |
+| `scripts/pass-cli-chezmoi.sh` | Proton Pass wrapper for chezmoi when PAT share IDs differ |
+| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps |
+| `brewfile.moon.extra` | Secondary host only (Syncthing) |
 
 ---
 
@@ -246,7 +276,11 @@ The following require manual download/installation outside of Homebrew or the Ap
 - **Protect** (Ubiquiti) — ui.com/download/protect
 - **Romm** — TestFlight (self-hosted ROM manager)
 - **SYSTM** (Wahoo) — systmapp.com
-- **ZimaSpace Client** — find.zimaspace.com
+- **DisplayLink Manager** — for docks (vendor installer)
+
+Retired from this setup (not installed by brewfile/Ansible):
+
+- **ZimaSpace Client** — Zima OS hardware uses separate repos (e.g. `dotfiles-zimaos`), not this Mac brewfile
 
 ---
 

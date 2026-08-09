@@ -10,7 +10,7 @@ App parity with a secondary Mac: [docs/home-machines-apps.md](docs/home-machines
 
 | Item | Policy |
 |------|--------|
-| **Syncthing** | **Secondary host only.** Never install, start, or suggest on the primary. See [docs/home-machines-apps.md](docs/home-machines-apps.md) (Syncthing section). |
+| **Syncthing** | **Secondary host only** (`brewfile.moon.extra` / Ansible `--limit moon`). Never install on the primary. |
 
 ---
 

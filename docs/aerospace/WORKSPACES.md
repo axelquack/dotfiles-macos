@@ -136,4 +136,3 @@ These windows open floating above the current workspace.
 | We Love Lights |
 | WiFiman |
 | Windows App |
-| Zima |

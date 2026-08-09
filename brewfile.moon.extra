@@ -1,0 +1,7 @@
+# brewfile.moon.extra — packages for the secondary Mac (moon) only
+# Applied after brewfile.home.machines via Ansible (host moon) or manually:
+#   brew bundle --file="$(chezmoi source-path)/brewfile.moon.extra"
+#
+# Do NOT install these on the primary (haumea).
+
+brew "syncthing"                # Continuous file sync — secondary host only

@@ -1,0 +1,192 @@
+---
+# Idempotent macOS workstation setup (haumea / moon).
+# Mirrors the style of orion/uranus ansible (inventory + single playbook).
+#
+# From this repo:
+#   cd ansible
+#   ansible-playbook setup-macos.yml --limit haumea
+#   ansible-playbook setup-macos.yml --limit moon
+#
+# Tags:
+#   brew              Homebrew bundle (shared + moon extra)
+#   chezmoi           chezmoi apply (needs pass-cli session for templates)
+#   macos_defaults    macOS.sh (admin; --ask-become-pass)
+#   npm               pinned global npm ACP/CLI tools
+#   check             facts + dry reports only
+#
+# Examples:
+#   ansible-playbook setup-macos.yml --limit haumea --tags brew
+#   ansible-playbook setup-macos.yml --limit haumea --tags chezmoi
+#   ansible-playbook setup-macos.yml --limit haumea --tags macos_defaults --ask-become-pass
+#   ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi,npm
+
+- name: macOS home machines — brew, chezmoi, optional defaults/npm
+  hosts: macos
+  gather_facts: true
+
+  vars:
+    brew_bin: "{{ '/opt/homebrew/bin/brew' if ansible_facts['machine'] == 'arm64' else '/usr/local/bin/brew' }}"
+    homebrew_prefix: "{{ '/opt/homebrew' if ansible_facts['machine'] == 'arm64' else '/usr/local' }}"
+
+  pre_tasks:
+    - name: Require macOS
+      ansible.builtin.assert:
+        that:
+          - ansible_facts['system'] == "Darwin"
+        fail_msg: "This playbook only targets macOS hosts."
+
+    - name: Report target
+      ansible.builtin.debug:
+        msg: >-
+          host={{ inventory_hostname }} role={{ macos_role | default('unknown') }}
+          arch={{ ansible_facts['machine'] }} repo={{ repo_root }}
+
+  tasks:
+    - name: Check Homebrew is installed
+      ansible.builtin.stat:
+        path: "{{ brew_bin }}"
+      register: brew_stat
+      tags: [always, brew]
+
+    - name: Fail if Homebrew missing
+      ansible.builtin.assert:
+        that:
+          - brew_stat.stat.exists
+        fail_msg: >-
+          Homebrew not found at {{ brew_bin }}. Install from https://brew.sh then re-run.
+      tags: [always, brew]
+
+    - name: Shared Brewfile present
+      ansible.builtin.stat:
+        path: "{{ brewfile_shared }}"
+      register: brewfile_stat
+      tags: [brew]
+
+    - name: Fail if shared Brewfile missing
+      ansible.builtin.assert:
+        that:
+          - brewfile_stat.stat.exists
+        fail_msg: "Missing {{ brewfile_shared }}"
+      tags: [brew]
+
+    - name: Install shared packages (brewfile.home.machines)
+      ansible.builtin.command:
+        cmd: "{{ brew_bin }} bundle install --file={{ brewfile_shared }}"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+        HOMEBREW_NO_AUTO_UPDATE: "1"
+        HOMEBREW_NO_ENV_HINTS: "1"
+      register: brew_bundle_shared
+      changed_when: >-
+        'Installing' in (brew_bundle_shared.stdout | default(''))
+        or 'Upgrading' in (brew_bundle_shared.stdout | default(''))
+      when: run_brew | bool
+      tags: [brew]
+
+    - name: Install moon-only packages (brewfile.moon.extra)
+      ansible.builtin.command:
+        cmd: "{{ brew_bin }} bundle install --file={{ brewfile_moon_extra }}"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+        HOMEBREW_NO_AUTO_UPDATE: "1"
+        HOMEBREW_NO_ENV_HINTS: "1"
+      register: brew_bundle_moon
+      changed_when: >-
+        'Installing' in (brew_bundle_moon.stdout | default(''))
+        or 'Upgrading' in (brew_bundle_moon.stdout | default(''))
+      when:
+        - run_brew | bool
+        - install_syncthing | default(false) | bool
+      tags: [brew]
+
+    - name: Ensure syncthing is not installed on primary (haumea policy)
+      ansible.builtin.command:
+        cmd: "{{ brew_bin }} list --formula syncthing"
+      register: syncthing_on_primary
+      failed_when: false
+      changed_when: false
+      when:
+        - not (install_syncthing | default(false) | bool)
+      tags: [brew, check]
+
+    - name: Warn if syncthing present on primary
+      ansible.builtin.debug:
+        msg: >-
+          POLICY: syncthing is installed on primary host. Prefer:
+          brew uninstall syncthing && brew services stop syncthing
+      when:
+        - not (install_syncthing | default(false) | bool)
+        - syncthing_on_primary.rc is defined
+        - syncthing_on_primary.rc == 0
+      tags: [brew, check]
+
+    - name: Check chezmoi available
+      ansible.builtin.command:
+        cmd: "{{ brew_bin }} --prefix chezmoi"
+      register: chezmoi_prefix
+      changed_when: false
+      failed_when: false
+      tags: [chezmoi]
+
+    - name: Resolve chezmoi binary
+      ansible.builtin.set_fact:
+        chezmoi_bin: "{{ homebrew_prefix }}/bin/chezmoi"
+      tags: [chezmoi]
+
+    - name: Apply chezmoi source from this repo
+      ansible.builtin.command:
+        cmd: "{{ chezmoi_bin }} apply --source={{ repo_root }} --force"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+      register: chezmoi_apply
+      changed_when: >-
+        'applied' in (chezmoi_apply.stdout | default('') | lower)
+        or chezmoi_apply.rc == 0
+      when: run_chezmoi | bool
+      tags: [chezmoi]
+
+    - name: Note on pass-cli for templates
+      ansible.builtin.debug:
+        msg: >-
+          If chezmoi apply failed on gitconfig/ssh templates, run `pass-cli login`
+          in a GUI Terminal, then re-run with --tags chezmoi.
+      tags: [chezmoi]
+
+    - name: Apply macOS defaults (macOS.sh)
+      ansible.builtin.command:
+        cmd: /bin/bash "{{ repo_root }}/macOS.sh"
+      become: true
+      when: run_macos_defaults | bool
+      tags: [macos_defaults]
+
+    - name: Install pinned npm ACP agents
+      ansible.builtin.command:
+        cmd: /bin/bash "{{ repo_root }}/scripts/install-npm-acp-agents.sh"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+      when: run_npm | bool
+      tags: [npm]
+
+    - name: Install pinned npm CLI tools
+      ansible.builtin.command:
+        cmd: /bin/bash "{{ repo_root }}/scripts/install-npm-cli-tools.sh"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+      when: run_npm | bool
+      tags: [npm]
+
+    - name: Security audit (shellcheck + OSV)
+      ansible.builtin.command:
+        cmd: /bin/bash "{{ repo_root }}/scripts/audit-security.sh"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+      register: audit
+      changed_when: false
+      failed_when: false
+      tags: [npm, check]
+
+    - name: Show audit result
+      ansible.builtin.debug:
+        msg: "{{ audit.stdout_lines | default([]) }}"
+      when: audit is defined
+      tags: [npm, check]

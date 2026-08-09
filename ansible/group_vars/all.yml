@@ -1,0 +1,15 @@
+---
+# Shared vars for macOS home machines (dotfiles-macos)
+username: "{{ ansible_user_id | default(lookup('env', 'USER')) }}"
+
+# Absolute path to this git repo (parent of ansible/)
+repo_root: "{{ playbook_dir | dirname }}"
+
+brewfile_shared: "{{ repo_root }}/brewfile.home.machines"
+brewfile_moon_extra: "{{ repo_root }}/brewfile.moon.extra"
+
+# Steps (tags): brew | chezmoi | macos_defaults | npm | all
+run_brew: true
+run_chezmoi: true
+run_macos_defaults: false   # set true or --tags macos_defaults (needs admin password)
+run_npm: false              # set true or --tags npm

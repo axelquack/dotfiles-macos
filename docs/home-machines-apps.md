@@ -13,8 +13,10 @@ Canonical notes for keeping a **primary** (haumea) and **secondary** (moon) Mac 
 
 | What | File / path |
 |------|-------------|
-| Casks, formulae, MAS | [`brewfile.home.machines`](../brewfile.home.machines) |
-| Apply packages | `brew bundle --file="$(chezmoi source-path)/brewfile.home.machines"` |
+| Shared packages | [`brewfile.home.machines`](../brewfile.home.machines) |
+| Moon-only packages | [`brewfile.moon.extra`](../brewfile.moon.extra) (Syncthing) |
+| Apply (Ansible) | `cd ansible && ansible-playbook setup-macos.yml --limit haumea` (or `moon`) |
+| Apply packages (manual) | `brew bundle --file="$(chezmoi source-path)/brewfile.home.machines"` |
 | Topgrade (disables Colima step) | [`dot_config/topgrade.toml`](../dot_config/topgrade.toml) |
 | AeroSpace app rules | [`dot_config/aerospace/aerospace.toml`](../dot_config/aerospace/aerospace.toml) |
 | pass-cli / chezmoi PAT quirks | [haumea.md](../haumea.md), [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) |
@@ -176,7 +178,6 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 | **Riverside Studio** | brew cask (Silicon only) | Yes | **No** — use web | arm64 binary only; see §6 |
 | **ATEM / Blackmagic** | Blackmagic site | Both | Both | Manual |
 | **Backdrop** | cindori.com | Both | Both | Manual |
-| **ZimaSpace Client** | find.zimaspace.com | Optional | Optional | Manual |
 | **Proton Drive / Pass / VPN** | brewfile casks | Both | Both | |
 | **Proton Mail Bridge** | — | — | **Removed** | Not in brewfile; do not reinstall for SoT |
 
@@ -244,7 +245,7 @@ DevPod, Marked 2, OrbStack, Claude, Proton Drive/Pass/VPN, Office, iWork, SYSTM,
 | **moon** | Install + `brew services start syncthing` as desired |
 | **haumea** | **Do not install. Do not start. Do not propose.** |
 
-Absence of Syncthing on haumea is **by design**, not drift. If a shared brewfile still lists `syncthing`, skip it on haumea (`brew bundle --no-upgrade` exclusions / manual skip); never treat haumea as “missing” Syncthing.
+Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.home.machines` does **not** include `syncthing`. Install on moon only via `brewfile.moon.extra` (Ansible does this when `--limit moon`).
 
 #### Leaves on both, not in brewfile
 
@@ -256,7 +257,7 @@ Absence of Syncthing on haumea is **by design**, not drift. If a shared brewfile
 |-----------|----------|
 | brewfile missing on haumea | `wifiman`, `8bitdo-firmware-updater` |
 | brewfile missing on moon | `8bitdo-firmware-updater` |
-| Installed, not in brewfile | `aionui`, `block-buzz`, `ledger-live` (both) |
+| In shared brewfile (2026-08-09) | `aionui`, `block-buzz`, `ledger-wallet` |
 | Cask tracking only on haumea | `parallels` (see §2 — moon uses vendor install) |
 | Cask only on moon | `wifiman` until haumea installs Desktop |
 

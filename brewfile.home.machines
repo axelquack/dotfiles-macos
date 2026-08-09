@@ -30,7 +30,9 @@ cask "gog-galaxy"            # GOG Galaxy game launcher
 cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "heroic"                # Open source game launcher (Epic, GOG, Amazon)
 cask "jdownloader"           # Download manager for file hosting sites
-cask "ledger-wallet"         # Desktop application for Ledger hardware wallets (also available as ledger-live)
+cask "ledger-wallet"         # Ledger hardware wallet desktop app
+cask "aionui"                # Unified GUI for CLI AI agents
+cask "block-buzz"            # Buzz workspace for humans and AI agents
 cask "macwhisper"            # Audio transcription tool (whisper.cpp)
 cask "microsoft-teams"       # Microsoft Teams collaboration
 cask "minecraft"             # Official Minecraft game launcher (requires account)
@@ -97,7 +99,7 @@ brew "opencode"                 # OpenCode AI coding agent CLI (separate from op
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
 brew "shellcheck"               # Static analysis tool for shell scripts — catches bugs and security issues
 brew "rustup"                   # Rust toolchain installer and version manager
-brew "syncthing"                # Continuous file synchronisation across devices
+# brew "syncthing" — NOT on primary (haumea). Secondary (moon) only: see brewfile.moon.extra
 brew "topgrade"                 # Tool to update everything (including brew, mas, system)
 brew "ngrep"                    # Network grep utility (used in .zshrc alias)
 brew "wget"                     # File downloader utility
@@ -147,5 +149,9 @@ mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 # - Protect (Ubiquiti) — ui.com/download/protect
 # - Romm — TestFlight (self-hosted ROM manager)
 # - SYSTM (Wahoo) — systmapp.com
-# - ZimaSpace Client — find.zimaspace.com
+# - Parallels Desktop — parallels.com/download (prefer manual; brew cask flaky on Intel)
+# - DisplayLink Manager — synaptics.com (dock firmware; not always in brewfile)
+#
+# Retired / not part of this Mac setup anymore:
+# - ZimaSpace Client — Zima OS boxes use separate repos (e.g. dotfiles-zimaos), not this brewfile
 

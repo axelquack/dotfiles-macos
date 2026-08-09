@@ -1,0 +1,4 @@
+---
+# Primary Mac (Apple Silicon) — no Syncthing
+install_syncthing: false
+macos_role: primary

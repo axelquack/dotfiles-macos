@@ -6,7 +6,11 @@ LICENSE.md
 README.md
 CHANGELOG.md
 CLAUDE.md
+AGENTS.md
+haumea.md
 brewfile.home.machines
+brewfile.moon.extra
 macOS.sh
 scripts/
 docs/
+ansible/
