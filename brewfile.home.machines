@@ -43,7 +43,7 @@ cask "orbstack"              # Docker/VM management
 # cask "parallels" — NOT in shared brewfile (arch-dependent):
 #   arm64 (haumea): optional `brew install --cask parallels`
 #   Intel (moon):   manual install only — brew cask fails (inittool preinitialization error)
-#   Details: docs/home-machines-apps.md §2 · local machine.md
+#   Details: docs/home-machines-apps.md §2 · local machine-haumea.md / machine-moon.md
 cask "proton-drive"          # Desktop client for Proton Drive encrypted cloud storage
 cask "protonvpn"             # Desktop client for Proton VPN service
 cask "proton-pass"           # Desktop client for Proton Pass password manager

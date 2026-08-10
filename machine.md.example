@@ -1,9 +1,15 @@
 # machine.md — private local briefing (DO NOT COMMIT)
 
-Copy to `machine.md` on that Mac and fill in. Listed in `.gitignore` so it never hits GitHub.
+Copy to a host-specific file and fill in. **Never commit** (`.gitignore`).
 
-Naming on the primary (optional): keep a copy of the secondary as `machine-moon.md`
-(also gitignored via `machine-*.md`) so agents on haumea can brief without SSH.
+| Host | Recommended local filename |
+|------|----------------------------|
+| primary (haumea) | `machine-haumea.md` |
+| secondary (moon) | `machine-moon.md` |
+| other | `machine-<hostname>.md` |
+
+Pattern `machine-*.md` and bare `machine.md` are gitignored. Only this example is tracked.
+On the primary you can keep **both** `machine-haumea.md` and `machine-moon.md` for offline agent context.
 
 **Purpose:** reinstall this host and brief agents (Grok/Claude/etc.) with facts that are
 useful but **must not** be in the public repo (models, serials, LAN, vault item titles, …).

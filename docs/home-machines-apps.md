@@ -47,7 +47,7 @@ They will **not** share:
 
 - Apple Silicon–only iOS-on-Mac apps (Protect, iOS WiFiman, Romm).
 - Install **method** for Parallels (brew on Silicon, vendor installer on Intel).
-- Optional primary-only extras (Adobe Acrobat, …) — prefer documenting in local `machine.md`.
+- Optional primary-only extras (Adobe Acrobat, …) — prefer documenting in local `machine-haumea.md` / `machine-moon.md`.
 - **Syncthing — moon only** (see §10). Do **not** install, start, or propose on **haumea**.
 
 ---
@@ -66,7 +66,7 @@ Same product on both Macs; **different package managers**.
 | Caskroom | often under `/opt/homebrew/Caskroom/parallels/` if brew-installed | **none** (vendor install) |
 | CLI | via cask / app | vendor paths under `/usr/local/bin` (e.g. `prlctl`) |
 | AeroSpace | workspace `vm` (`com.parallels.desktop.console`) | same |
-| Per-host versions | record in local **`machine.md`** (gitignored) | same |
+| Per-host versions | record in local **`machine-haumea.md` / `machine-moon.md`** (gitignored) | same |
 
 ### Why the shared brewfile does not enable Parallels
 

@@ -211,7 +211,7 @@ $(chezmoi source-path)/macOS.sh
 | [Home machines apps](docs/home-machines-apps.md) | Shared inventory & parity (haumea vs moon) — no host-only prose |
 | [haumea host notes](docs/haumea.md) | Primary-only ops (shell, topgrade, WM pointers) |
 | [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
-| [machine.md.example](machine.md.example) | Template for **private** `machine.md` (gitignored: models, specs, serial, LAN) |
+| [machine.md.example](machine.md.example) | Template for private `machine-haumea.md` / `machine-moon.md` (gitignored) |
 | [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
 | [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
 
