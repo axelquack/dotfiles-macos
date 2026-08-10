@@ -25,9 +25,10 @@ secrets/
 CHANGELOG.md
 
 # Per-machine private briefing for reinstall / agents (API models, specs, IPs, …)
-# Commit machine.md.example only — never machine.md
+# Commit machine.md.example only — never machine.md / machine-*.md
 machine.md
 **/machine.md
+machine-*.md
 !machine.md.example
 
 # AI coding assistant instruction files (local only)
