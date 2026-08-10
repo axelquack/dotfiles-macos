@@ -61,13 +61,23 @@ eval "$($([ "$(uname -m)" = "arm64" ] && echo /opt/homebrew || echo /usr/local)/
 
 ### Step 2 — Install chezmoi and clone dotfiles
 
+Preferred: clone under **local disk** (not iCloud Documents), then point chezmoi at it:
+
 ```bash
 brew install chezmoi
-chezmoi init axelquack/dotfiles-macos
+mkdir -p ~/Developer/Projects
+git clone git@github.com:axelquack/dotfiles-macos.git ~/Developer/Projects/dotfiles-macos
+# or: gh repo clone axelquack/dotfiles-macos ~/Developer/Projects/dotfiles-macos
 ```
 
-This clones the repo to `~/.local/share/chezmoi` without applying yet. No SSH keys or GitHub account required — the repo is public.
+Alternatively, chezmoi can own the clone:
 
+```bash
+chezmoi init axelquack/dotfiles-macos
+# default source: ~/.local/share/chezmoi — fine, or set sourceDir in Step 4 to Developer/Projects/…
+```
+
+No SSH keys required to **read** the public repo over HTTPS.
 ### Step 3 — Install all packages
 
 Sign into the Mac App Store first — required for MAS apps.
@@ -115,7 +125,8 @@ pass-cli item list Personal  # find your Git Identity item ID
 ```bash
 mkdir -p ~/.config/chezmoi
 cat > ~/.config/chezmoi/chezmoi.toml << 'EOF'
-sourceDir = "~/.local/share/chezmoi"
+# Prefer Developer clone (local disk). Or: ~/.local/share/chezmoi after `chezmoi init`
+sourceDir = "~/Developer/Projects/dotfiles-macos"
 
 [protonPass]
     command = "pass-cli"
@@ -132,6 +143,7 @@ Get `proton_ssh_host_item_id` by looking up the **"SSH Host Config"** note in yo
 pass-cli item list Personal | grep "SSH Host Config"
 ```
 
+That note should use **dual aliases** (`host` + `host.local`) and a reserved LAN **`HostName` IP** for every fleet machine — see [docs/ssh-hosts.md](docs/ssh-hosts.md).
 ### Step 5 — Secrets from Pass + apply dotfiles
 
 ```bash
@@ -220,6 +232,7 @@ $(chezmoi source-path)/macOS.sh
 | [haumea host notes](docs/haumea.md) | Primary-only ops (shell, topgrade, WM pointers) |
 | [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
 | [machine.md.example](machine.md.example) | Template for private `machine-haumea.md` / `machine-moon.md` (gitignored) |
+| [machine-ssh-hosts.md.example](machine-ssh-hosts.md.example) | Template for private fleet SSH inventory (gitignored `machine-ssh-hosts.md`) |
 | [Secrets: Pass + chezmoi](docs/secrets-pass.md) | Replicate keys/API env from Pass (no private inventory in git) |
 | [Home layout](docs/home-layout.md) | `$HOME` vs `~/.config` vs `~/Developer`; what chezmoi owns |
 | [SSH hosts policy](docs/ssh-hosts.md) | Dual alias + `HostName` IP pattern (no LAN inventory) |
@@ -259,8 +272,10 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/install-npm-acp-agents.sh` | ACP agent servers for [Obsidian Agent Client](https://rait-09.github.io/obsidian-agent-client/agent-setup/) |
 | `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`gemini-cli` and ACP agents — pinned versions) |
 | `scripts/audit-security.sh` | Security audit: `shellcheck` + OSV.dev for pinned npm packages |
+| `scripts/check-secrets.sh` | Pre-push public-repo scan (gitleaks + no LAN IPs / key material in git) |
 | `scripts/pass-cli-chezmoi.sh` | Proton Pass wrapper for chezmoi when PAT share IDs differ |
-| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps |
+| `scripts/bootstrap-secrets-from-pass.sh` | Materialize SSH keys / apply secrets plumbing from Pass |
+| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, …) |
 | `brewfile.moon.extra` | Secondary host only (Syncthing) |
 
 ---
@@ -282,8 +297,9 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 
 **Avoid chezmoi “has changed since last wrote” prompts:**
 - Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.
-- Keep machine SSH hosts in the Proton Pass **"SSH Host Config"** note (source of truth for `~/.ssh/config.local`). Edit the note, then `chezmoi apply` — do not hand-edit `config.local` long-term.
+- Keep machine SSH hosts in the Proton Pass **"SSH Host Config"** note (source of truth for `~/.ssh/config.local`). Each host: **short name + `.local`** (and site FQDN if any) **and** reserved IP `HostName` — [docs/ssh-hosts.md](docs/ssh-hosts.md). Edit the note, then `chezmoi apply` — do not hand-edit `config.local` long-term.
 - Keep SSH **private keys** as Pass **ssh_key** items. Map basenames → titles in **gitignored** `pass-ssh-key-map.local`. Import: `./scripts/pass-import-ssh-keys.sh`; reinstall: `./scripts/bootstrap-secrets-from-pass.sh`.
+- Private filled host table: gitignored `machine-ssh-hosts.md` (from `machine-ssh-hosts.md.example`).
 - Before push: `./scripts/check-secrets.sh` (public repo — no LAN IPs or key material).
 
 Language runtimes managed by version managers are updated manually:

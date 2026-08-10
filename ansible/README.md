@@ -5,15 +5,16 @@ Same idea as **orion** / **uranus**: inventory + one idempotent playbook.
 | Host | Role | Connection |
 |------|------|------------|
 | **haumea** | Primary (Apple Silicon) | `local` |
-| **moon** | Secondary (Intel) | SSH `moon.local` |
+| **moon** | Secondary (Intel) | SSH host alias **`moon`** (see below) |
 
 ## Prerequisites
 
 - Homebrew installed on the target
-- This repo checked out (chezmoi `sourceDir` or clone path = playbook parent)
-- For **moon**: `ssh moon.local` works (`ssh-add` moon key if needed)
+- This repo checked out under **`~/Developer/Projects/dotfiles-macos`** (or set chezmoi `sourceDir` to that clone)
+- For **moon**: `ssh moon` works (OpenSSH config from Pass **SSH Host Config** — dual alias `moon` / `moon.local` + reserved IP `HostName`; not mDNS alone). Load key if needed: `ssh-add --apple-use-keychain ~/.ssh/id_ed25519_moon`
 - For **chezmoi** templates: `pass-cli login` in a GUI Terminal first
 
+SSH alias policy (public, no IPs): [docs/ssh-hosts.md](../docs/ssh-hosts.md).
 ## Run
 
 ```bash
@@ -58,3 +59,7 @@ Defaults (`group_vars/all.yml`):
 - Primary: [docs/haumea.md](../docs/haumea.md)
 - Secondary: [docs/moon.md](../docs/moon.md)
 - Shared inventory: [docs/home-machines-apps.md](../docs/home-machines-apps.md)
+- Home layout: [docs/home-layout.md](../docs/home-layout.md)
+- Main setup narrative: [README.md](../README.md)
+
+Agents must keep this file and `inventory.ini` in sync with README when connection or tags change.

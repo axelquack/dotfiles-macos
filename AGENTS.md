@@ -12,9 +12,20 @@ Personal **macOS** dotfiles and setup: Zsh, Starship, AeroSpace, Homebrew, chezm
 2. [`SECURITY.md`](SECURITY.md)  
 3. [`README.md`](README.md)  
 4. [`docs/secrets-pass.md`](docs/secrets-pass.md)  
-5. Host habits (public, no inventory): [`docs/haumea.md`](docs/haumea.md), [`docs/moon.md`](docs/moon.md)  
-6. Private reinstall facts: local `machine-*.md` only (gitignored; template [`machine.md.example`](machine.md.example))
+5. [`docs/home-layout.md`](docs/home-layout.md) · [`docs/ssh-hosts.md`](docs/ssh-hosts.md)  
+6. Host habits (public, no inventory): [`docs/haumea.md`](docs/haumea.md), [`docs/moon.md`](docs/moon.md)  
+7. Ansible: [`ansible/README.md`](ansible/README.md) · `ansible/inventory.ini` · `ansible/setup-macos.yml`  
+8. Private reinstall facts: local `machine-*.md` only (gitignored; templates [`machine.md.example`](machine.md.example), [`machine-ssh-hosts.md.example`](machine-ssh-hosts.md.example))
 
+## Keep docs accurate (mandatory for agents)
+
+Whenever you change behaviour, paths, inventory aliases, brew policy, Pass/chezmoi flow, or host setup:
+
+1. **Check** that [`README.md`](README.md) still matches reality (setup steps, doc table, scripts table, SSH/Pass wording).  
+2. **Check** that **Ansible** stays aligned: [`ansible/README.md`](ansible/README.md), `inventory.ini` (e.g. moon via short SSH alias, not mDNS-only), `setup-macos.yml` tags/vars, host/group vars.  
+3. **Update** those files in the **same change** (or immediately after) — do not leave “works on disk, docs lie”.  
+4. **Public repo:** no LAN IPs, keys, or vault IDs in committed docs; use [ssh-hosts.md](docs/ssh-hosts.md) patterns + private `machine-ssh-hosts.md`.  
+5. Before push: `./scripts/check-secrets.sh`.
 ## Paths
 
 | | |
@@ -37,11 +48,10 @@ Bootstrap: `./scripts/bootstrap-secrets-from-pass.sh` (requires local maps + Pas
 
 ## Safety for agents
 
-- Prefer **read** of public docs; write private notes only under gitignored `machine-*.md` or outside the repo.  
+- Prefer **read** of public docs; write private notes only under gitignored `machine-*.md` / `machine-ssh-hosts.md` or outside the repo.  
 - Do not dump `pass-cli item list` output or key material into files that will be committed.  
-- Ansible inventory may use **hostnames** (`moon.local`) — do not expand public docs with private LAN maps.  
+- Ansible inventory uses **SSH host aliases** (e.g. `moon`) that resolve via Pass-rendered `config.local` — do not put private LAN maps in public docs.  
 - Grok: keep global permission mode **auto**; use session always-approve only when needed for local tool noise, not to bypass secret policy.
-
 ## Deploy
 
 ```bash
