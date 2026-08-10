@@ -33,7 +33,7 @@ Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
 |------------------|------------------|
 | Private keys, full public key lines | Pass + `~/.ssh/` |
 | Vault / share / item **IDs** | `~/.config/chezmoi/chezmoi.toml` |
-| LAN IPs, MACs, full host inventories | Private notes / `machine-*.md` (gitignored) |
+| LAN IPs, MACs, full host inventories | Private notes / `machine-*.md` / `machine-ssh-hosts.md` (gitignored) |
 | Your Pass item title inventory with IPs | `pass-ssh-key-map.local` (gitignored) |
 | Generated `~/.zshrc.local` | Home directory only |
 
@@ -53,6 +53,13 @@ Suggested naming (customize privately):
 | API service logins | login | fields → env via `pass-env-map.local` |
 
 Prefer **labels without LAN IPs** in Pass titles when possible (e.g. `SSH Key — github`, not `SSH Key — host (192.168…)`). Existing IP-suffixed titles still work if listed only in your local map.
+
+### SSH Host Config body (dual alias + IP)
+
+Every fleet host in the Pass note should use **short name + `.local`** (and site FQDNs if any) **and** a reserved **`HostName` IPv4**. Do not rely on mDNS alone — travel-router / cross-subnet admin breaks `*.local` while unicast still works.
+
+Public pattern and test recipe: **[ssh-hosts.md](./ssh-hosts.md)**.  
+Private filled inventory (this Mac only): **`machine-ssh-hosts.md`** (gitignored; start from `machine-ssh-hosts.md.example`).
 
 ---
 
@@ -113,9 +120,10 @@ cp scripts/pass-env-map.example scripts/pass-env-map.local
 
 | Task | Command |
 |------|---------|
-| Edit SSH hosts | Edit Pass **SSH Host Config** → `chezmoi apply` |
+| Edit SSH hosts | Edit Pass **SSH Host Config** → `chezmoi apply` → refresh private `machine-ssh-hosts.md` if needed |
 | Agent load keys | `pass-cli ssh-agent load --vault-name Personal` (optional) |
 | Before topgrade | `pass-cli login` (interactive Terminal) |
+| SSH alias policy | [ssh-hosts.md](./ssh-hosts.md) (public) · `machine-ssh-hosts.md` (private IPs) |
 
 **Do not** hand-edit `~/.ssh/config.local` long-term — chezmoi overwrites it.
 

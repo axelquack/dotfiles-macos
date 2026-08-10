@@ -18,7 +18,10 @@ Public counterparts:
 
 - Shared inventory: `docs/home-machines-apps.md`
 - Host habits: `docs/haumea.md` / `docs/moon.md`
+- SSH alias **policy** (no IPs): `docs/ssh-hosts.md`
 - Packages: `brewfile.home.machines` (+ `brewfile.moon.extra` on secondary)
+
+Fleet SSH IP inventory (all hosts): copy **`machine-ssh-hosts.md.example`** → **`machine-ssh-hosts.md`** (gitignored).
 
 ---
 

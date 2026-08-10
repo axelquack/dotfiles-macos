@@ -1,0 +1,45 @@
+# machine-ssh-hosts.md — private SSH inventory (DO NOT COMMIT)
+
+Copy to **`machine-ssh-hosts.md`** (gitignored via `machine-*.md`) and fill in.
+
+**Public policy:** [docs/ssh-hosts.md](docs/ssh-hosts.md)  
+**Live config body:** Proton Pass **"SSH Host Config"** → `chezmoi apply` → `~/.ssh/config.local`
+
+Do not put this filled file in any public repository.
+
+---
+
+## Convention
+
+| Alias forms | HostName |
+|-------------|---------|
+| `name` + `name.local` (+ site FQDN if any) | Reserved LAN IPv4 |
+
+---
+
+## Inventory (fill privately)
+
+| Aliases | HostName (IPv4) | User | IdentityFile | Notes / last SSH test |
+|---------|-----------------|------|--------------|------------------------|
+| moon moon.local | | | id_ed25519_moon | |
+| haumea haumea.local | | | id_ed25519_haumea | |
+| mars mars.local mars.cosmic.local | | | id_ed25519_proxmox | |
+| … | | | | |
+
+---
+
+## Smoke test log
+
+| Date | From host / network | Up | Down / notes |
+|------|---------------------|----|--------------|
+| | | | |
+
+---
+
+## Travel-router notes
+
+When the admin Mac is on a non-home subnet (e.g. travel router):
+
+- mDNS (`*.local`) often fails even if home gateway unicast works.
+- Prefer short alias (`ssh moon`) which uses `HostName` IP.
+- Primary Mac’s own home reservation may not answer until that interface is on home LAN.
