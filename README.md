@@ -221,6 +221,8 @@ $(chezmoi source-path)/macOS.sh
 | [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
 | [machine.md.example](machine.md.example) | Template for private `machine-haumea.md` / `machine-moon.md` (gitignored) |
 | [Secrets: Pass + chezmoi](docs/secrets-pass.md) | Replicate keys/API env from Pass (no private inventory in git) |
+| [Home layout](docs/home-layout.md) | `$HOME` vs `~/.config` vs `~/Developer`; what chezmoi owns |
+| [SSH hosts policy](docs/ssh-hosts.md) | Dual alias + `HostName` IP pattern (no LAN inventory) |
 | [AGENTS.md](AGENTS.md) · [SECURITY.md](SECURITY.md) | Public agent + security policy |
 | [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
 | [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
