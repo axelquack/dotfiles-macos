@@ -1,0 +1,8 @@
+# Copy to pass-ssh-key-map.local (gitignored) and customize.
+# Format: local_basename|Proton Pass ssh_key item title
+# Do NOT put LAN IPs or private inventory in the committed example.
+#
+#   cp scripts/pass-ssh-key-map.example scripts/pass-ssh-key-map.local
+#
+id_ed25519_github|SSH Key — github
+# id_ed25519_secondary|SSH Key — secondary

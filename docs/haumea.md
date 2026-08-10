@@ -26,14 +26,14 @@ Do **not** put API keys, model defaults, or serial numbers in this public file �
 |------|--------|
 | **Syncthing** | **Never** on haumea. Moon only — [moon.md](./moon.md) + [../brewfile.moon.extra](../brewfile.moon.extra) |
 | **Docker** | **OrbStack only** (no Colima) — details in [home-machines-apps.md §3](./home-machines-apps.md) |
-| **Secrets** | `~/.zshrc.local` and local `~/.config/chezmoi/chezmoi.toml` only — never commit |
+| **Secrets** | **Proton Pass** SoT; materialize with `scripts/bootstrap-secrets-from-pass.sh` — see [secrets-pass.md](./secrets-pass.md). Local: `chezmoi.toml` IDs + generated cache files only |
 
 ---
 
 ## Shell / chezmoi (primary)
 
 - Prefer managed `dot_zshrc` with an **idempotent** `$HOME/.opencode/bin` PATH check (installers sometimes append a hard-coded absolute path).
-- Machine secrets and API keys: **`~/.zshrc.local`** only.
+- Machine secrets and API keys: regenerate **`~/.zshrc.local`** from Pass (`scripts/pass-write-zshrc-local.sh`), do not hand-maintain long-term.
 - Before `topgrade` or `chezmoi apply` that needs Pass templates:
 
 ```bash
@@ -50,7 +50,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519   # your GitHub key
 - **AeroSpace:** live file `~/.config/aerospace/aerospace.toml` (from `dot_config/aerospace/aerospace.toml.tmpl`). Cheatsheet: [aerospace/SHORTCUTS.md](./aerospace/SHORTCUTS.md).
 - **Terminal:** tabs in one window = one tile; new windows get separate tiles.
 - **Marked 2** (optional): good for Markdown print; float in AeroSpace.
-- **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Documents/Projects`.
+- **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Developer/Projects` (prefer local disk, not iCloud Desktop & Documents).
 - Obsidian Agent Client / cloud models usually **do not** need the OpenCode GUI running.
 
 ---
@@ -59,7 +59,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519   # your GitHub key
 
 ```bash
 # Preferred
-cd "$(git -C ~/Documents/Projects/dotfiles-macos rev-parse --show-toplevel 2>/dev/null || chezmoi source-path)/ansible"
+cd "$(git -C ~/Developer/Projects/dotfiles-macos rev-parse --show-toplevel 2>/dev/null || chezmoi source-path)/ansible"
 ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi
 
 # Checks

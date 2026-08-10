@@ -1,0 +1,9 @@
+# Copy to pass-env-map.local (gitignored) and customize.
+# Format: Pass_item_title|ENV_VAR|field1[|field2|…]
+# Fields are tried in order until one returns a non-empty value.
+# Do NOT commit pass-env-map.local.
+#
+#   cp scripts/pass-env-map.example scripts/pass-env-map.local
+#
+# Example (placeholder titles — use your real Pass item names locally):
+My API Service|MY_API_KEY|password

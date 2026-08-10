@@ -14,8 +14,11 @@ SHELL_FILES=(
     "$REPO_ROOT/scripts/install-npm-cli-tools.sh"
     "$REPO_ROOT/scripts/install-npm-acp-agents.sh"
     "$REPO_ROOT/scripts/pass-cli-chezmoi.sh"
-    # Optional (add when present):
-    # "$REPO_ROOT/scripts/topgrade-precheck.sh"
+    "$REPO_ROOT/scripts/pass-map-lib.sh"
+    "$REPO_ROOT/scripts/pass-import-ssh-keys.sh"
+    "$REPO_ROOT/scripts/bootstrap-secrets-from-pass.sh"
+    "$REPO_ROOT/scripts/pass-write-zshrc-local.sh"
+    "$REPO_ROOT/scripts/check-secrets.sh"
 )
 
 SHELLCHECK_FAILED=0

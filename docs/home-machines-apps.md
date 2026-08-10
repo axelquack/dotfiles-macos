@@ -339,7 +339,7 @@ Verify: Mail sidebar shows the account and can send/receive.
 
 **Syncing machines:** copy non-secret preferences only if needed; re-authenticate OAuth providers on the second machine (tokens are often device-bound). Do not commit or paste secrets into git or public docs. Avoid copying large session DBs unless you intentionally migrate chat history.
 
-**Ghost project paths:** do not open missing folders in the desktop app; use a real project directory (e.g. under `~/Documents/Projects`). Host-specific habits: [haumea.md](./haumea.md).
+**Ghost project paths:** do not open missing folders in the desktop app; use a real project directory (e.g. under `~/Developer/Projects`). Host-specific habits: [haumea.md](./haumea.md).
 
 ---
 

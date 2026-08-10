@@ -1,0 +1,33 @@
+# Gitleaks — public repo
+title = "dotfiles-macos"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "ssh-ed25519-public-key-line"
+description = "Full OpenSSH ed25519 public key line"
+regex = '''ssh-ed25519\s+AAAA[0-9A-Za-z+/]+[=]{0,3}\s*'''
+keywords = ["ssh-ed25519"]
+
+[[rules]]
+id = "openssh-private-key"
+description = "OpenSSH private key block"
+regex = '''-----BEGIN OPENSSH PRIVATE KEY-----'''
+keywords = ["BEGIN OPENSSH"]
+
+[allowlist]
+paths = [
+  '''SECURITY\.md''',
+  '''CHANGELOG\.md''',
+  '''docs/secrets-pass\.md''',
+  '''AGENTS\.md''',
+  '''scripts/check-secrets\.sh''',
+  '''\.gitleaks\.toml''',
+  '''.*\.example$''',
+]
+regexes = [
+  '''YOUR_''',
+  '''AAAA…''',
+  '''ssh-ed25519 AAAA…''',
+]

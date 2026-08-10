@@ -19,7 +19,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [fnm](https://github.com/Schniz/fnm) | Node.js version management | `dot_zshrc` |
 | [rustup](https://rustup.rs) | Rust toolchain management | `dot_zshrc`, `dot_zshenv` |
 | [OrbStack](https://orbstack.dev) | Docker / VM runtime | — |
-| [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — secrets for **chezmoi templates only** | local `~/.config/chezmoi/chezmoi.toml` (never commit) |
+| [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — **secret vault** (SSH keys, host config, API keys) | [`docs/secrets-pass.md`](docs/secrets-pass.md) · local `chezmoi.toml` IDs only |
 | [Deno](https://deno.com) | JavaScript / TypeScript runtime | brew formula |
 | [OpenCode](https://opencode.ai) | AI coding agent (CLI + desktop) | brew `opencode` + `opencode-desktop`; secrets **local only** |
 
@@ -40,7 +40,8 @@ Installed by `brewfile.home.machines`. This repo does **not** manage their API k
 | `devpod` | Dev environments as code | — |
 | npm ACP agents | Obsidian Agent Client bridges | pinned versions in `scripts/install-npm-*.sh` |
 
-**Secrets policy:** app login, OS keychain, or `~/.zshrc.local` / app config under `~/.config` and `~/.local/share` — **never commit**. Full GUI inventory and parity: [docs/home-machines-apps.md](docs/home-machines-apps.md). Host habits: [docs/haumea.md](docs/haumea.md), [docs/moon.md](docs/moon.md).
+**This repository is public.** Agents: start with [`AGENTS.md`](AGENTS.md) · [`SECURITY.md`](SECURITY.md).  
+**Secrets policy:** Proton Pass is SoT (`pass-cli`). Chezmoi + [`scripts/bootstrap-secrets-from-pass.sh`](scripts/bootstrap-secrets-from-pass.sh) materialize keys onto disk. Host inventories and Pass title maps live in **gitignored** `scripts/pass-*-map.local` (see examples). Never commit private keys, vault IDs, or `~/.zshrc.local`. Guide: [docs/secrets-pass.md](docs/secrets-pass.md). Pre-push: `./scripts/check-secrets.sh`.
 
 ---
 
@@ -131,17 +132,24 @@ Get `proton_ssh_host_item_id` by looking up the **"SSH Host Config"** note in yo
 pass-cli item list Personal | grep "SSH Host Config"
 ```
 
-### Step 5 — Apply dotfiles
+### Step 5 — Secrets from Pass + apply dotfiles
 
 ```bash
-# manual
-chezmoi apply
+# Private maps (not committed — copy examples and edit):
+cp scripts/pass-ssh-key-map.example scripts/pass-ssh-key-map.local
+cp scripts/pass-env-map.example scripts/pass-env-map.local
 
-# or Ansible (from this repo)
-cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags chezmoi
+# Import local-only SSH keys into Pass once (primary machine):
+# ./scripts/pass-import-ssh-keys.sh
+
+# Materialize SSH keys from Pass + chezmoi apply
+./scripts/bootstrap-secrets-from-pass.sh --agent-load --with-zshrc-local
+
+# Ansible for packages/templates only:
+# cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags chezmoi
 ```
 
-This applies all managed dotfiles (including `~/.gitconfig` and `~/.ssh/config.local` rendered with data from Proton Pass) to your home directory.
+Details: [docs/secrets-pass.md](docs/secrets-pass.md). **Do not** commit `pass-*-map.local`.
 
 ### Step 6 — Apply macOS system settings
 
@@ -212,6 +220,8 @@ $(chezmoi source-path)/macOS.sh
 | [haumea host notes](docs/haumea.md) | Primary-only ops (shell, topgrade, WM pointers) |
 | [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
 | [machine.md.example](machine.md.example) | Template for private `machine-haumea.md` / `machine-moon.md` (gitignored) |
+| [Secrets: Pass + chezmoi](docs/secrets-pass.md) | Replicate keys/API env from Pass (no private inventory in git) |
+| [AGENTS.md](AGENTS.md) · [SECURITY.md](SECURITY.md) | Public agent + security policy |
 | [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
 | [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
 
@@ -271,6 +281,8 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 **Avoid chezmoi “has changed since last wrote” prompts:**
 - Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.
 - Keep machine SSH hosts in the Proton Pass **"SSH Host Config"** note (source of truth for `~/.ssh/config.local`). Edit the note, then `chezmoi apply` — do not hand-edit `config.local` long-term.
+- Keep SSH **private keys** as Pass **ssh_key** items. Map basenames → titles in **gitignored** `pass-ssh-key-map.local`. Import: `./scripts/pass-import-ssh-keys.sh`; reinstall: `./scripts/bootstrap-secrets-from-pass.sh`.
+- Before push: `./scripts/check-secrets.sh` (public repo — no LAN IPs or key material).
 
 Language runtimes managed by version managers are updated manually:
 

@@ -1,0 +1,13 @@
+# Example inject template — edit titles/fields for your vault, or prefer:
+#   scripts/pass-write-zshrc-local.sh + pass-env-map.local (gitignored)
+#
+# Syntax: {{ pass://VaultName/ItemTitle/field }}
+# URL-encode titles with spaces or special characters.
+#
+# DO NOT commit a filled template with real item titles if they reveal private
+# inventory. Keep personal maps in pass-env-map.local.
+
+# export SOME_API_KEY={{ pass://Personal/YOUR_ITEM_TITLE/password }}
+
+# --- pass-write-zshrc-local managed above ---
+# Add machine-only overrides below this line.

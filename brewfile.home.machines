@@ -104,6 +104,7 @@ brew "opencode"                 # OpenCode AI coding agent CLI (separate from op
 brew "p7zip"                    # 7-Zip file archiver (CLI)
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
 brew "shellcheck"               # Static analysis tool for shell scripts — catches bugs and security issues
+brew "gitleaks"                 # Secret scanner — used by scripts/check-secrets.sh before public pushes
 brew "rustup"                   # Rust toolchain installer and version manager
 # brew "syncthing" — NOT on primary (haumea). Secondary (moon) only: see brewfile.moon.extra
 brew "topgrade"                 # Tool to update everything (including brew, mas, system)

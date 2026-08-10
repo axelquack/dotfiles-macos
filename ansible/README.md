@@ -17,7 +17,7 @@ Same idea as **orion** / **uranus**: inventory + one idempotent playbook.
 ## Run
 
 ```bash
-cd "$(git rev-parse --show-toplevel)/ansible"   # or: cd ~/Documents/Projects/dotfiles-macos/ansible
+cd "$(git rev-parse --show-toplevel)/ansible"   # or: cd ~/Developer/Projects/dotfiles-macos/ansible
 
 # Primary — packages + dotfiles
 ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi

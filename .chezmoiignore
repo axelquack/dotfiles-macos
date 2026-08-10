@@ -14,4 +14,8 @@ brewfile.moon.extra
 macOS.sh
 scripts/
 docs/
+templates/
 ansible/
+AGENTS.md
+SECURITY.md
+.gitleaks.toml

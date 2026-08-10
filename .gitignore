@@ -31,10 +31,20 @@ machine.md
 machine-*.md
 !machine.md.example
 
-# AI coding assistant instruction files (local only)
+# Private Pass maps (inventory / titles) — examples are committed
+scripts/pass-ssh-key-map.local
+scripts/pass-env-map.local
+**/pass-ssh-key-map.local
+**/pass-env-map.local
+
+# Optional private AI notes (public AGENTS.md is committed; CLAUDE.md is obsolete)
+AGENTS.local.md
 CLAUDE.md
-AGENTS.md
+CLAUDE.local.md
 GEMINI.md
 OPENCODE.md
 CODEX.md
 COPILOT.md
+
+# Secret scan temp
+.gitleaks-report.json

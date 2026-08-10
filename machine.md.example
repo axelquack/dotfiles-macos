@@ -99,24 +99,27 @@ Folders / device IDs (private):
 
 ## SSH / secrets plumbing
 
-| Item | Where (local only) |
-|------|---------------------|
-| GitHub key path | |
-| Moon / other host keys | |
-| chezmoi.toml vault/item IDs | `~/.config/chezmoi/chezmoi.toml` |
-| pass-cli PAT file | optional `~/.config/pass-cli/` |
-| `~/.zshrc.local` | API keys sourced for CLI |
+| Item | Source of truth | Local cache |
+|------|-----------------|-------------|
+| SSH hosts | Pass **SSH Host Config** | `~/.ssh/config.local` via chezmoi |
+| Host keys | Pass **SSH Key — …** items | `~/.ssh/id_ed25519_*` via bootstrap |
+| GitHub key path | Pass `SSH Key — github` | `~/.ssh/id_ed25519_github` |
+| chezmoi.toml vault/item IDs | recreated from `pass-cli … list` | `~/.config/chezmoi/chezmoi.toml` |
+| API keys for CLI | Pass logins (OpenRouter, …) | `~/.zshrc.local` via `pass-write-zshrc-local.sh` |
+
+See **`docs/secrets-pass.md`**.
 
 ---
 
 ## Reinstall checklist (this machine)
 
-1. Install Homebrew + clone/apply `dotfiles-macos` (README or `ansible/`).
-2. `pass-cli login` (GUI Terminal) → fill local `chezmoi.toml`.
-3. `ansible-playbook setup-macos.yml --limit <host> --tags brew,chezmoi`.
-4. Parallels: method for **this** arch (table above).
-5. Restore AI auth via app login / private backup — **not** from git.
-6. Restore this `machine.md` from private backup (Pass note, encrypted disk, …).
+1. Install Homebrew + clone `dotfiles-macos` (README or `ansible/`).
+2. `pass-cli login` (GUI Terminal) → fill local `chezmoi.toml` (README Step 4).
+3. `./scripts/bootstrap-secrets-from-pass.sh --agent-load --with-zshrc-local`
+4. `ansible-playbook setup-macos.yml --limit <host> --tags brew,chezmoi` (if not covered above).
+5. Parallels: method for **this** arch (table above).
+6. AI **GUI** OAuth: re-login apps; CLI keys already in `~/.zshrc.local` from Pass.
+7. Restore this `machine.md` from private backup (Pass note, encrypted disk, …).
 
 ---
 
