@@ -9,12 +9,16 @@ Apps are automatically moved to their workspace when they open (`on-window-detec
 | Perplexity |
 
 ## `code` — Alt Cmd 2
-| App |
-|-----|
-| Zed |
-| OpenCode |
-| Block Goose |
-| Claude |
+| App | Bundle ID |
+|-----|-----------|
+| **Cursor** | `com.todesktop.230313mzl4w4u92` |
+| **Grok Bot** | `com.anysphere.sand` |
+| Zed | `dev.zed.Zed` |
+| OpenCode | `ai.opencode.desktop` |
+| Block Goose | `com.electron.goose` |
+| Claude | `com.anthropic.claudefordesktop` |
+| Buzz | `xyz.block.buzz.app` |
+| AionUI | `com.aionui.app` |
 
 ## `term` — Alt Cmd 3
 | App |

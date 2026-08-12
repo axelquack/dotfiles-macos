@@ -118,6 +118,10 @@ on-window-detected = [
     { if.app-id = 'com.apple.Safari', run = 'move-node-to-workspace web' },
 
     # ========== WORKSPACE: code (2) ==========
+    # Cursor (mdls: com.todesktop.230313mzl4w4u92 — verified on /Applications/Cursor.app)
+    { if.app-id = 'com.todesktop.230313mzl4w4u92', run = 'move-node-to-workspace code' },
+    # Grok Bot (mdls: com.anysphere.sand — verified on /Applications/Grok Bot.app)
+    { if.app-id = 'com.anysphere.sand', run = 'move-node-to-workspace code' },
     # Zed often opens in macOS native fullscreen (remembers last quit state).
     # layout tiling alone cannot exit native fullscreen — force-tile script does.
     { if.app-id = 'dev.zed.Zed', run = [
