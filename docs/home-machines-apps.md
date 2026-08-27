@@ -31,7 +31,7 @@ Canonical **inventory and parity** notes for primary (**haumea**) and secondary 
 | AeroSpace | [`dot_config/aerospace/aerospace.toml.tmpl`](../dot_config/aerospace/aerospace.toml.tmpl) |
 | pass-cli wrapper | [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) · workflow: [haumea.md](./haumea.md) / [moon.md](./moon.md) |
 
-Inventory date for tables below: **2026-08-04** (re-check with the commands at the end when things drift).
+Inventory date for tables below: **2026-08-27** (haumea live vs brewfile; re-check with the commands at the end when things drift).
 
 ---
 
@@ -47,7 +47,7 @@ They will **not** share:
 
 - Apple Silicon–only iOS-on-Mac apps (Protect, iOS WiFiman, Romm).
 - Install **method** for Parallels (brew on Silicon, vendor installer on Intel).
-- Optional primary-only extras (Adobe Acrobat, …) — prefer documenting in local `machine-haumea.md` / `machine-moon.md`.
+- Optional primary-only extras — prefer documenting in local `machine-haumea.md` / `machine-moon.md`.
 - **Syncthing — moon only** (see §10). Do **not** install, start, or propose on **haumea**.
 
 ---
@@ -120,16 +120,16 @@ Do **not** add `colima` to the brewfile.
 
 ## 4. WiFiman: two different apps
 
-| | **WiFiman Desktop** (preferred SoT) | **WiFiman** (iOS-on-Mac) |
-|--|-------------------------------------|---------------------------|
-| Display name | WiFiman Desktop | WiFiman |
-| Bundle ID | `ui.wifiman.desktop` | `com.ubnt.wifiman` |
-| Install | `brew install --cask wifiman` | MAS / iOS-on-Mac (`1385561119`) |
-| Arch | Intel **and** Silicon | **Silicon only** |
-| Typical host | **moon** (and should be on haumea via brewfile) | **haumea** only today |
-| AeroSpace float | `ui.wifiman.desktop` | `com.ubnt.wifiman` |
+| | **WiFiman** (iOS-on-Mac) | **WiFiman Desktop** (optional) |
+|--|-------------------------|--------------------------------|
+| Display name | WiFiman | WiFiman Desktop |
+| Bundle ID | `com.ubnt.wifiman` | `ui.wifiman.desktop` |
+| Install | MAS / iOS-on-Mac (`1385561119`) | `brew install --cask wifiman` |
+| Arch | **Silicon only** | Intel **and** Silicon |
+| Typical host | **haumea** (installed) | **moon** if you want a native Intel client; **not** in the shared brewfile |
+| AeroSpace float | `com.ubnt.wifiman` | `ui.wifiman.desktop` |
 
-**Policy:** install **Desktop** via brewfile on every home Mac. Keep iOS WiFiman on Silicon only if desired. Never treat MAS `1385561119` as a cross-machine requirement.
+**Policy (2026-08-27):** haumea uses the **iOS-on-Mac** app. Desktop is optional for Intel; do not treat a missing `wifiman` cask on haumea as drift. Never treat MAS `1385561119` as a moon requirement.
 
 ---
 
@@ -151,10 +151,10 @@ No reliable Intel desktop package from Ubiquiti for Protect.
 |--|--|
 | **App** | Riverside Studio (`RVS-Riverside.fm-Mac`) |
 | **Binary** | **arm64 only** — no Intel build in the official DMG |
-| **haumea** | OK — keep via `brew install --cask riverside-studio` (not in shared brewfile bundle) |
-| **moon** | **Removed 2026-08-04** — arm64 app cannot run on Intel |
+| **haumea** | OK — `cask "riverside-studio" if Hardware::CPU.arm?` in the shared brewfile |
+| **moon** | **No desktop app** — arm64 vendor binary; use the web app |
 | **Intel alternative** | **Web app** in Chrome/Edge: [riverside.fm](https://riverside.fm) / [riverside.com](https://riverside.com) |
-| **brewfile** | `riverside-studio` **commented out** so `brew bundle` does not reinstall a dead app on moon |
+| **brewfile** | Guarded with `Hardware::CPU.arm?` so Intel `brew bundle` does not try to install it |
 
 There is **no** separate Riverside desktop build for Intel Macs. Mobile: App Store “Riverside Podcast Video Studio”.
 
@@ -182,8 +182,9 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 | **Marked 2** | `mas "Marked 2", id: 890031187` | Yes | Yes | Float `com.brettterpstra.marked2` |
 | **Romm** | TestFlight / iOS wrapper | Yes | No | arm64 only |
 | **Pocket Sync** | GitHub [neil-morrison44/pocket-sync](https://github.com/neil-morrison44/pocket-sync) | Yes | Optional | Universal `.dmg` |
-| **8BitDo Firmware Updater** | `cask "8bitdo-firmware-updater"` | Yes | Optional | Float `com.8bitdo.firmwareupdater` |
-| **Adobe Acrobat** | Adobe installer | Yes | No | Manual |
+| **8BitDo Firmware Updater** | Manual (support.8bitdo.com) | Yes | Optional | Not a brew cask; float `com.8bitdo.firmwareupdater` |
+| **Cursor** | `cask "cursor"` | Yes | Optional | Workspace `code` (`com.todesktop.230313mzl4w4u92`) |
+| **Grok Bot** | Vendor download | Yes | Optional | Workspace `code` (`com.anysphere.sand`); not a brew cask |
 | **Riverside Studio** | brew cask (Silicon only) | Yes | **No** — use web | arm64 binary only; see §6 |
 | **ATEM / Blackmagic** | Blackmagic site | Both | Both | Manual |
 | **Backdrop** | cindori.com | Both | Both | Manual |
@@ -197,15 +198,15 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 ### Mainly / only haumea
 
 - UniFi Protect (iOS-on-Mac)
-- WiFiman iOS-on-Mac (Desktop is separate)
+- WiFiman iOS-on-Mac
 - **Riverside Studio** (arm64 desktop; moon uses browser)
-- Romm, Pocket Sync, Adobe Acrobat
-- 8BitDo updater until installed on moon
+- Romm, Pocket Sync, 8BitDo updater
 - Parallels **via brew cask** (app still on moon via vendor)
+- Cursor / Grok Bot (installed here; optional on moon)
 
 ### Mainly / only moon
 
-- WiFiman **Desktop** installed first here; haumea should run `brew install --cask wifiman` for SoT
+- WiFiman **Desktop** if you want a native Intel client (not required on haumea)
 - Parallels **vendor-only** install path
 - **Syncthing** — intentional moon-only service (not a haumea gap; see §10)
 
@@ -230,22 +231,27 @@ DevPod, Marked 2, OrbStack, Claude, Proton Drive/Pass/VPN, Office, iWork, SYSTM,
 | Docker | OrbStack + docker/docker-compose formulae |
 | Machine-local tools | Allowed; document extras below |
 
-### Formulae snapshot (2026-08-04)
+### Formulae snapshot (2026-08-27, haumea)
 
-| | haumea | moon (after Colima removal) |
-|--|-------:|----------------------------:|
-| All formulae | ~135 | ~102 |
-| Leaves | ~36 | ~34 |
-| Casks | 46 | 46 |
+| | haumea |
+|--|-------:|
+| All formulae | 147 |
+| Leaves | 41 |
+| Casks | 49 (incl. `cursor`, `parallels`, `ledger-live`) |
 
-#### Leaves only on haumea (extras)
+`deno` and `ripgrep` are in the brewfile **and** installed (also pulled in as deps of `yt-dlp` / `opencode`).
+
+#### Extra formulae on haumea (not in brewfile)
 
 | Formula | Role |
 |---------|------|
-| `czkawka` | Dup finder (large GTK dep tree) |
 | `fclones` | Fast dup finder |
 | `jdupes` | Dup finder |
-| `node` | Extra leaf (fnm also in brewfile) |
+| `go` | Go toolchain |
+| `lego` | ACME / Let's Encrypt client |
+| `libopenmpt` | Module playback (demoscene sidecar) |
+| `node` | Extra leaf (`fnm` is the version-manager SoT) |
+| `sshpass` | Non-interactive SSH passwords |
 
 #### Syncthing — **moon only** (intentional)
 
@@ -256,23 +262,21 @@ DevPod, Marked 2, OrbStack, Claude, Proton Drive/Pass/VPN, Office, iWork, SYSTM,
 
 Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.home.machines` does **not** include `syncthing`. Install on moon only via `brewfile.moon.extra` (Ansible does this when `--limit moon`).
 
-#### Leaves on both, not in brewfile
+#### In brewfile (were listed as extras in older snapshots)
 
-`butane`, `just`, `p7zip`, `sshpass`, `wakeonlan` — add to brewfile only if every new machine should get them.
+`butane`, `just`, `p7zip`, `wakeonlan`, `czkawka` — already in `brewfile.home.machines`.
 
-### Casks vs brewfile
+### Casks vs brewfile (haumea 2026-08-27)
 
 | Situation | Packages |
 |-----------|----------|
-| brewfile missing on haumea | `wifiman`, `8bitdo-firmware-updater` |
-| brewfile missing on moon | `8bitdo-firmware-updater` |
-| In shared brewfile | `aionui`, `block-buzz`, `ledger-wallet`, `just`, `butane`, `p7zip`, `wakeonlan`, `czkawka`, MAS Marked 2 |
-| Removed from SoT | Perplexity (MAS) |
+| Live, not in shared brewfile | `parallels` (optional Silicon; see §2), `ledger-live` (app is Ledger Live; brewfile token is `ledger-wallet`) |
+| Added to brewfile this pass | `cursor` |
+| Manual (not brew) | 8BitDo Firmware Updater, Grok Bot, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager |
+| Removed from SoT | Perplexity (MAS), **Adobe Acrobat** (uninstalled) |
+| Silicon-only in brewfile | `riverside-studio` (`Hardware::CPU.arm?`) |
 
-| Cask tracking only on haumea | `parallels` (see §2 — moon uses vendor install) |
-| Cask only on moon | `wifiman` until haumea installs Desktop |
-
-`ledger-wallet` (brewfile name) may appear as cask **`ledger-live`** on disk.
+Do **not** `brew install --cask wifiman` or `8bitdo-firmware-updater` as a haumea catch-up.
 
 ### brew services (typical)
 
@@ -878,11 +882,7 @@ brew bundle --file="$(chezmoi source-path)/brewfile.home.machines"
 Optional cleanups / catch-up:
 
 ```bash
-# haumea — optional catch-up (NOT syncthing — moon only)
-brew install --cask wifiman 8bitdo-firmware-updater
-
-# moon — remaining brewfile cask + Syncthing (moon only)
-brew install --cask 8bitdo-firmware-updater
+# moon — Syncthing (moon only; never on haumea)
 brew install syncthing && brew services start syncthing
 
 # moon — drop old Colima data if unused

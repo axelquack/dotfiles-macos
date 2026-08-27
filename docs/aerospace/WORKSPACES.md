@@ -6,7 +6,7 @@ Apps are automatically moved to their workspace when they open (`on-window-detec
 | App |
 |-----|
 | Brave Browser |
-| Perplexity |
+| Safari |
 
 ## `code` — Alt Cmd 2
 | App | Bundle ID |

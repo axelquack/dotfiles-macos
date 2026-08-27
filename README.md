@@ -39,6 +39,7 @@ Installed by `brewfile.home.machines`. This repo does **not** manage their API k
 | `block-buzz` | Buzz AI workspace | — (app-managed) |
 | `antigravity-cli` (`agy`) | Google Antigravity CLI — replaces Gemini CLI for consumer accounts | — (app-managed login) |
 | `zed` | AI-native editor | — (do not commit settings with keys) |
+| `cursor` | AI-native IDE | brew cask; AeroSpace workspace `code` |
 | `devpod` | Dev environments as code | — |
 | npm ACP agents | Obsidian Agent Client bridges | pinned versions in `scripts/install-npm-*.sh` |
 | Grok Build TUI (`~/.grok/bin/grok`) | xAI Grok coding agent | `dot_grok/config.toml.tmpl` (policy only; `grok login` OAuth + `~/.grok/.env` tokens stay local) |
@@ -337,10 +338,13 @@ The following require manual download/installation outside of Homebrew or the Ap
 - **Romm** — TestFlight (self-hosted ROM manager)
 - **SYSTM** (Wahoo) — systmapp.com
 - **DisplayLink Manager** — for docks (vendor installer)
+- **Grok Bot** — vendor download (AeroSpace workspace `code`)
 
 Retired from this setup (not installed by brewfile/Ansible):
 
 - **ZimaSpace Client** — Zima OS hardware uses separate repos (e.g. `dotfiles-zimaos`), not this Mac brewfile
+- **Adobe Acrobat** — uninstalled on haumea; not in brewfile
+- **Perplexity** — MAS app removed from SoT
 
 ---
 

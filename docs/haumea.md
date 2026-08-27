@@ -2,7 +2,7 @@
 
 **Role:** daily-driver Mac · Apple Silicon · Homebrew `/opt/homebrew`  
 **Audience:** public (no accounts, vault IDs, or absolute home paths)  
-**Last updated:** 2026-08-09  
+**Last updated:** 2026-08-27  
 
 ## Doc map (avoid duplication)
 

@@ -52,7 +52,7 @@ cask "proton-pass"           # Desktop client for Proton Pass password manager
 cask "prismlauncher"         # Custom launcher for Minecraft, supports multiple instances/modpacks
 cask "devpod"                # Dev environments as code — open-source DevPod
 cask "raindropio"            # Cross-platform bookmark manager application
-cask "riverside-studio"      # Podcast/video recording studio
+cask "riverside-studio" if Hardware::CPU.arm?  # Podcast/video studio — arm64-only vendor binary (Intel: use web)
 cask "roon"                  # High-fidelity music management and streaming software (requires Roon Core)
 cask "sdformatter"           # SD CardFormatter tool
 cask "signal"                # End-to-end encrypted messaging and calling application
@@ -60,6 +60,7 @@ cask "steam"                 # Digital distribution platform for PC games
 cask "telegram"              # Cloud-based instant messaging application
 cask "transmit"              # File transfer client (FTP, SFTP, S3, WebDAV, etc.) (Paid App)
 cask "vlc"                   # Versatile, free and open-source cross-platform multimedia player
+cask "cursor"                # AI-native IDE (VS Code fork)
 cask "zed"                   # AI-native code editor
 cask "zoom"                  # Video conferencing
 cask "zotero"                # Free tool to help you collect, organize, cite, and share research
@@ -162,6 +163,7 @@ mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 # - Romm — TestFlight (self-hosted ROM manager)
 # - SYSTM (Wahoo) — systmapp.com
 # - DisplayLink Manager — synaptics.com (dock firmware; not always in brewfile)
+# - Grok Bot — vendor download (not a Homebrew cask; AeroSpace workspace `code`)
 #
 # Parallels Desktop — ARCH-DEPENDENT (do not put a single rule in the cask list):
 #   Apple Silicon (haumea): brew install --cask parallels   (works; optional)
@@ -172,4 +174,5 @@ mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 # Retired / not part of this Mac setup anymore:
 # - ZimaSpace Client — Zima OS boxes use separate repos (e.g. dotfiles-zimaos), not this brewfile
 # - Perplexity MAS app — not in active SoT
+# - Adobe Acrobat — uninstalled; PDF Squeezer + Preview cover the need
 
