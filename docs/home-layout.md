@@ -24,6 +24,7 @@ Typical **policy** kinds (examples of categories, not a private file dump):
 | Git | `~/.gitconfig`, global gitignore | Identity fields from Pass templates where used |
 | SSH | `~/.ssh/config` + rendered `config.local` | Host list from Pass; keys from Pass bootstrap |
 | Selected XDG | e.g. prompt, updater, window manager under `~/.config/` | Only non-secret files in the public source |
+| Grok TUI policy | `~/.grok/config.toml` from `dot_grok/config.toml.tmpl` | Models / MCP / session; tokens in unmanaged `~/.grok/.env`; LAN URLs from local chezmoi data |
 
 **Never in the public chezmoi source (or any public git path):**
 

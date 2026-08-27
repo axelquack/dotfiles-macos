@@ -22,6 +22,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — **secret vault** (SSH keys, host config, API keys) | [`docs/secrets-pass.md`](docs/secrets-pass.md) · local `chezmoi.toml` IDs only |
 | [Deno](https://deno.com) | JavaScript / TypeScript runtime | brew formula |
 | [OpenCode](https://opencode.ai) | AI coding agent (CLI + desktop) | brew `opencode` + `opencode-desktop`; secrets **local only** |
+| Grok Build TUI | xAI coding agent (`~/.grok/bin/grok`) | `dot_grok/config.toml.tmpl`; OAuth via `grok login`; tokens local |
 
 *(Neovim/Vim config is managed in a separate repository.)*
 
@@ -39,6 +40,7 @@ Installed by `brewfile.home.machines`. This repo does **not** manage their API k
 | `zed` | AI-native editor | — (do not commit settings with keys) |
 | `devpod` | Dev environments as code | — |
 | npm ACP agents | Obsidian Agent Client bridges | pinned versions in `scripts/install-npm-*.sh` |
+| Grok Build TUI (`~/.grok/bin/grok`) | xAI Grok coding agent | `dot_grok/config.toml.tmpl` (policy only; `grok login` OAuth + `~/.grok/.env` tokens stay local) |
 
 **This repository is public.** Agents: start with [`AGENTS.md`](AGENTS.md) · [`SECURITY.md`](SECURITY.md).  
 **Secrets policy:** Proton Pass is SoT (`pass-cli`). Chezmoi + [`scripts/bootstrap-secrets-from-pass.sh`](scripts/bootstrap-secrets-from-pass.sh) materialize keys onto disk. Host inventories and Pass title maps live in **gitignored** `scripts/pass-*-map.local` (see examples). Never commit private keys, vault IDs, or `~/.zshrc.local`. Guide: [docs/secrets-pass.md](docs/secrets-pass.md). Pre-push: `./scripts/check-secrets.sh`.
@@ -135,6 +137,9 @@ sourceDir = "~/Developer/Projects/dotfiles-macos"
     proton_vault_id         = "YOUR_VAULT_ID"
     proton_git_item_id      = "YOUR_ITEM_ID"
     proton_ssh_host_item_id = "YOUR_SSH_HOST_ITEM_ID"
+    # Optional Grok TUI LAN MCP URLs (omit on hosts without these services)
+    grok_homeassistant_mcp_url = "http://HOMEASSISTANT_HOST/api/mcp"
+    grok_agentzero_mcp_url     = "http://AGENTZERO_HOST/mcp/t-${AGENTZERO_MCP_TOKEN}/http/"
 EOF
 ```
 
@@ -262,6 +267,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `dot_config/aerospace/aerospace.toml.tmpl` | `~/.config/aerospace/aerospace.toml` | AeroSpace WM (chezmoi template; homeDir for helper scripts) |
 | `private_dot_ssh/config` | `~/.ssh/config` | SSH base config: OrbStack include, GitHub host entry |
 | `private_dot_ssh/config.local.tmpl` | `~/.ssh/config.local` | Machine-specific SSH host entries — populated from Proton Pass at apply time, never committed |
+| `dot_grok/config.toml.tmpl` | `~/.grok/config.toml` | Grok TUI policy (models, MCP, session compact). Tokens in unmanaged `~/.grok/.env`. Optional LAN MCP URLs from local chezmoi data |
 
 ### Setup scripts & packages
 

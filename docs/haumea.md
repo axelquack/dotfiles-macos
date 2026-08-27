@@ -51,6 +51,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519   # your GitHub key
 - **Terminal:** tabs in one window = one tile; new windows get separate tiles.
 - **Marked 2** (optional): good for Markdown print; float in AeroSpace.
 - **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Developer/Projects` (prefer local disk, not iCloud Desktop & Documents).
+- **Grok Build TUI:** `~/.grok/config.toml` is chezmoi-managed (`dot_grok/config.toml.tmpl`). OAuth via `grok login`; MCP tokens in unmanaged `~/.grok/.env`. Do not export `XAI_API_KEY` into interactive shells.
 - Obsidian Agent Client / cloud models usually **do not** need the OpenCode GUI running.
 
 ---

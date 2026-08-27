@@ -36,6 +36,7 @@ Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
 | LAN IPs, MACs, full host inventories | Private notes / `machine-*.md` / `machine-ssh-hosts.md` (gitignored) |
 | Your Pass item title inventory with IPs | `pass-ssh-key-map.local` (gitignored) |
 | Generated `~/.zshrc.local` | Home directory only |
+| Grok LAN MCP URLs | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`, `grok_agentzero_mcp_url`) — optional; omit on hosts without those services |
 
 Committed **examples** use placeholders only (`pass-ssh-key-map.example`, `pass-env-map.example`).
 
@@ -126,6 +127,17 @@ cp scripts/pass-env-map.example scripts/pass-env-map.local
 | SSH alias policy | [ssh-hosts.md](./ssh-hosts.md) (public) · `machine-ssh-hosts.md` (private IPs) |
 
 **Do not** hand-edit `~/.ssh/config.local` long-term — chezmoi overwrites it.
+
+### Grok TUI (`~/.grok/config.toml`)
+
+Policy file is chezmoi-managed (`dot_grok/config.toml.tmpl`). MCP **tokens** stay in local `~/.grok/.env` (never git). Optional LAN MCP base URLs belong in **local** `~/.config/chezmoi/chezmoi.toml` `[data]`:
+
+```toml
+grok_homeassistant_mcp_url = "http://HOMEASSISTANT_HOST/api/mcp"
+grok_agentzero_mcp_url     = "http://AGENTZERO_HOST/mcp/t-${AGENTZERO_MCP_TOKEN}/http/"
+```
+
+Omit both keys on a machine that does not run those servers. Auth for Grok itself is `grok login` (OAuth), not `XAI_API_KEY`.
 
 ### Optional `pass-cli inject`
 

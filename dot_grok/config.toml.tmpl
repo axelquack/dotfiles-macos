@@ -1,0 +1,298 @@
+# ~/.grok/config.toml — Grok Build TUI policy (chezmoi template)
+# Tokens live in ~/.grok/.env (local only). LAN MCP URLs come from local
+# chezmoi.toml data keys grok_homeassistant_mcp_url / grok_agentzero_mcp_url.
+# Auth is grok login (OAuth), not XAI_API_KEY.
+
+[models]
+default = "grok-4.6"
+web_search = "grok-4.5"
+default_reasoning_effort = "high"
+
+[model_providers.opencode-zen]
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+name = "OpenCode Zen"
+
+[model_providers.opencode-go]
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+name = "OpenCode Go"
+
+[model_providers.cohere]
+base_url = "https://api.cohere.ai/compatibility/v1"
+env_key = "COHERE_API_KEY"
+name = "Cohere OAI API (prod)"
+
+[model.oc-zen-big-pickle]
+model = "big-pickle"
+model_provider = "opencode-zen"
+name = "big-pickle (OpenCode Zen)"
+description = "OpenCode Zen — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-zen-claude-fable-5]
+model = "claude-fable-5"
+model_provider = "opencode-zen"
+name = "Claude Fable 5 (OpenCode Zen)"
+description = "OpenCode Zen — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "chat_completions"
+context_window = 200000
+
+[model.oc-zen-claude-opus-4-8]
+model = "claude-opus-4-8"
+model_provider = "opencode-zen"
+name = "Claude Opus 4.8 (OpenCode Zen)"
+description = "OpenCode Zen — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "chat_completions"
+context_window = 200000
+
+[model.oc-zen-claude-sonnet-5]
+model = "claude-sonnet-5"
+model_provider = "opencode-zen"
+name = "Claude Sonnet 5 (OpenCode Zen)"
+description = "OpenCode Zen — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "chat_completions"
+context_window = 200000
+
+[model.oc-zen-gemini-3-6-flash]
+model = "gemini-3.6-flash"
+model_provider = "opencode-zen"
+name = "Gemini 3.6 Flash (OpenCode Zen)"
+description = "OpenCode Zen — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-zen-gpt-5-5-pro]
+model = "gpt-5.5-pro"
+model_provider = "opencode-zen"
+name = "GPT-5.5 Pro (OpenCode Zen)"
+description = "OpenCode Zen — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-zen-gpt-5-6-luna]
+model = "gpt-5.6-luna"
+model_provider = "opencode-zen"
+name = "GPT-5.6 Luna (OpenCode Zen)"
+description = "OpenCode Zen — Responses API surface"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "responses"
+
+[model.oc-zen-gpt-5-6-sol]
+model = "gpt-5.6-sol"
+model_provider = "opencode-zen"
+name = "GPT-5.6 Sol (OpenCode Zen)"
+description = "OpenCode Zen — Responses API surface"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "responses"
+
+[model.oc-zen-gpt-5-6-terra]
+model = "gpt-5.6-terra"
+model_provider = "opencode-zen"
+name = "GPT-5.6 Terra (OpenCode Zen)"
+description = "OpenCode Zen — Responses API surface"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "responses"
+
+[model.oc-zen-nemotron-3-ultra-free]
+model = "nemotron-3-ultra-free"
+model_provider = "opencode-zen"
+name = "Nemotron 3 Ultra Free (OpenCode Zen)"
+description = "OpenCode Zen free tier — OpenCode small_model"
+base_url = "https://opencode.ai/zen/v1"
+env_key = "OPENCODE_ZEN_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-go-deepseek-v4-flash]
+model = "deepseek-v4-flash"
+model_provider = "opencode-go"
+name = "DeepSeek V4 Flash (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-go-deepseek-v4-pro]
+model = "deepseek-v4-pro"
+model_provider = "opencode-go"
+name = "DeepSeek V4 Pro (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-go-glm-5-2]
+model = "glm-5.2"
+model_provider = "opencode-go"
+name = "GLM-5.2 (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-go-kimi-k2-7-code]
+model = "kimi-k2.7-code"
+model_provider = "opencode-go"
+name = "Kimi K2.7 Code (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-go-kimi-k3]
+model = "kimi-k3"
+model_provider = "opencode-go"
+name = "Kimi K3 (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-go-qwen3-6-plus]
+model = "qwen3.6-plus"
+model_provider = "opencode-go"
+name = "Qwen 3.6 Plus (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "chat_completions"
+
+[model.oc-go-qwen3-8-max]
+model = "qwen3.8-max"
+model_provider = "opencode-go"
+name = "Qwen 3.8 Max (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "messages"
+
+[model.oc-go-qwen3-7-plus]
+model = "qwen3.7-plus"
+model_provider = "opencode-go"
+name = "Qwen 3.7 Plus (OpenCode Go)"
+description = "OpenCode Go — same as Obsidian/OpenCode picker (Hermes default on haumea)"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+api_backend = "chat_completions"
+
+[model.cohere-north-large]
+model = "north-large-01-2026"
+model_provider = "cohere"
+name = "north-large-01-2026 (Cohere)"
+description = "Cohere OAI API (prod) — same as OpenCode/Obsidian"
+base_url = "https://api.cohere.ai/compatibility/v1"
+env_key = "COHERE_API_KEY"
+api_backend = "chat_completions"
+context_window = 512000
+
+[model.cohere-command-a-plus]
+model = "command-a-plus-05-2026"
+model_provider = "cohere"
+name = "command-a-plus-05-2026 (Cohere)"
+description = "Cohere OAI API (prod) — same as OpenCode/Obsidian"
+base_url = "https://api.cohere.ai/compatibility/v1"
+env_key = "COHERE_API_KEY"
+api_backend = "chat_completions"
+context_window = 256000
+
+[model.cohere-north-mini-code]
+model = "north-mini-code-1-0"
+model_provider = "cohere"
+name = "north-mini-code-1-0 (Cohere)"
+description = "Cohere OAI API (prod) — same as OpenCode/Obsidian"
+base_url = "https://api.cohere.ai/compatibility/v1"
+env_key = "COHERE_API_KEY"
+api_backend = "chat_completions"
+context_window = 128000
+
+[cli]
+installer = "internal"
+auto_update = true
+
+[ui]
+max_thoughts_width = 120
+fork_secondary_model = "grok-build"
+yolo = false
+compact_mode = false
+permission_mode = "always-approve"
+theme = "tokyonight"
+
+[session]
+# Compact at 50% of the 500k window (~250k) instead of the 80% default (~400k).
+# Failing turns were re-sending ~260k uncached tokens on every 502 retry.
+auto_compact_threshold_percent = 50
+
+{{- with get . "grok_agentzero_mcp_url" }}
+[mcp_servers.agentzero-olares]
+url = "{{ . }}"
+description = "Agent Zero Researcher on Olares (local 35B GPU pod) — not haumea; enable when pod is up"
+enabled = false
+{{- end }}
+
+[mcp_servers.raindroptest]
+url = "https://api.raindrop.io/rest/v2/ai/mcp"
+description = "Raindrop.io bookmarks, collections and highlights (cloud)"
+
+[mcp_servers.raindroptest.headers]
+Authorization = "Bearer ${RAINDROP_MCP_TOKEN}"
+
+{{- with get . "grok_homeassistant_mcp_url" }}
+[mcp_servers.homeassistant]
+url = "{{ . }}"
+description = "Home Assistant (LAN) — lights, sensors, scenes, automations"
+
+[mcp_servers.homeassistant.headers]
+Authorization = "Bearer ${HOMEASSISTANT_MCP_TOKEN}"
+{{- end }}
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp/"
+description = "Context7 — up-to-date library documentation (cloud)"
+
+[mcp_servers.searxng-haumea]
+url = "http://localhost:8001/mcp"
+description = "SearXNG on haumea (hermes-stack / OrbStack) — private web search gateway"
+
+[mcp_servers.searxng-haumea.headers]
+Authorization = "Bearer ${MCP_SEARXNG_AUTH_TOKEN}"
+
+[mcp_servers.playwright-haumea]
+url = "http://localhost:8002/mcp"
+description = "Playwright on haumea (hermes-stack / OrbStack) — headless browser automation"
+
+[mcp_servers.playwright-haumea.headers]
+Authorization = "Bearer ${MCP_PLAYWRIGHT_AUTH_TOKEN}"
+
+[mcp_servers.penpot-haumea]
+url = "http://localhost:9001/mcp/stream?userToken=${PENPOT_MCP_TOKEN}"
+description = "Penpot on haumea (hermes-stack) — decks/presentations via execute_code"
+
+[mcp_servers.zapier]
+url = "https://mcp.zapier.com/api/mcp/sse"
+enabled = true
+description = "Zapier MCP — X (@axelquack) / Facebook (needs a Page) and other Zapier apps"
+
+[mcp_servers.zapier.headers]
+Authorization = "Bearer ${ZAPIER_MCP_TOKEN}"
+Accept = "application/json, text/event-stream"
+
+[marketplace]
+official_marketplace_auto_installed = true
+default_skills_installs_purged = true
+
+[[marketplace.sources]]
+name = "xAI Official"
+git = "https://github.com/xai-org/plugin-marketplace.git"
