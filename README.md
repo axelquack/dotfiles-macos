@@ -285,6 +285,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/pass-cli-chezmoi.sh` | Proton Pass wrapper for chezmoi when PAT share IDs differ |
 | `scripts/bootstrap-secrets-from-pass.sh` | Materialize SSH keys / apply secrets plumbing from Pass |
 | `scripts/sync-goose-from-opencode.sh` | Import OpenCode SuperGrok OAuth + Zen/Go/Cohere keys into local Goose (never prints secrets) |
+| `scripts/mount-unifi-smb.sh` | Mount UniFi NAS SMB shares by reserved IP (inventory in gitignored `smb-hosts.local`) |
 | `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, …) |
 | `brewfile.moon.extra` | Secondary host only (Syncthing) |
 

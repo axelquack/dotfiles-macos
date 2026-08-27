@@ -27,6 +27,7 @@ Do **not** put API keys, model defaults, or serial numbers in this public file �
 | **Syncthing** | **Never** on haumea. Moon only — [moon.md](./moon.md) + [../brewfile.moon.extra](../brewfile.moon.extra) |
 | **Docker** | **OrbStack only** (no Colima) — details in [home-machines-apps.md §3](./home-machines-apps.md) |
 | **Secrets** | **Proton Pass** SoT; materialize with `scripts/bootstrap-secrets-from-pass.sh` — see [secrets-pass.md](./secrets-pass.md). Local: `chezmoi.toml` IDs + generated cache files only |
+| **NAS SMB** | Mount by reserved IPv4, not `*.local` — [smb-unifi-nas.md](./smb-unifi-nas.md). IPs in gitignored `scripts/smb-hosts.local` |
 
 ---
 

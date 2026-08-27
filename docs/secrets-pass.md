@@ -37,6 +37,7 @@ Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
 | Your Pass item title inventory with IPs | `pass-ssh-key-map.local` (gitignored) |
 | Generated `~/.zshrc.local` | Home directory only |
 | Grok LAN MCP URLs | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`, `grok_agentzero_mcp_url`) — optional; omit on hosts without those services |
+| UniFi NAS SMB IPs | gitignored `scripts/smb-hosts.local` (example committed) |
 
 Committed **examples** use placeholders only (`pass-ssh-key-map.example`, `pass-env-map.example`).
 
@@ -158,6 +159,7 @@ URL-encode awkward titles. Prefer `pass-write-zshrc-local.sh` + local map over c
 | `pass-write-zshrc-local.sh` | Pass → `~/.zshrc.local` (env map required) |
 | `pass-cli-chezmoi.sh` | chezmoi wrapper when PAT share IDs differ |
 | `check-secrets.sh` | Pre-push scan for this public repo |
+| `mount-unifi-smb.sh` | SMB mounts; IPs from gitignored `smb-hosts.local` |
 
 ---
 

@@ -1,0 +1,14 @@
+# Copy to smb-hosts.local (gitignored) and fill in.
+# Format: share_name|reserved_lan_ipv4|smb_user
+# Do NOT commit smb-hosts.local.
+#
+#   cp scripts/smb-hosts.example scripts/smb-hosts.local
+#
+# Prefer reserved IPv4 over *.local (same reason as SSH: mDNS fails on
+# travel-router / cross-subnet). Password stays in macOS Keychain after
+# the first successful Finder/open mount.
+#
+# Example (placeholders only):
+projects|YOUR_NAS_IPV4|YOUR_SMB_USER
+backups|YOUR_NAS_IPV4|YOUR_SMB_USER
+romm|YOUR_ROMM_NAS_IPV4|YOUR_SMB_USER

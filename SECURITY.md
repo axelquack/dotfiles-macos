@@ -14,6 +14,7 @@
 | Private host inventory | LAN IPs, MACs, full SSH host lists, serials |
 | Private agent briefs | `machine-*.md` (gitignored) |
 | Real Pass title inventory with IPs | use gitignored `pass-*-map.local` only |
+| Filled NAS SMB maps | use gitignored `scripts/smb-hosts.local` only |
 
 ## Allowed in public docs
 

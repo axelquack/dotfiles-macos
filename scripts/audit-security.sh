@@ -20,6 +20,7 @@ SHELL_FILES=(
     "$REPO_ROOT/scripts/pass-write-zshrc-local.sh"
     "$REPO_ROOT/scripts/check-secrets.sh"
     "$REPO_ROOT/scripts/sync-goose-from-opencode.sh"
+    "$REPO_ROOT/scripts/mount-unifi-smb.sh"
 )
 
 SHELLCHECK_FAILED=0
