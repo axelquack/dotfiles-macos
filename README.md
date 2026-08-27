@@ -34,9 +34,10 @@ Installed by `brewfile.home.machines`. This repo does **not** manage their API k
 |---------|---------|---------------------|
 | `opencode` + `opencode-desktop` | OpenCode CLI + GUI | PATH helpers in `dot_zshrc` only |
 | `claude` + `claude-code` | Anthropic desktop + CLI | — (app-managed) |
-| `block-goose` | Goose agentic assistant | — (app-managed) |
+| `block-goose` | Goose agentic assistant | custom provider JSON (no keys) in `dot_config/goose/custom_providers/`; SuperGrok OAuth imported locally via `scripts/sync-goose-from-opencode.sh` |
 | `aionui` | GUI for CLI AI agents | — (app-managed) |
 | `block-buzz` | Buzz AI workspace | — (app-managed) |
+| `antigravity-cli` (`agy`) | Google Antigravity CLI — replaces Gemini CLI for consumer accounts | — (app-managed login) |
 | `zed` | AI-native editor | — (do not commit settings with keys) |
 | `devpod` | Dev environments as code | — |
 | npm ACP agents | Obsidian Agent Client bridges | pinned versions in `scripts/install-npm-*.sh` |
@@ -255,7 +256,8 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 
 | File in repo | Deploys to | Purpose |
 |---|---|---|
-| `dot_zshrc` | `~/.zshrc` | Interactive Zsh config: PATH, version managers, aliases; sources `~/.zshrc.local` if present |
+| `dot_zshrc` | `~/.zshrc` | Interactive Zsh config: PATH, version managers, aliases; optional Kiro/Grok hooks; sources `~/.zshrc.local` if present |
+| `dot_zprofile` | `~/.zprofile` | Login-shell brew + OrbStack + optional Kiro hooks (no secrets) |
 | *(not managed)* | `~/.zshrc.local` | Machine-local secrets and overrides (API keys, Grok env) — create per machine, never commit |
 | `dot_zshenv` | `~/.zshenv` | All-session env vars: `$EDITOR`, `$PAGER`, Cargo |
 | `dot_gitconfig.tmpl` | `~/.gitconfig` | Git identity and global settings (chezmoi template) |
@@ -265,6 +267,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `dot_config/starship.toml` | `~/.config/starship.toml` | Starship prompt config |
 | `dot_config/topgrade.toml` | `~/.config/topgrade.toml` | Topgrade updater config |
 | `dot_config/aerospace/aerospace.toml.tmpl` | `~/.config/aerospace/aerospace.toml` | AeroSpace WM (chezmoi template; homeDir for helper scripts) |
+| `dot_config/goose/custom_providers/` | `~/.config/goose/custom_providers/` | Goose model catalogs (no keys). SuperGrok OAuth stays local via `scripts/sync-goose-from-opencode.sh` |
 | `private_dot_ssh/config` | `~/.ssh/config` | SSH base config: OrbStack include, GitHub host entry |
 | `private_dot_ssh/config.local.tmpl` | `~/.ssh/config.local` | Machine-specific SSH host entries — populated from Proton Pass at apply time, never committed |
 | `dot_grok/config.toml.tmpl` | `~/.grok/config.toml` | Grok TUI policy (models, MCP, session compact). Tokens in unmanaged `~/.grok/.env`. Optional LAN MCP URLs from local chezmoi data |
@@ -281,6 +284,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/check-secrets.sh` | Pre-push public-repo scan (gitleaks + no LAN IPs / key material in git) |
 | `scripts/pass-cli-chezmoi.sh` | Proton Pass wrapper for chezmoi when PAT share IDs differ |
 | `scripts/bootstrap-secrets-from-pass.sh` | Materialize SSH keys / apply secrets plumbing from Pass |
+| `scripts/sync-goose-from-opencode.sh` | Import OpenCode SuperGrok OAuth + Zen/Go/Cohere keys into local Goose (never prints secrets) |
 | `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, …) |
 | `brewfile.moon.extra` | Secondary host only (Syncthing) |
 

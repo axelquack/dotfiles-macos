@@ -19,6 +19,7 @@ SHELL_FILES=(
     "$REPO_ROOT/scripts/bootstrap-secrets-from-pass.sh"
     "$REPO_ROOT/scripts/pass-write-zshrc-local.sh"
     "$REPO_ROOT/scripts/check-secrets.sh"
+    "$REPO_ROOT/scripts/sync-goose-from-opencode.sh"
 )
 
 SHELLCHECK_FAILED=0
@@ -27,7 +28,7 @@ for f in "${SHELL_FILES[@]}"; do
         echo "    SKIP missing: $f"
         continue
     fi
-    if shellcheck "$f"; then
+    if shellcheck -x -P "$REPO_ROOT/scripts" "$f"; then
         echo "    OK: $f"
     else
         SHELLCHECK_FAILED=1
@@ -49,7 +50,7 @@ NPM_LIST=$(npm list -g --depth=0 --json 2>/dev/null)
 PACKAGE_NAMES=(
     "@google/gemini-cli"
     "@agentclientprotocol/claude-agent-acp"
-    "@zed-industries/codex-acp"
+    "@agentclientprotocol/codex-acp"
 )
 
 PACKAGE_VERSIONS=()

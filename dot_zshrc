@@ -1,5 +1,15 @@
 # ~/.zshrc - Zsh configuration file for the Z Shell
 
+# Kiro CLI pre hook (optional). Official installer uses ~/.local/bin/kiro-cli;
+# Homebrew cask links /opt/homebrew or /usr/local. No-op if Kiro is not installed.
+if [[ -x "${HOME}/.local/bin/kiro-cli" ]]; then
+    eval "$("${HOME}/.local/bin/kiro-cli" init zsh pre --rcfile zshrc)"
+elif [[ -x /opt/homebrew/bin/kiro-cli ]]; then
+    eval "$(/opt/homebrew/bin/kiro-cli init zsh pre --rcfile zshrc)"
+elif [[ -x /usr/local/bin/kiro-cli ]]; then
+    eval "$(/usr/local/bin/kiro-cli init zsh pre --rcfile zshrc)"
+fi
+
 # --- Zsh Environment Setup ---
 
 # Load Zsh Profiling Module (Optional: Uncomment for startup time debugging)
@@ -250,6 +260,19 @@ esac
 # NOT managed by chezmoi — create ~/.zshrc.local on each machine as needed.
 # Keeps secrets out of the dotfiles repo and stops "has changed since last wrote" prompts.
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# Grok TUI (optional; installer also appends this)
+[[ -d "${HOME}/.grok/bin" ]] && export PATH="${HOME}/.grok/bin:$PATH"
+[[ -d "${HOME}/.grok/completions/zsh" ]] && fpath=("${HOME}/.grok/completions/zsh" $fpath)
+
+# Kiro CLI post hook (optional). Keep near the end of this file.
+if [[ -x "${HOME}/.local/bin/kiro-cli" ]]; then
+    eval "$("${HOME}/.local/bin/kiro-cli" init zsh post --rcfile zshrc)"
+elif [[ -x /opt/homebrew/bin/kiro-cli ]]; then
+    eval "$(/opt/homebrew/bin/kiro-cli init zsh post --rcfile zshrc)"
+elif [[ -x /usr/local/bin/kiro-cli ]]; then
+    eval "$(/usr/local/bin/kiro-cli init zsh post --rcfile zshrc)"
+fi
 
 # Zsh Profiling Output (Optional: Uncomment for startup time debugging)
 # Make sure this is the *very last* command executed in .zshrc

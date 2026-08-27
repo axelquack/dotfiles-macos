@@ -1,0 +1,21 @@
+{
+  "name": "cohere_oai",
+  "engine": "openai",
+  "display_name": "Cohere OAI API (prod)",
+  "description": "Cohere compatibility API — same whitelist as OpenCode provider.cohere.",
+  "api_key_env": "COHERE_API_KEY",
+  "base_url": "https://api.cohere.ai",
+  "base_path": "compatibility/v1/chat/completions",
+  "catalog_provider_id": "cohere",
+  "dynamic_models": false,
+  "skip_canonical_filtering": true,
+  "preserves_thinking": true,
+  "supports_streaming": true,
+  "requires_auth": true,
+  "model_doc_link": "https://docs.cohere.com",
+  "models": [
+    { "name": "north-large-01-2026", "context_limit": 512000 },
+    { "name": "command-a-plus-05-2026", "context_limit": 256000 },
+    { "name": "north-mini-code-1-0", "context_limit": 128000 }
+  ]
+}

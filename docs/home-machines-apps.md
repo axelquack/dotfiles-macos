@@ -343,6 +343,30 @@ Verify: Mail sidebar shows the account and can send/receive.
 
 ---
 
+## 12b. Goose (CLI + desktop)
+
+**Install (SoT):** brew cask `block-goose` in `brewfile.home.machines`.
+
+| Piece | Typical location | In this git repo? |
+|-------|------------------|-------------------|
+| CLI / desktop | Homebrew cask + `~/.local/bin/goose` | package name only |
+| App config / extensions | `~/.config/goose/config.yaml` | **no** (app-managed) |
+| Custom providers (no keys) | `~/.config/goose/custom_providers/` | yes — `dot_config/goose/custom_providers/` |
+| SuperGrok OAuth tokens | `~/.config/goose/xai_oauth/tokens.json` | **no** — mode `600` |
+| API keys | Goose keyring (`service=goose`) / `secrets.yaml` | **no** |
+
+**Auth rule:** default provider is Goose’s built-in **`xai_oauth`** (SuperGrok / X Premium+ subscription). Do **not** set Goose to the built-in `xai` provider (`XAI_API_KEY` — console API billing).
+
+After OpenCode re-login (`/connect xai`), re-import:
+
+```bash
+./scripts/sync-goose-from-opencode.sh
+```
+
+**Do not publish:** model IDs, env file contents, or token JSON. Host-specific catalog: local `machine-*.md`.
+
+---
+
 ## 13. Obsidian + Agent Client (ACP)
 
 ### Vault layout (2026-08-04) — one vault, Obsidian Sync only
@@ -384,20 +408,23 @@ Install via:
 eval "$(fnm env)"
 fnm install 24 && fnm default 24
 "$(chezmoi source-path)/scripts/install-npm-acp-agents.sh"
-"$(chezmoi source-path)/scripts/install-npm-cli-tools.sh"   # gemini CLI
+"$(chezmoi source-path)/scripts/install-npm-cli-tools.sh"   # optional leftover CLIs; not used by Agent Client
 brew install opencode   # OpenCode ACP: opencode acp
+brew install --cask antigravity-cli   # agy TUI — not ACP / not Obsidian
 ```
 
 | Tool | Package | Role |
 |------|---------|------|
 | **OpenCode** (default agent) | brew `opencode` | `opencode acp` — uses local OpenCode config + auth (never commit) |
-| **Claude Code ACP** | `@agentclientprotocol/claude-agent-acp@0.37.0` | Agent Client “Claude Code” |
-| **Codex ACP** | `@zed-industries/codex-acp@0.15.0` | Agent Client “Codex” (deprecated name; migrate later) |
-| **Gemini CLI** | `@google/gemini-cli@0.43.0` | `gemini --experimental-acp` |
+| **Claude Code ACP** | `@agentclientprotocol/claude-agent-acp@0.68.0` | Agent Client “Claude Code” |
+| **Codex ACP** | `@agentclientprotocol/codex-acp@1.3.0` | Agent Client “Codex” |
+| **Antigravity CLI** | brew cask `antigravity-cli` → `/opt/homebrew/bin/agy` | Gemini successor. **Not in Agent Client** (no ACP). Use Terminal or Antigravity 2.0. |
+| **Mistral Vibe** | brew `mistral-vibe` → `vibe-acp` | Agent Client via `~/.config/mistral-vibe/launch-acp-with-env.sh` |
+| **Kiro CLI** | brew cask `kiro-cli` → `kiro-cli acp` | Agent Client via `~/.config/kiro/launch-acp-with-env.sh` |
 
 **Critical:** Agent Client must **not** store ephemeral `fnm_multishells/...` paths. Use stable:
 
-`~/.local/share/fnm/node-versions/v24.x.x/installation/bin/{node,claude-agent-acp,codex-acp,gemini}`
+`~/.local/share/fnm/node-versions/v24.x.x/installation/bin/{node,claude-agent-acp,codex-acp}`
 
 and `/usr/local/bin/opencode` (Intel) or `/opt/homebrew/bin/opencode` (Silicon).
 
@@ -411,10 +438,18 @@ Vault: `~/Obsidian/YourVault` · plugin `agent-client` · file
 | **Default agent** | OpenCode |
 | **OpenCode command** | `~/.config/opencode/launch-acp-with-env.sh` |
 | **OpenCode args** | `["acp"]` (plugin default; wrapper is **idempotent** — will not run `acp` twice) |
+| **Codex command** | `~/.config/codex/launch-acp-with-env.sh` |
+| **Gemini CLI** | **off** (`enabled: false`) |
+| **Mistral Vibe** | `~/.config/mistral-vibe/launch-acp-with-env.sh` (`vibe-acp`; `MISTRAL_API_KEY` from Keychain) |
+| **Kiro** | `~/.config/kiro/launch-acp-with-env.sh` (`kiro-cli acp`; one-time `kiro-cli login`) |
+| **Grok Build** | `~/.config/grok/launch-acp-with-env.sh` (`grok agent stdio`; SuperGrok OAuth via `grok login`) |
 | **nodePath** | stable fnm Node `…/installation/bin/node` |
+
+TUI policy (`~/.grok/config.toml`) is chezmoi-managed — see [`dot_grok/config.toml.tmpl`](../dot_grok/config.toml.tmpl) and [secrets-pass.md](./secrets-pass.md). Do not export `XAI_API_KEY` into interactive shells.
 
 **Pitfall (2026-08-06):** Old wrapper always ran `opencode acp "$@"`. Agent Client also passes `acp` (and **re-injects** it if `args` is empty) → `opencode acp acp` → *ACP connection closed*, or stuck **Connecting…** after partial fix.  
 Wrapper now: if `$1 == acp` then `exec opencode "$@"` else `exec opencode acp "$@"`.  
+Same for **Kiro**: `kiro-cli acp acp` exits immediately (`unexpected argument 'acp'`). Wrapper is idempotent; plugin `args` is `["acp"]`.  
 Details: `hermes-stack/docs/guides/hermes-opencode-acp-editors.md`.
 
 ### Agent Client plugin settings (moon, after fix)
@@ -709,7 +744,7 @@ Brew SoT: `cask "zed"` in `brewfile.home.machines`.
 | Font | Hack Nerd Font (`Hack NF`) | installed via `font-hack-nerd-font` cask |
 | Extensions | dockerfile, html, solarized, toml, xml | **same** (synced from haumea `extensions/installed`) |
 | CLI agent | brew `opencode` → `opencode acp` | same (`/usr/local/bin/opencode` on Intel) |
-| ACP helpers | claude-agent-acp, codex-acp, gemini-cli | same npm pins as Obsidian Agent Client |
+| ACP helpers | claude-agent-acp, codex-acp | same npm pins as Obsidian Agent Client |
 
 ### settings.json (shared behaviour)
 
@@ -767,11 +802,10 @@ Or paste keys once in **Settings → AI → LLM Providers** so Keychain is owned
 ```bash
 # already done 2026-08-05 if brew/fnm present
 brew install --cask zed font-hack-nerd-font
-# ACP agents (same as scripts/install-npm-acp-agents.sh + gemini)
+# ACP agents (same as scripts/install-npm-acp-agents.sh)
 eval "$(fnm env)"; fnm default 24
-npm install -g @agentclientprotocol/claude-agent-acp@0.37.0 \
-  @zed-industries/codex-acp@0.15.0 \
-  @google/gemini-cli@0.43.0
+npm install -g @agentclientprotocol/claude-agent-acp@0.68.0 \
+  @agentclientprotocol/codex-acp@1.3.0
 ```
 
 OpenCode on the secondary host: see **§12**. Re-authenticate providers in each app after setup; do not copy auth files into git.

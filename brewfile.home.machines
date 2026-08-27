@@ -31,6 +31,8 @@ cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "heroic"                # Open source game launcher (Epic, GOG, Amazon)
 cask "jdownloader"           # Download manager for file hosting sites
 cask "ledger-wallet"         # Ledger hardware wallet desktop app
+cask "antigravity-cli"       # Google Antigravity CLI (agy) — replaces Gemini CLI for consumer accounts
+cask "kiro-cli"              # Kiro CLI — ACP via `kiro-cli acp` (Obsidian Agent Client)
 cask "aionui"                # Unified GUI for CLI AI agents
 cask "block-buzz"            # Buzz workspace for humans and AI agents
 cask "macwhisper"            # Audio transcription tool (whisper.cpp)
@@ -100,6 +102,7 @@ brew "gh"                       # GitHub CLI — manage repos, PRs, issues from 
 brew "just"                     # Command runner (justfile) — used across project repos
 brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
+brew "mistral-vibe"             # Mistral Vibe CLI + vibe-acp (Obsidian Agent Client)
 brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
 brew "p7zip"                    # 7-Zip file archiver (CLI)
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)

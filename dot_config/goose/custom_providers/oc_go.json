@@ -1,0 +1,23 @@
+{
+  "name": "oc_go",
+  "engine": "openai",
+  "display_name": "OpenCode Go",
+  "description": "OpenCode Go whitelist — OpenAI-compatible chat/completions (same models as OpenCode provider.opencode-go).",
+  "api_key_env": "OPENCODE_GO_API_KEY",
+  "base_url": "https://opencode.ai",
+  "base_path": "zen/go/v1/chat/completions",
+  "catalog_provider_id": "opencode-go",
+  "dynamic_models": false,
+  "skip_canonical_filtering": true,
+  "preserves_thinking": true,
+  "supports_streaming": true,
+  "requires_auth": true,
+  "model_doc_link": "https://opencode.ai/docs/go",
+  "models": [
+    { "name": "deepseek-v4-flash", "context_limit": 1000000 },
+    { "name": "deepseek-v4-pro", "context_limit": 1000000 },
+    { "name": "glm-5.2", "context_limit": 204800 },
+    { "name": "kimi-k2.7-code", "context_limit": 262144 },
+    { "name": "kimi-k3", "context_limit": 262144 }
+  ]
+}

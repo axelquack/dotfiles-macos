@@ -1,0 +1,20 @@
+{
+  "name": "oc_zen_claude",
+  "engine": "anthropic",
+  "display_name": "OpenCode Zen (Claude)",
+  "description": "OpenCode Zen Claude models via Anthropic Messages (https://opencode.ai/zen/v1/messages).",
+  "api_key_env": "OPENCODE_ZEN_API_KEY",
+  "base_url": "https://opencode.ai/zen",
+  "catalog_provider_id": "opencode",
+  "dynamic_models": false,
+  "skip_canonical_filtering": true,
+  "preserves_thinking": true,
+  "supports_streaming": true,
+  "requires_auth": true,
+  "model_doc_link": "https://opencode.ai/docs/zen",
+  "models": [
+    { "name": "claude-fable-5", "context_limit": 200000 },
+    { "name": "claude-opus-4-8", "context_limit": 200000 },
+    { "name": "claude-sonnet-5", "context_limit": 200000 }
+  ]
+}

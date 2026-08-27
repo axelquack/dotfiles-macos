@@ -1,0 +1,20 @@
+{
+  "name": "oc_go_qwen",
+  "engine": "anthropic",
+  "display_name": "OpenCode Go (Qwen)",
+  "description": "OpenCode Go Qwen models via Anthropic Messages (https://opencode.ai/zen/go/v1/messages).",
+  "api_key_env": "OPENCODE_GO_API_KEY",
+  "base_url": "https://opencode.ai/zen/go",
+  "catalog_provider_id": "opencode-go",
+  "dynamic_models": false,
+  "skip_canonical_filtering": true,
+  "preserves_thinking": true,
+  "supports_streaming": true,
+  "requires_auth": true,
+  "model_doc_link": "https://opencode.ai/docs/go",
+  "models": [
+    { "name": "qwen3.8-max", "context_limit": 262144 },
+    { "name": "qwen3.7-plus", "context_limit": 262144 },
+    { "name": "qwen3.6-plus", "context_limit": 262144 }
+  ]
+}

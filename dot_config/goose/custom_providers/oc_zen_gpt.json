@@ -1,0 +1,22 @@
+{
+  "name": "oc_zen_gpt",
+  "engine": "openai",
+  "display_name": "OpenCode Zen (GPT)",
+  "description": "OpenCode Zen GPT models via the Responses API (https://opencode.ai/zen/v1/responses).",
+  "api_key_env": "OPENCODE_ZEN_API_KEY",
+  "base_url": "https://opencode.ai",
+  "base_path": "zen/v1/responses",
+  "catalog_provider_id": "opencode",
+  "dynamic_models": false,
+  "skip_canonical_filtering": true,
+  "preserves_thinking": true,
+  "supports_streaming": true,
+  "requires_auth": true,
+  "model_doc_link": "https://opencode.ai/docs/zen",
+  "models": [
+    { "name": "gpt-5.5-pro", "context_limit": 1050000 },
+    { "name": "gpt-5.6-luna", "context_limit": 1050000 },
+    { "name": "gpt-5.6-sol", "context_limit": 1050000 },
+    { "name": "gpt-5.6-terra", "context_limit": 1050000 }
+  ]
+}

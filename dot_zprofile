@@ -1,0 +1,30 @@
+# ~/.zprofile — login-shell PATH and optional app hooks (no secrets).
+
+# Kiro CLI pre hook (optional). See dot_zshrc for the same brew vs ~/.local/bin lookup.
+if [[ -x "${HOME}/.local/bin/kiro-cli" ]]; then
+    eval "$("${HOME}/.local/bin/kiro-cli" init zsh pre --rcfile zprofile)"
+elif [[ -x /opt/homebrew/bin/kiro-cli ]]; then
+    eval "$(/opt/homebrew/bin/kiro-cli init zsh pre --rcfile zprofile)"
+elif [[ -x /usr/local/bin/kiro-cli ]]; then
+    eval "$(/usr/local/bin/kiro-cli init zsh pre --rcfile zprofile)"
+fi
+
+# Homebrew in login shells (Apple Silicon vs Intel).
+if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# OrbStack CLI (no-op if OrbStack is not installed).
+# shellcheck disable=SC1090
+source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
+
+# Kiro CLI post hook (optional).
+if [[ -x "${HOME}/.local/bin/kiro-cli" ]]; then
+    eval "$("${HOME}/.local/bin/kiro-cli" init zsh post --rcfile zprofile)"
+elif [[ -x /opt/homebrew/bin/kiro-cli ]]; then
+    eval "$(/opt/homebrew/bin/kiro-cli init zsh post --rcfile zprofile)"
+elif [[ -x /usr/local/bin/kiro-cli ]]; then
+    eval "$(/usr/local/bin/kiro-cli init zsh post --rcfile zprofile)"
+fi

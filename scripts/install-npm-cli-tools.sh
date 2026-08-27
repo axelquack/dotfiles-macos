@@ -5,4 +5,6 @@ set -euo pipefail
 
 eval "$(fnm env)"
 
-npm install -g @google/gemini-cli@0.37.1                       # Google's Gemini CLI
+# Consumer / Code Assist-for-individuals login died 2026-06-18 (migrate to brew cask antigravity-cli / agy).
+# Paid Gemini API keys still work with this CLI. Do not use it as the Obsidian agent for Google-account login.
+npm install -g @google/gemini-cli@0.37.1                       # Gemini CLI (API-key path only)
