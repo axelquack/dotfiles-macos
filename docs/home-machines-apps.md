@@ -275,7 +275,7 @@ Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.hom
 | Manual (not brew) | 8BitDo Firmware Updater, Grok Bot, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager |
 | Removed from SoT | Perplexity (MAS), **Adobe Acrobat** (uninstalled) |
 | Silicon-only in brewfile | `riverside-studio`, `mistral-vibe` (`Hardware::CPU.arm?` — no Intel bottles / Tier 3) |
-| Intel bottle lag (keep via `brew pin` on moon) | `atuin`, `uv`, `llmfit`, `node` when stable has no x86_64 bottle — see [moon.md](./moon.md) |
+| Intel bottle lag (moon: pin **or** `--build-from-source`) | `atuin`, `uv`, `llmfit`, `node` when stable has no x86_64 bottle — see [moon.md](./moon.md) |
 
 Do **not** `brew install --cask wifiman` or `8bitdo-firmware-updater` as a haumea catch-up.
 
