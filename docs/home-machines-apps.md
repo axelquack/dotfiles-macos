@@ -367,6 +367,21 @@ After OpenCode re-login (`/connect xai`), re-import:
 ./scripts/sync-goose-from-opencode.sh
 ```
 
+#### Desktop “Configuration Error” / missing provider
+
+| Symptom | Likely cause | Fix |
+|---------|--------------|-----|
+| Goose Desktop: *“Configuration Error — please configure an API provider”* | Missing or stale `~/.config/goose/xai_oauth/tokens.json` while `config.yaml` still says `GOOSE_PROVIDER=xai_oauth` | Ensure OpenCode `xai` OAuth works, then `./scripts/sync-goose-from-opencode.sh`; relaunch Goose.app |
+| CLI works after sync, Desktop still errors | App launched before tokens existed | Quit + reopen Goose.app |
+| Sync prints refresh / `invalid_grant` | SuperGrok refresh revoked | OpenCode `/connect xai` (or `opencode auth login`), then re-run sync |
+
+Smoke (CLI):
+
+```bash
+goose run -t "reply with only the word: pong"
+# expect session line: xai_oauth + default model, then pong
+```
+
 **Do not publish:** model IDs, env file contents, or token JSON. Host-specific catalog: local `machine-*.md`.
 
 ---
@@ -727,7 +742,7 @@ Not app inventory, but required for `chezmoi apply` / topgrade templates on both
 | GUI vs SSH | Keyring unlock needs **GUI Terminal**; SSH hits `-25308` |
 | PAT | Optional optional local PAT file under `~/.config/pass-cli/` (mode 600, never commit) (mode 600); grant vault **viewer** for PAT |
 | PAT + `pass://` vault id | PAT share id ≠ user vault id → **422**; use [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) as `[protonPass] command` |
-| Precheck | `scripts/topgrade-precheck.sh` |
+| Precheck | `scripts/topgrade-precheck.sh` (pass-cli session + SSH agent; wired as topgrade `[pre_commands]`) |
 
 Details: [haumea.md](./haumea.md) (primary) · [moon.md](./moon.md) (secondary, soft Pass over SSH).
 

@@ -282,6 +282,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/install-npm-acp-agents.sh` | ACP agent servers for [Obsidian Agent Client](https://rait-09.github.io/obsidian-agent-client/agent-setup/) |
 | `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`gemini-cli` and ACP agents — pinned versions) |
 | `scripts/audit-security.sh` | Security audit: `shellcheck` + OSV.dev for pinned npm packages |
+| `scripts/topgrade-precheck.sh` | Topgrade `[pre_commands]`: require pass-cli session + SSH agent (loads GitHub key from Keychain) |
 | `scripts/check-secrets.sh` | Pre-push public-repo scan (gitleaks + no LAN IPs / key material in git) |
 | `scripts/pass-cli-chezmoi.sh` | Proton Pass wrapper for chezmoi when PAT share IDs differ |
 | `scripts/bootstrap-secrets-from-pass.sh` | Materialize SSH keys / apply secrets plumbing from Pass |
@@ -304,8 +305,9 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 | `yarn` / `pnpm` | No global packages; globals use npm + pinned install scripts (same policy as `node`) | N/A — install project deps with yarn/pnpm in the project; do not use global yarn/pnpm |
 | `containers` | Dockerfile-based stacks need rebuild; pulling images without restarting containers gives false confidence | `docker-compose build --pull && docker-compose up -d` (hermes-stack) · `docker-compose pull && docker-compose up -d` (mcp-stack) |
 | `uv` | Managed by Homebrew; `uv self update` fails for brew-managed installs | Updated automatically via Homebrew step |
+| `colima` | OrbStack is the Docker runtime; `colima update` fails when Colima is not running | N/A — use OrbStack |
 
-**Before `topgrade`:** run `pass-cli login` in an interactive terminal (chezmoi templates need Proton Pass), and ensure your GitHub SSH key is loaded (`ssh-add --apple-use-keychain ~/.ssh/id_ed25519  # your GitHub key`) so `chezmoi update` does not hang on a passphrase prompt and hit a broken pipe.
+**Before `topgrade`:** the config runs [`scripts/topgrade-precheck.sh`](scripts/topgrade-precheck.sh) (pass-cli session + SSH agent). Or manually: `pass-cli login` in a GUI Terminal, and load your GitHub key (`ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github`) so `chezmoi update` does not hang on a passphrase prompt and hit a broken pipe.
 
 **Avoid chezmoi “has changed since last wrote” prompts:**
 - Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.

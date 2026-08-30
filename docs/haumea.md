@@ -2,7 +2,7 @@
 
 **Role:** daily-driver Mac · Apple Silicon · Homebrew `/opt/homebrew`  
 **Audience:** public (no accounts, vault IDs, or absolute home paths)  
-**Last updated:** 2026-08-27  
+**Last updated:** 2026-08-30  
 
 ## Doc map (avoid duplication)
 
@@ -39,7 +39,9 @@ Do **not** put API keys, model defaults, or serial numbers in this public file �
 
 ```bash
 pass-cli login   # GUI Terminal (Keychain)
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519   # your GitHub key
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github
+# or let topgrade's precheck load it:
+#   ./scripts/topgrade-precheck.sh
 ```
 
 - PAT / `pass://` share-id mismatch (HTTP 422): use [../scripts/pass-cli-chezmoi.sh](../scripts/pass-cli-chezmoi.sh) as chezmoi `[protonPass] command`. Full policy table: [home-machines-apps.md §15](./home-machines-apps.md) (high level) — **no vault IDs in git**.
@@ -53,6 +55,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519   # your GitHub key
 - **Marked 2** (optional): good for Markdown print; float in AeroSpace.
 - **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Developer/Projects` (prefer local disk, not iCloud Desktop & Documents).
 - **Grok Build TUI:** `~/.grok/config.toml` is chezmoi-managed (`dot_grok/config.toml.tmpl`). OAuth via `grok login`; MCP tokens in unmanaged `~/.grok/.env`. Do not export `XAI_API_KEY` into interactive shells.
+- **Goose Desktop:** default is SuperGrok **`xai_oauth`**. If the app shows *Configuration Error* / “configure an API provider”, re-import from OpenCode (`./scripts/sync-goose-from-opencode.sh`) then relaunch Goose — see [home-machines-apps.md §12b](./home-machines-apps.md).
 - Obsidian Agent Client / cloud models usually **do not** need the OpenCode GUI running.
 
 ---

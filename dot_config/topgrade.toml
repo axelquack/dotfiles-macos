@@ -14,7 +14,9 @@
 # globals are managed with npm + pinned install scripts (same reason as 'node').
 # I disabled 'containers' — hermes-stack images are locally built (no registry),
 # and mcp-stack public images are updated via docker-compose pull in their project folder.
-disable = ["uv", "node", "yarn", "pnpm", "containers"]
+# I disabled 'colima' — Docker runtime is OrbStack on these Macs; colima is not the active VM
+# and `colima update` fails with "colima is not running".
+disable = ["uv", "node", "yarn", "pnpm", "containers", "colima"]
 
 # I disabled 'containers' — hermes-stack uses Dockerfiles (locally built, no registry);
 # updates require `docker-compose build --pull && docker-compose up -d` per project.
@@ -47,6 +49,11 @@ disable = ["uv", "node", "yarn", "pnpm", "containers"]
 
 # --- Pre/Post Hooks (Optional) ---
 # Define custom commands to run before or after Topgrade's main steps.
+
+# Before any step: Proton Pass session + GitHub SSH key (chezmoi update needs both).
+# Fails fast with a clear message instead of mid-run "Broken pipe" / Pass errors.
+[pre_commands]
+"Pre-check (pass-cli + SSH)" = "$(chezmoi source-path)/scripts/topgrade-precheck.sh"
 
 # Run security audit after all updates — checks installed npm versions against OSV.dev
 # and runs shellcheck on all shell scripts.
