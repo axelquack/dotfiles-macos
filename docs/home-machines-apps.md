@@ -274,7 +274,7 @@ Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.hom
 | Added to brewfile this pass | `cursor` |
 | Manual (not brew) | 8BitDo Firmware Updater, Grok Bot, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager |
 | Removed from SoT | Perplexity (MAS), **Adobe Acrobat** (uninstalled) |
-| Silicon-only in brewfile | `riverside-studio` (`Hardware::CPU.arm?`) |
+| Silicon-only in brewfile | `riverside-studio`, `mistral-vibe` (`Hardware::CPU.arm?` — no Intel bottles / Tier 3) |
 
 Do **not** `brew install --cask wifiman` or `8bitdo-firmware-updater` as a haumea catch-up.
 
@@ -438,7 +438,7 @@ brew install --cask antigravity-cli   # agy TUI — not ACP / not Obsidian
 | **Claude Code ACP** | `@agentclientprotocol/claude-agent-acp@0.68.0` | Agent Client “Claude Code” |
 | **Codex ACP** | `@agentclientprotocol/codex-acp@1.3.0` | Agent Client “Codex” |
 | **Antigravity CLI** | brew cask `antigravity-cli` → `/opt/homebrew/bin/agy` | Gemini successor. **Not in Agent Client** (no ACP). Use Terminal or Antigravity 2.0. |
-| **Mistral Vibe** | brew `mistral-vibe` → `vibe-acp` | Agent Client via `~/.config/mistral-vibe/launch-acp-with-env.sh` |
+| **Mistral Vibe** | brew `mistral-vibe` → `vibe-acp` (**arm64 only** in brewfile) | Agent Client via `~/.config/mistral-vibe/launch-acp-with-env.sh`; Intel moon: skip / use web or haumea |
 | **Kiro CLI** | brew cask `kiro-cli` → `kiro-cli acp` | Agent Client via `~/.config/kiro/launch-acp-with-env.sh` |
 
 **Critical:** Agent Client must **not** store ephemeral `fnm_multishells/...` paths. Use stable:

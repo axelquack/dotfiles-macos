@@ -103,7 +103,8 @@ brew "gh"                       # GitHub CLI — manage repos, PRs, issues from 
 brew "just"                     # Command runner (justfile) — used across project repos
 brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
-brew "mistral-vibe"             # Mistral Vibe CLI + vibe-acp (Obsidian Agent Client)
+# Intel (moon): no bottle for mistral-vibe / pydantic deps (Homebrew Tier 3) — arm64 only
+brew "mistral-vibe" if Hardware::CPU.arm?  # Mistral Vibe CLI + vibe-acp (Obsidian Agent Client)
 brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
 brew "p7zip"                    # 7-Zip file archiver (CLI)
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
