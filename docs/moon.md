@@ -51,6 +51,7 @@ Do **not** remove these from `brewfile.home.machines` just because Intel lags �
 
 - SSH from primary for admin: use the moon host entry and key (names live in **local** SSH config / Pass — not published here).
 - **pass-cli / Keychain over SSH:** often cannot unlock (`-25308`). [`scripts/topgrade-precheck.sh`](../scripts/topgrade-precheck.sh) **warns and continues** on that Keychain failure (still hard-fails if Pass is truly logged out). Chezmoi template steps that need Pass may still fail later — prefer GUI Terminal on moon for a full Pass-backed apply.
+- **topgrade + chezmoi:** `ignore_failures = ["chezmoi"]` in [`dot_config/topgrade.toml`](../dot_config/topgrade.toml) so SSH topgrade continues after Pass-blocked `chezmoi update`. Source repo must track `origin/master` (`git branch --set-upstream-to=origin/master master`).
 - **SSH agent over SSH:** login shells may lack `SSH_AUTH_SOCK`; `~/.zprofile` / `~/.zshrc` (and the precheck) attach to the GUI launchd agent socket when it already has identities.
 - Secrets: `~/.zshrc.local` + local chezmoi data only.
 - **Goose:** prefer the same SuperGrok **`xai_oauth`** path as primary (`./scripts/sync-goose-from-opencode.sh` after OpenCode xAI login **on moon**). A Dock/AionUI wrapper under `~/.local/bin/goose` may still exist for PATH/env; do not treat console `XAI_API_KEY` as the long-term default — see [home-machines-apps.md §12b](./home-machines-apps.md).

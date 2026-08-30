@@ -18,6 +18,11 @@
 # and `colima update` fails with "colima is not running".
 disable = ["uv", "node", "yarn", "pnpm", "containers", "colima"]
 
+# chezmoi update needs Proton Pass for templates. Over SSH, macOS Keychain returns
+# -25308 even when the GUI session is logged in — treat that as non-fatal so brew/MAS
+# finishes. Apply dots in a GUI Terminal when Pass is available: pass-cli login && chezmoi apply
+ignore_failures = ["chezmoi"]
+
 # I disabled 'containers' — hermes-stack uses Dockerfiles (locally built, no registry);
 # updates require `docker-compose build --pull && docker-compose up -d` per project.
 # mcp-stack public images also need `docker-compose pull && docker-compose up -d`.
