@@ -29,6 +29,21 @@ This file only covers **moon-specific** behaviour. Do not repeat full app tables
 | **Homebrew prefix** | `/usr/local` (Intel). Scripts and Ansible detect arch automatically. |
 | **Parallels** | Prefer **vendor installer** on Intel (brew cask historically flaky) — [home-machines-apps.md §2](./home-machines-apps.md) |
 | **Apple Silicon–only apps** | Not required (Protect iOS-on-Mac, etc.) — inventory lists these as primary-only |
+| **Intel bottle lag** | Some Homebrew formulae ship **arm64 bottles only** for a while (Tier 3 on Intel). Keep the last working install with `brew pin` rather than `brew install --build-from-source`. |
+
+### Intel Homebrew pins (when upgrade has no bottle)
+
+`topgrade` / `brew upgrade` will error with `no bottle available!` on Intel if a newer stable has empty bottles. **Pin** the working versions; unpin when an Intel bottle appears (`brew info --json=v2 <formula>` → `bottle.stable.files`).
+
+```bash
+# Typical moon pins (adjust as bottles catch up)
+brew pin atuin uv llmfit node
+brew list --pinned
+# Later, when Intel bottles exist:
+# brew unpin atuin uv llmfit node && brew upgrade atuin uv llmfit node
+```
+
+Do **not** remove these from `brewfile.home.machines` just because Intel lags — haumea (arm64) should still track them. `mistral-vibe` stays arm-gated (never had a usable Intel bottle).
 
 ---
 

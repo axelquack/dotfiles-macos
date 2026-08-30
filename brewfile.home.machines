@@ -76,10 +76,12 @@ brew "protonpass/tap/pass-cli"  # Proton Pass CLI — access secrets from Proton
 # Shell & Prompt & History
 brew "starship"                 # The prompt system used in .zshrc
 brew "zsh-completions"          # Additional completions for Zsh
+# Intel (moon): newer bottles often missing (Tier 3) — keep installed version via `brew pin atuin`
 brew "atuin"                    # Enhanced shell history with sync
 
 # Language Version Managers & Related
 brew "pyenv"                    # Python version management
+# Intel (moon): pin when upgrade has no bottle — see docs/moon.md
 brew "uv"                       # Fast Python package installer & venv manager (used with pyenv)
 brew "rbenv"                    # Ruby version management
 brew "ruby-build"               # Required rbenv plugin to install Ruby versions
@@ -101,6 +103,7 @@ brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
 brew "ffmpeg"                   # Audio/video processing and conversion tool
 brew "gh"                       # GitHub CLI — manage repos, PRs, issues from the terminal
 brew "just"                     # Command runner (justfile) — used across project repos
+# Intel (moon): pin when upgrade has no bottle — see docs/moon.md
 brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
 # Intel (moon): no bottle for mistral-vibe / pydantic deps (Homebrew Tier 3) — arm64 only
