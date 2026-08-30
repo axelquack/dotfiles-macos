@@ -58,6 +58,20 @@ path=(
 # Export the configured 'path' array to the standard PATH environment variable.
 export PATH
 
+# macOS: interactive shells (incl. SSH) may lack SSH_AUTH_SOCK while the GUI
+# login agent already has keys. Same logic as ~/.zprofile for non-login shells.
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    if [[ -z "${SSH_AUTH_SOCK:-}" ]] || ! ssh-add -l >/dev/null 2>&1; then
+        # shellcheck disable=SC2231
+        for __ssh_sock in /private/tmp/com.apple.launchd.*/Listeners; do
+            if [[ -S "${__ssh_sock}" ]] && SSH_AUTH_SOCK="${__ssh_sock}" ssh-add -l >/dev/null 2>&1; then
+                export SSH_AUTH_SOCK="${__ssh_sock}"
+                break
+            fi
+        done
+        unset __ssh_sock
+    fi
+fi
 
 # --- Aerospace Tiling Window Manager Configuration ---
 # Requires aerspace to be installed (e.g., `brew tap nikitabobko/tap`). uv (`brew install aerospace`).

@@ -66,8 +66,31 @@ CANDIDATES=(
   "${HOME}/.ssh/id_ed25519"
 )
 
+agent_has_ids() {
+  ssh-add -l >/dev/null 2>&1
+}
+
+# SSH into a logged-in Mac often has no SSH_AUTH_SOCK even though the GUI
+# session's launchd agent already holds keys. Reuse that socket when present.
+attach_macos_gui_ssh_agent() {
+  local sock
+  if agent_has_ids; then
+    return 0
+  fi
+  # shellcheck disable=SC2231
+  for sock in /private/tmp/com.apple.launchd.*/Listeners; do
+    [[ -S "${sock}" ]] || continue
+    if SSH_AUTH_SOCK="${sock}" ssh-add -l >/dev/null 2>&1; then
+      export SSH_AUTH_SOCK="${sock}"
+      ok "attached to macOS GUI SSH agent (${sock})"
+      return 0
+    fi
+  done
+  return 1
+}
+
 loaded_any=0
-if ssh-add -l >/dev/null 2>&1; then
+if agent_has_ids || attach_macos_gui_ssh_agent; then
   loaded_any=1
 fi
 
@@ -84,7 +107,7 @@ if [[ "${loaded_any}" -eq 0 ]]; then
   done
 fi
 
-if ! ssh-add -l >/dev/null 2>&1; then
+if ! agent_has_ids; then
   cat >&2 <<'EOF'
 ERROR: SSH agent has no identities.
 chezmoi update / git fetch will hang or break-pipe on a passphrase prompt.
@@ -93,9 +116,9 @@ Load your GitHub key in this Terminal, then re-run topgrade:
   ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github
   # or: ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
-Over SSH, --apple-use-keychain often fails (-25308). From the machine that
-already has the key loaded, use agent forwarding, or run topgrade in a GUI
-Terminal on the target Mac.
+Over SSH, --apple-use-keychain often fails (-25308). Prefer a GUI Terminal
+on the target Mac (keys already in the login agent), or enable agent
+forwarding from a machine that already has the key loaded.
 EOF
   exit 1
 fi

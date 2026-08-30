@@ -16,6 +16,21 @@ elif [[ -x /usr/local/bin/brew ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# macOS SSH: login shells often have no SSH_AUTH_SOCK even though the GUI
+# session's launchd agent already holds keys (needed for git/chezmoi over SSH).
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    if [[ -z "${SSH_AUTH_SOCK:-}" ]] || ! ssh-add -l >/dev/null 2>&1; then
+        # shellcheck disable=SC2231
+        for __ssh_sock in /private/tmp/com.apple.launchd.*/Listeners; do
+            if [[ -S "${__ssh_sock}" ]] && SSH_AUTH_SOCK="${__ssh_sock}" ssh-add -l >/dev/null 2>&1; then
+                export SSH_AUTH_SOCK="${__ssh_sock}"
+                break
+            fi
+        done
+        unset __ssh_sock
+    fi
+fi
+
 # OrbStack CLI (no-op if OrbStack is not installed).
 # shellcheck disable=SC1090
 source "${HOME}/.orbstack/shell/init.zsh" 2>/dev/null || :
