@@ -35,7 +35,7 @@ This file only covers **moon-specific** behaviour. Do not repeat full app tables
 ## Shell / remote ops
 
 - SSH from primary for admin: use the moon host entry and key (names live in **local** SSH config / Pass — not published here).
-- **pass-cli / Keychain over SSH:** often cannot unlock; topgrade/chezmoi should **warn and continue** rather than hard-fail when session is unusable (primary prefers a real Pass session).
+- **pass-cli / Keychain over SSH:** often cannot unlock (`-25308`). [`scripts/topgrade-precheck.sh`](../scripts/topgrade-precheck.sh) **warns and continues** on that Keychain failure (still hard-fails if Pass is truly logged out). Chezmoi template steps that need Pass may still fail later — prefer GUI Terminal on moon for a full Pass-backed apply.
 - Secrets: `~/.zshrc.local` + local chezmoi data only.
 - **Goose:** prefer the same SuperGrok **`xai_oauth`** path as primary (`./scripts/sync-goose-from-opencode.sh` after OpenCode xAI login **on moon**). A Dock/AionUI wrapper under `~/.local/bin/goose` may still exist for PATH/env; do not treat console `XAI_API_KEY` as the long-term default — see [home-machines-apps.md §12b](./home-machines-apps.md).
 
