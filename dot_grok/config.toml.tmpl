@@ -1,8 +1,12 @@
-# ~/.grok/config.toml — Grok Build TUI policy (chezmoi template)
-# Tokens live in ~/.grok/.env (local only). LAN MCP URLs come from local
-# chezmoi.toml data keys grok_homeassistant_mcp_url / grok_agentzero_mcp_url.
-# Auth is grok login (OAuth), not XAI_API_KEY.
-
+{{- /*
+  ~/.grok/config.toml — Grok Build TUI policy (chezmoi template)
+  Tokens live in ~/.grok/.env (local only). LAN MCP URLs come from local
+  chezmoi.toml data keys grok_homeassistant_mcp_url / grok_agentzero_mcp_url.
+  Auth is grok login (OAuth), not XAI_API_KEY.
+  Do not emit TOML # comments: Grok TUI rewrites this file and strips them,
+  which makes chezmoi think the dest drifted. [privacy] is TUI-local — re-injected
+  from the destination at apply time (see end of this file).
+*/ -}}
 [models]
 default = "grok-4.6"
 web_search = "grok-4.5"
@@ -231,8 +235,6 @@ permission_mode = "always-approve"
 theme = "tokyonight"
 
 [session]
-# Compact at 50% of the 500k window (~250k) instead of the 80% default (~400k).
-# Failing turns were re-sending ~260k uncached tokens on every 502 retry.
 auto_compact_threshold_percent = 50
 
 {{- with get . "grok_agentzero_mcp_url" }}
@@ -296,3 +298,13 @@ default_skills_installs_purged = true
 [[marketplace.sources]]
 name = "xAI Official"
 git = "https://github.com/xai-org/plugin-marketplace.git"
+{{- /* Preserve Grok TUI [privacy] (privacy_banner_acked, etc.) — local only. */ -}}
+{{- $dest := joinPath .chezmoi.homeDir ".grok" "config.toml" -}}
+{{- if stat $dest -}}
+{{- $raw := include $dest -}}
+{{- $priv := regexFind `(?m)^\[privacy\](?:\n(?:[^[\n].*)?)*` $raw -}}
+{{- if $priv }}
+
+{{ trim $priv }}
+{{- end -}}
+{{- end }}

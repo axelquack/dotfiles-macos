@@ -271,7 +271,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `dot_config/goose/custom_providers/` | `~/.config/goose/custom_providers/` | Goose model catalogs (no keys). SuperGrok OAuth stays local via `scripts/sync-goose-from-opencode.sh` |
 | `private_dot_ssh/config` | `~/.ssh/config` | SSH base config: OrbStack include, GitHub host entry |
 | `private_dot_ssh/config.local.tmpl` | `~/.ssh/config.local` | Machine-specific SSH host entries — populated from Proton Pass at apply time, never committed |
-| `dot_grok/config.toml.tmpl` | `~/.grok/config.toml` | Grok TUI policy (models, MCP, session compact). Tokens in unmanaged `~/.grok/.env`. Optional LAN MCP URLs from local chezmoi data |
+| `dot_grok/config.toml.tmpl` | `~/.grok/config.toml` | Grok TUI policy (models, MCP, session compact). Tokens in unmanaged `~/.grok/.env`. Optional LAN MCP URLs from local chezmoi data. TUI-written `[privacy]` is re-injected from the destination so apply does not fight `privacy_banner_acked` |
 
 ### Setup scripts & packages
 
