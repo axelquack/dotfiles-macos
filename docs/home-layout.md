@@ -54,10 +54,12 @@ Chezmoi is the wrong tool for container VMs, game clients, or large app data tre
 | Path | Role |
 |------|------|
 | `~/Developer/Projects/` | Git clones |
-| `~/Developer/bin/` | User scripts (on PATH via local shell config) |
+| `~/Developer/bin/` | User scripts (on PATH via local shell config; symlink from `~/.local/bin` when tools look there) |
 | `~/Developer/cache/` | Tool caches moved out of `$HOME` when useful |
 | `~/Developer/_archive/` | Old backups moved out of `$HOME` |
 | `~/Developer/_backups/` | Intentional dumps |
+
+Do **not** keep repo docs, scripts, or `machine-*.md` in `$HOME`. Those stay in the clone (`docs/`, `scripts/`, gitignored `machine-*.md`). Chezmoi ignores them (`.chezmoiignore`) so `chezmoi apply` does not copy them to `$HOME`. Live AeroSpace config is `~/.config/aerospace/aerospace.toml`, not `~/aerospace.toml`.
 
 A machine-local `~/Developer/README.md` may describe that tree in more detail; it is not required in this public repo.
 

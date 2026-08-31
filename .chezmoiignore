@@ -9,6 +9,9 @@ CLAUDE.md
 AGENTS.md
 machine.md
 machine.md.example
+# Private/host notes live in the source clone, not $HOME (haumea/moon).
+machine-*.md
+machine-ssh-hosts.md.example
 brewfile.home.machines
 brewfile.moon.extra
 macOS.sh
