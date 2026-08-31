@@ -22,6 +22,7 @@ SHELL_FILES=(
     "$REPO_ROOT/scripts/sync-goose-from-opencode.sh"
     "$REPO_ROOT/scripts/mount-unifi-smb.sh"
     "$REPO_ROOT/scripts/topgrade-precheck.sh"
+    "$REPO_ROOT/scripts/ensure-ssh-agent.sh"
 )
 
 SHELLCHECK_FAILED=0

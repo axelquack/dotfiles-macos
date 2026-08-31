@@ -123,9 +123,12 @@ cp scripts/pass-env-map.example scripts/pass-env-map.local
 | Task | Command |
 |------|---------|
 | Edit SSH hosts | Edit Pass **SSH Host Config** → `chezmoi apply` → refresh private `machine-ssh-hosts.md` if needed |
-| Agent load keys | `pass-cli ssh-agent load --vault-name Personal` (optional) |
-| Before topgrade | `pass-cli login` (interactive Terminal) |
+| Ensure SSH agent (preferred) | `./scripts/ensure-ssh-agent.sh` — idempotent; uses `pass-cli ssh-agent load` when empty |
+| Agent load keys (manual) | `pass-cli ssh-agent load --vault-name Personal` |
+| Before topgrade / cold session | `pass-cli login` in a **GUI** Terminal if needed, then ensure-ssh-agent |
 | SSH alias policy | [ssh-hosts.md](./ssh-hosts.md) (public) · `machine-ssh-hosts.md` (private IPs) |
+
+**Session lifetime:** `pass-cli login` and agent load are **not** permanent. Same login session usually keeps working; after reboot / logout / empty `ssh-add -l`, re-login (if needed) and run `ensure-ssh-agent.sh`. Do not install a LaunchAgent that auto-unlocks Pass (keeps intentional GUI unlock). See [AGENTS.md](../AGENTS.md) § Pass session + SSH agent.
 
 **Do not** hand-edit `~/.ssh/config.local` long-term — chezmoi overwrites it.
 
@@ -158,6 +161,7 @@ URL-encode awkward titles. Prefer `pass-write-zshrc-local.sh` + local map over c
 | `bootstrap-secrets-from-pass.sh` | Pass → disk keys + chezmoi |
 | `pass-write-zshrc-local.sh` | Pass → `~/.zshrc.local` (env map required) |
 | `pass-cli-chezmoi.sh` | chezmoi wrapper when PAT share IDs differ |
+| `ensure-ssh-agent.sh` | Idempotent `pass-cli ssh-agent load` when agent empty |
 | `check-secrets.sh` | Pre-push scan for this public repo |
 | `mount-unifi-smb.sh` | SMB mounts; IPs from gitignored `smb-hosts.local` |
 

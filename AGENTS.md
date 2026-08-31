@@ -46,6 +46,36 @@ Avoid hard-coding absolute home paths in **committed** files.
 
 Bootstrap: `./scripts/bootstrap-secrets-from-pass.sh` (requires local maps + Pass login).
 
+## Pass session + SSH agent (do not abandon pass-cli)
+
+**Proton Pass via `pass-cli` remains SoT.** Disk keys under `~/.ssh/` are a cache after bootstrap. Prefer loading the agent from Pass, not inventing a Keychain-only workflow.
+
+### What is permanent vs not
+
+| Piece | Persistence |
+|-------|-------------|
+| Keys / host config on disk (chezmoi + bootstrap) | Until reinstall or re-bootstrap |
+| `pass-cli login` (Pass session + Keychain) | Until logout, reboot, or Keychain lock |
+| `pass-cli ssh-agent load` (identities in `ssh-agent`) | Until agent empties (reboot / logout / agent restart) |
+
+You do **not** need to re-run these for every `git` command in the same login session. You **do** need them again after reboot or when `ssh-add -l` shows no identities / `pass-cli vault list` fails.
+
+### Least friction without lowering security
+
+- **Do not** add a LaunchAgent that auto-unlocks Pass or silently loads keys at boot — that bypasses intentional GUI unlock.
+- **Do** use the idempotent helper (no-op if the agent already has keys):
+
+```bash
+# GUI Terminal on the Mac (haumea / moon) after reboot or cold agent
+pass-cli login                          # only if vault list fails
+./scripts/ensure-ssh-agent.sh           # pass-cli ssh-agent load when empty
+```
+
+- Over **SSH**, macOS often returns Keychain `-25308`. Either load on that Mac’s **GUI Terminal** first (login shells then attach the GUI agent via `~/.zprofile` / `~/.zshrc`), or use `ssh -A` from a host that already has keys loaded.
+- `scripts/topgrade-precheck.sh` soft-fails Pass Keychain over SSH and still tries to attach / load identities for brew updates.
+
+Details: [`docs/secrets-pass.md`](docs/secrets-pass.md) · host notes [`docs/moon.md`](docs/moon.md).
+
 ## Safety for agents
 
 - Prefer **read** of public docs; write private notes only under gitignored `machine-*.md` / `machine-ssh-hosts.md` or outside the repo.  

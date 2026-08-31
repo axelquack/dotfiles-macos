@@ -85,9 +85,11 @@ Public summary of the secondary-host parity pass. Host names, vault IDs, and LAN
 - **Goose:** prefer the same SuperGrok **`xai_oauth`** path as primary (`./scripts/sync-goose-from-opencode.sh` after OpenCode xAI login **on moon**). A Dock/AionUI wrapper under `~/.local/bin/goose` may still exist for PATH/env; do not treat console `XAI_API_KEY` as the long-term default — see [home-machines-apps.md §12b](./home-machines-apps.md).
 
 ```bash
-# On moon (interactive GUI when possible)
-pass-cli login
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519   # GitHub or deploy key as configured locally
+# On moon (GUI Terminal — after reboot or cold agent)
+pass-cli login                          # only if pass-cli vault list fails
+./scripts/ensure-ssh-agent.sh           # pass-cli ssh-agent load when empty (idempotent)
+# Manual equivalent:
+#   pass-cli ssh-agent load --vault-name Personal
 ```
 
 ---

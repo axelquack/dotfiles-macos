@@ -283,6 +283,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`gemini-cli` and ACP agents — pinned versions) |
 | `scripts/audit-security.sh` | Security audit: `shellcheck` + OSV.dev for pinned npm packages |
 | `scripts/topgrade-precheck.sh` | Topgrade `[pre_commands]`: require pass-cli session + SSH agent (loads GitHub key from Keychain) |
+| `scripts/ensure-ssh-agent.sh` | Idempotent SSH agent load via `pass-cli ssh-agent load` (no-op if keys already present) |
 | `scripts/check-secrets.sh` | Pre-push public-repo scan (gitleaks + no LAN IPs / key material in git) |
 | `scripts/pass-cli-chezmoi.sh` | Proton Pass wrapper for chezmoi when PAT share IDs differ |
 | `scripts/bootstrap-secrets-from-pass.sh` | Materialize SSH keys / apply secrets plumbing from Pass |
@@ -307,7 +308,7 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 | `uv` | Managed by Homebrew; `uv self update` fails for brew-managed installs | Updated automatically via Homebrew step |
 | `colima` | OrbStack is the Docker runtime; `colima update` fails when Colima is not running | N/A — use OrbStack |
 
-**Before `topgrade`:** the config runs [`scripts/topgrade-precheck.sh`](scripts/topgrade-precheck.sh) (pass-cli session + SSH agent). Or manually: `pass-cli login` in a GUI Terminal, and load your GitHub key (`ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github`) so `chezmoi update` does not hang on a passphrase prompt and hit a broken pipe.
+**Before `topgrade`:** the config runs [`scripts/topgrade-precheck.sh`](scripts/topgrade-precheck.sh) (pass-cli session + SSH agent). Prefer Pass SoT: in a GUI Terminal run `pass-cli login` if needed, then [`scripts/ensure-ssh-agent.sh`](scripts/ensure-ssh-agent.sh) (`pass-cli ssh-agent load` when the agent is empty). Session is not permanent across reboot — see [AGENTS.md](AGENTS.md).
 
 **Avoid chezmoi “has changed since last wrote” prompts:**
 - Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.
