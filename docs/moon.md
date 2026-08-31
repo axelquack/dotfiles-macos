@@ -2,7 +2,7 @@
 
 **Role:** secondary Mac · Intel (`x86_64`) · Homebrew `/usr/local`  
 **Audience:** public (no accounts, vault IDs, LAN IPs, or personal paths)  
-**Last updated:** 2026-08-30  
+**Last updated:** 2026-08-31  
 
 ## Doc map (avoid duplication)
 
@@ -46,14 +46,32 @@ brew list --pinned
 **Option B — build from source** (run current stable on Intel; Tier 3 — don’t file Homebrew issues):
 
 ```bash
-brew unpin atuin uv llmfit node   # if previously pinned
-brew install --build-from-source atuin uv llmfit
+brew unpin atuin uv llmfit node chezmoi   # if previously pinned
+brew install --build-from-source atuin uv llmfit chezmoi
 brew upgrade node                 # or --build-from-source if upgrade refuses
 ```
 
 Next bump without bottles will fail again unless you re-pin or rebuild from source.
 
 Do **not** remove these from `brewfile.home.machines` just because Intel lags — haumea (arm64) should still track them. `mistral-vibe` stays arm-gated (never had a usable Intel bottle).
+
+---
+
+## Catch-up (2026-08-30 → 2026-08-31)
+
+Public summary of the secondary-host parity pass. Host names, vault IDs, and LAN details stay in private `machine-moon.md`.
+
+| Area | What changed |
+|------|----------------|
+| **Topgrade precheck** | Soft-fail Pass Keychain `-25308` over SSH; attach GUI launchd SSH agent when `SSH_AUTH_SOCK` is empty; `ignore_failures = ["chezmoi"]` so brew/MAS finish over SSH |
+| **Shell** | `dot_zprofile` / `dot_zshrc` reuse the GUI SSH agent socket on Darwin SSH logins |
+| **Intel Homebrew** | Prefer pin **or** `--build-from-source` when bottles are missing; moon ran source builds for `atuin` / `uv` / `llmfit` / `node` / `chezmoi` |
+| **Goose** | Align with primary: SuperGrok **`xai_oauth`** via `./scripts/sync-goose-from-opencode.sh` (GUI); CLI wrapper prefers Goose.app |
+| **Chezmoi apply** | Pass-backed templates: run in a **GUI Terminal** on moon (`pass-cli login` if needed). SSH cannot unlock Keychain |
+| **Projects** | Clone GitHub SoT stacks onto moon as needed; rsync **gitignored** locals (`.env`, small library/config) from primary when running the same OrbStack stacks — never commit those files |
+| **Hygiene** | Prefer `~/Developer/Projects` only; archive broken non-git trees and untracked local-only files under `_restore-backups/` before deleting |
+
+**Still optional / host-local:** turn off iCloud Desktop & Documents when Desktop is cleared; archive leftover non-git cruft dirs; start OrbStack services only when you need them on the secondary; publish local-only repos (no `origin`) before cloning them to moon.
 
 ---
 
