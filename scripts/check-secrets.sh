@@ -61,11 +61,29 @@ fi
 
 # Private map files must not be tracked
 if git ls-files --error-unmatch scripts/pass-ssh-key-map.local 2>/dev/null \
-  || git ls-files --error-unmatch scripts/pass-env-map.local 2>/dev/null; then
+  || git ls-files --error-unmatch scripts/pass-env-map.local 2>/dev/null \
+  || git ls-files --error-unmatch scripts/himalaya-accounts.local 2>/dev/null; then
   echo "FAIL: gitignored map file is tracked"
   fail=1
 else
   echo "OK: local map files not tracked"
+fi
+
+if git ls-files '*.mobileconfig' | grep -q .; then
+  echo "FAIL: .mobileconfig is tracked (IMAP passwords)"
+  fail=1
+else
+  echo "OK: no .mobileconfig in git"
+fi
+
+echo "-- himalaya / Mail.app password material --"
+if rg -n "${EXCLUDE_GLOBS[@]}" -e 'password\.raw' -e 'IncomingPassword' . 2>/dev/null \
+  | rg -v 'check-secrets|SECURITY|himalaya-apply|never |not |do not' \
+  | head -20 | grep -q .; then
+  echo "FAIL: password.raw or IncomingPassword in tracked files"
+  fail=1
+else
+  echo "OK: no IMAP password fields in tracked files"
 fi
 
 echo "-- public inventory heuristics (LAN IPs in tracked files) --"

@@ -18,6 +18,7 @@ Canonical **inventory and parity** notes for primary (**haumea**) and secondary 
 | App / cask / formula **tables** (this file) | sections below |
 | AeroSpace keybindings | [aerospace/](./aerospace/) |
 | Automation | [../ansible/README.md](../ansible/README.md) |
+| Himalaya CLI/TUI + Mail.app extra IMAP | [himalaya.md](./himalaya.md) |
 
 **Shared SoT**
 
@@ -326,6 +327,19 @@ haumea also has an MDM/profile identifier mentioning Proton for this address; **
 4. Enable **Mail** (+ Contacts/Calendars if desired).
 
 Verify: Mail sidebar shows the account and can send/receive.
+
+### Himalaya + extra IMAP (both Macs)
+
+CLI (Homebrew `himalaya`) + TUI (cargo, not bottled) + optional unsigned Mail.app IMAP profile for extra `mail@` boxes. **No addresses, passwords, or profiles in this public repo.**
+
+| Piece | How |
+|-------|-----|
+| Apply | `ansible-playbook setup-macos.yml --limit haumea --tags himalaya` (or `moon`) |
+| Account map | gitignored `scripts/himalaya-accounts.local` (copy the example) |
+| Config | `~/.config/himalaya/config.toml` — `password.command` → pass-cli titles |
+| Mail.app extra IMAP | `--tags mailapp` in a GUI Terminal; System Settings → Device Management; then `rm -P` the profile |
+
+Canonical steps: [himalaya.md](./himalaya.md). Mailbox inventory stays in a private ops repo.
 
 ---
 

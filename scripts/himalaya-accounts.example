@@ -1,0 +1,32 @@
+# Copy to himalaya-accounts.local (gitignored) and fill with real accounts.
+# This committed example uses placeholders only — never real addresses.
+#
+#   cp scripts/himalaya-accounts.example scripts/himalaya-accounts.local
+#
+# Globals:
+#   @key|value
+# Accounts (one per line, 12 fields):
+#   name|email|display_name|imap_user|imap_url|smtp_user|smtp_url|starttls|pass_title|folders|default|mailapp
+#
+# folders: generic | icloud | gmail
+# starttls / default / mailapp: true|false
+#
+# Passwords are NOT in this file. Himalaya uses password.command → pass-cli
+# (title + --field password). Mail.app profiles inject passwords at generate
+# time only; the .mobileconfig is local, 0600, never git.
+
+@display_name|Your Name
+@downloads_dir|~/Downloads
+@pass_vault|Personal
+@mailapp_payload_id|com.example.mail.imap.mail-only
+@mailapp_payload_name|IMAP mail@
+
+# Extra IMAP (hosting) — flag mailapp=true for the addresses you want in Mail.app.
+example-mail|mail@example.com|Your Name|mail@example.com|imaps://imap.example.com:993|mail@example.com|smtp://smtp.example.com:587|true|mail@example.com (Example IMAP)|generic|false|true
+example-spam|spam@example.com|Your Name|spam@example.com|imaps://imap.example.com:993|spam@example.com|smtp://smtp.example.com:587|true|spam@example.com (Example IMAP)|generic|false|false
+
+# iCloud IMAP (one account; custom-domain From addresses are identities on this mailbox)
+icloud|you@icloud.com|Your Name|you|imaps://imap.mail.me.com:993|you@icloud.com|smtp://smtp.mail.me.com:587|true|Himalaya (Apple)|icloud|true|false
+
+# Gmail IMAP (app password item — not the Google account login)
+gmail|you@gmail.com|Your Name|you@gmail.com|imaps://imap.gmail.com:993|you@gmail.com|smtps://smtp.gmail.com:465|false|Himalaya (Google Mail)|gmail|false|false

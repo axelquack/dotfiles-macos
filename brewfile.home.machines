@@ -102,6 +102,7 @@ brew "docker"                   # Docker CLI client (works with OrbStack)
 brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
 brew "ffmpeg"                   # Audio/video processing and conversion tool
 brew "gh"                       # GitHub CLI — manage repos, PRs, issues from the terminal
+brew "himalaya"                 # CLI email client (IMAP/SMTP). TUI is cargo, not bottled — scripts/himalaya-setup.sh --tui
 brew "just"                     # Command runner (justfile) — used across project repos
 # Intel (moon): pin or --build-from-source when no bottle — see docs/moon.md
 brew "llmfit"                   # LLM fine-tuning tool

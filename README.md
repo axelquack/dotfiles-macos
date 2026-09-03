@@ -20,6 +20,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [rustup](https://rustup.rs) | Rust toolchain management | `dot_zshrc`, `dot_zshenv` |
 | [OrbStack](https://orbstack.dev) | Docker / VM runtime | — |
 | [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — **secret vault** (SSH keys, host config, API keys) | [`docs/secrets-pass.md`](docs/secrets-pass.md) · local `chezmoi.toml` IDs only |
+| [Himalaya](https://github.com/pimalaya/himalaya) | CLI + TUI email (IMAP/SMTP) | [`docs/himalaya.md`](docs/himalaya.md) · config generated locally from Pass titles |
 | [Deno](https://deno.com) | JavaScript / TypeScript runtime | brew formula |
 | [OpenCode](https://opencode.ai) | AI coding agent (CLI + desktop) | brew `opencode` + `opencode-desktop`; secrets **local only** |
 | Grok Build TUI | xAI coding agent (`~/.grok/bin/grok`) | `dot_grok/config.toml.tmpl`; OAuth via `grok login`; tokens local |
@@ -234,7 +235,8 @@ $(chezmoi source-path)/macOS.sh
 
 | File | Description |
 |------|-------------|
-| [Ansible setup](ansible/README.md) | Idempotent brew + chezmoi + optional macOS defaults / npm |
+| [Ansible setup](ansible/README.md) | Idempotent brew + chezmoi + optional macOS defaults / npm / himalaya |
+| [Himalaya + Mail.app IMAP](docs/himalaya.md) | CLI/TUI install; config + unsigned Mail.app profile generated locally (no secrets in git) |
 | [Home machines apps](docs/home-machines-apps.md) | Shared inventory & parity (haumea vs moon) — no host-only prose |
 | [haumea host notes](docs/haumea.md) | Primary-only ops (shell, topgrade, WM pointers) |
 | [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
@@ -277,7 +279,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 
 | Path | Purpose |
 |------|---------|
-| `ansible/setup-macos.yml` | Idempotent setup (brew, chezmoi, optional defaults/npm) |
+| `ansible/setup-macos.yml` | Idempotent setup (brew, chezmoi, optional defaults/npm/himalaya/mailapp) |
 | `macOS.sh` | Applies macOS system preferences via `defaults write` |
 | `scripts/install-npm-acp-agents.sh` | ACP agent servers for [Obsidian Agent Client](https://rait-09.github.io/obsidian-agent-client/agent-setup/) |
 | `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`gemini-cli` and ACP agents — pinned versions) |
@@ -289,7 +291,8 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/bootstrap-secrets-from-pass.sh` | Materialize SSH keys / apply secrets plumbing from Pass |
 | `scripts/sync-goose-from-opencode.sh` | Import OpenCode SuperGrok OAuth + Zen/Go/Cohere keys into local Goose (never prints secrets) |
 | `scripts/mount-unifi-smb.sh` | Mount UniFi NAS SMB shares by reserved IP (inventory in gitignored `smb-hosts.local`) |
-| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, …) |
+| `scripts/himalaya-setup.sh` | himalaya-tui (cargo) + `~/.config/himalaya/config.toml` from gitignored account map; optional Mail.app profile |
+| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, `himalaya`, …) |
 | `brewfile.moon.extra` | Secondary host only (Syncthing) |
 
 ---

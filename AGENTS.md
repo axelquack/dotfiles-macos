@@ -15,7 +15,8 @@ Personal **macOS** dotfiles and setup: Zsh, Starship, AeroSpace, Homebrew, chezm
 5. [`docs/home-layout.md`](docs/home-layout.md) · [`docs/ssh-hosts.md`](docs/ssh-hosts.md)  
 6. Host habits (public, no inventory): [`docs/haumea.md`](docs/haumea.md), [`docs/moon.md`](docs/moon.md)  
 7. Ansible: [`ansible/README.md`](ansible/README.md) · `ansible/inventory.ini` · `ansible/setup-macos.yml`  
-8. Private reinstall facts: local `machine-*.md` only (gitignored; templates [`machine.md.example`](machine.md.example), [`machine-ssh-hosts.md.example`](machine-ssh-hosts.md.example))
+8. Himalaya / Mail.app IMAP: [`docs/himalaya.md`](docs/himalaya.md) — no real addresses or profiles in git  
+9. Private reinstall facts: local `machine-*.md` only (gitignored; templates [`machine.md.example`](machine.md.example), [`machine-ssh-hosts.md.example`](machine-ssh-hosts.md.example))
 
 ## Keep docs accurate (mandatory for agents)
 
@@ -24,7 +25,7 @@ Whenever you change behaviour, paths, inventory aliases, brew policy, Pass/chezm
 1. **Check** that [`README.md`](README.md) still matches reality (setup steps, doc table, scripts table, SSH/Pass wording).  
 2. **Check** that **Ansible** stays aligned: [`ansible/README.md`](ansible/README.md), `inventory.ini` (e.g. moon via short SSH alias, not mDNS-only), `setup-macos.yml` tags/vars, host/group vars.  
 3. **Update** those files in the **same change** (or immediately after) — do not leave “works on disk, docs lie”.  
-4. **Public repo:** no LAN IPs, keys, or vault IDs in committed docs; use [ssh-hosts.md](docs/ssh-hosts.md) patterns + private `machine-ssh-hosts.md`.  
+4. **Public repo:** no LAN IPs, keys, vault IDs, or real mailbox addresses in committed docs; use [ssh-hosts.md](docs/ssh-hosts.md) patterns + private `machine-ssh-hosts.md` / `himalaya-accounts.local`.  
 5. Before push: `./scripts/check-secrets.sh`.
 ## Paths
 
@@ -87,14 +88,18 @@ Details: [`docs/secrets-pass.md`](docs/secrets-pass.md) · host notes [`docs/moo
 ```bash
 # Packages / chezmoi (after Pass + local chezmoi.toml)
 cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi
+# Himalaya TUI + config (needs gitignored scripts/himalaya-accounts.local)
+# ansible-playbook setup-macos.yml --limit haumea --tags himalaya
+# Mail.app extra IMAP profile (GUI pass-cli): --tags mailapp
 # secondary: --limit moon
 ```
 
 ## Related private projects
 
-Sibling machine configs (orion, uranus, …) are **separate private repos**. Do not copy their inventory into this public tree. Patterns only: Pass SoT, `AGENTS.md`/`SECURITY.md`, secret scanners.
+Sibling machine configs (orion, uranus, …) are **separate private repos**. Do not copy their inventory into this public tree. Patterns only: Pass SoT, `AGENTS.md`/`SECURITY.md`, secret scanners. Mailbox lists and MX belong in a private ops repo; this public tree only installs Himalaya / Mail.app clients ([docs/himalaya.md](docs/himalaya.md)).
 
 ## Open / hygiene
 
 - Before every push: `./scripts/check-secrets.sh` (and `--history` if rewriting history)  
-- Keep `pass-ssh-key-map.local` / `pass-env-map.local` out of git  
+- Keep `pass-ssh-key-map.local` / `pass-env-map.local` / `himalaya-accounts.local` / `*.mobileconfig` out of git  
+- Himalaya: [docs/himalaya.md](docs/himalaya.md). Config is generated locally (`password.command` titles only). Do not commit real mailbox addresses.  

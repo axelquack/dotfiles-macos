@@ -31,6 +31,12 @@ ansible-playbook setup-macos.yml --limit haumea --tags macos_defaults --ask-beco
 
 # Secondary — shared brewfile + moon extras (Syncthing)
 ansible-playbook setup-macos.yml --limit moon --tags brew,chezmoi
+
+# Himalaya CLI is in the brewfile; TUI + config.toml (gitignored account map)
+ansible-playbook setup-macos.yml --limit haumea --tags himalaya
+
+# Mail.app extra IMAP profile (GUI pass-cli; unsigned; never committed)
+ansible-playbook setup-macos.yml --limit haumea --tags mailapp
 ```
 
 Defaults (`group_vars/all.yml`):
@@ -39,19 +45,27 @@ Defaults (`group_vars/all.yml`):
 - `run_chezmoi: true`
 - `run_macos_defaults: false`
 - `run_npm: false`
+- `run_himalaya: true`
+- `run_mailapp: false`
 
 ## What it does
 
-1. **brew** — `brew bundle` with `brewfile.home.machines`; on moon also `brewfile.moon.extra` (Syncthing). Warns if Syncthing is present on haumea.
+1. **brew** — `brew bundle` with `brewfile.home.machines` (includes `himalaya` CLI); on moon also `brewfile.moon.extra` (Syncthing). Warns if Syncthing is present on haumea.
 2. **chezmoi** — `chezmoi apply --source=<repo_root> --force`
 3. **macos_defaults** — `macOS.sh` with become
 4. **npm** — pinned install scripts + optional security audit
+5. **himalaya** — cargo-install `himalaya-tui` if missing; write `~/.config/himalaya/config.toml` from gitignored `scripts/himalaya-accounts.local` (Pass **titles** only). Skips config if the map is absent.
+6. **mailapp** — generate an unsigned Mail.app IMAP profile (passwords from `pass-cli` at apply time). Off by default. Install via System Settings → General → Device Management, then `rm -P` the file.
+
+Guide: [docs/himalaya.md](../docs/himalaya.md).
 
 ## Not automated (on purpose)
 
 - First-time Homebrew install (see main README)
 - Proton Pass vault IDs in `~/.config/chezmoi/chezmoi.toml` (local secrets)
 - GUI login for `pass-cli` / Keychain
+- Filling `scripts/himalaya-accounts.local` (copy the example; never commit)
+- Clicking **Install** on a Mail.app profile (`profiles` has no install verb)
 - Manual apps (ATEM, Backdrop, Protect, …)
 
 ## Host notes

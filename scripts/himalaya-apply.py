@@ -1,0 +1,390 @@
+#!/usr/bin/env python3
+"""Generate Himalaya config.toml and an unsigned Mail.app IMAP profile.
+
+Public-repo safe: the account map is gitignored; this script never writes
+password.raw and never prints IMAP passwords. Mail.app profiles embed
+passwords at generate time only (0600, off git).
+"""
+from __future__ import annotations
+
+import argparse
+import os
+import plistlib
+import stat
+import subprocess
+import sys
+import tempfile
+import uuid
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
+from urllib.parse import urlparse
+
+FOLDER_PRESETS: Dict[str, List[Tuple[str, str]]] = {
+    "generic": [
+        ("inbox", "Inbox"),
+        ("sent", "Sent"),
+        ("drafts", "Drafts"),
+        ("trash", "Trash"),
+        ("junk", "Junk"),
+    ],
+    "icloud": [
+        ("inbox", "INBOX"),
+        ("sent", "Sent Messages"),
+        ("drafts", "Drafts"),
+        ("trash", "Deleted Messages"),
+        ("junk", "Junk"),
+    ],
+    "gmail": [
+        ("inbox", "INBOX"),
+        ("sent", "[Gmail]/Sent Mail"),
+        ("drafts", "[Gmail]/Drafts"),
+        ("trash", "[Gmail]/Bin"),
+        ("junk", "[Gmail]/Spam"),
+        ("archive", "[Gmail]/All Mail"),
+    ],
+}
+
+TRUE = {"true", "yes", "1"}
+FALSE = {"false", "no", "0"}
+IDENT = __import__("re").compile(r"^[A-Za-z0-9_-]+$")
+UUID_NS = uuid.UUID("6ba7b810-9dad-11d1-80b4-00c04fd430c8")
+
+
+@dataclass
+class Account:
+    name: str
+    email: str
+    display_name: str
+    imap_user: str
+    imap_url: str
+    smtp_user: str
+    smtp_url: str
+    starttls: bool
+    pass_title: str
+    folders: str
+    default: bool
+    mailapp: bool
+
+
+def die(msg: str, code: int = 1) -> None:
+    print(f"ERROR: {msg}", file=sys.stderr)
+    raise SystemExit(code)
+
+
+def parse_bool(raw: str, field: str) -> bool:
+    v = raw.strip().lower()
+    if v in TRUE:
+        return True
+    if v in FALSE:
+        return False
+    die(f"invalid boolean for {field}: {raw!r}")
+    raise AssertionError
+
+
+def toml_str(value: str) -> str:
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def load_map(path: Path) -> Tuple[Dict[str, str], List[Account]]:
+    if not path.is_file():
+        die(f"missing map: {path}", 2)
+    globals_: Dict[str, str] = {
+        "display_name": "Your Name",
+        "downloads_dir": "~/Downloads",
+        "pass_vault": "Personal",
+        "mailapp_payload_id": "com.example.mail.imap.mail-only",
+        "mailapp_payload_name": "IMAP mail@",
+    }
+    accounts: List[Account] = []
+    for lineno, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("@"):
+            body = line[1:]
+            if "|" not in body:
+                die(f"{path}:{lineno}: global must be @key|value")
+            key, value = body.split("|", 1)
+            globals_[key.strip()] = value.strip()
+            continue
+        parts = line.split("|")
+        if len(parts) != 12:
+            die(f"{path}:{lineno}: expected 12 fields, got {len(parts)}")
+        (
+            name,
+            email,
+            display_name,
+            imap_user,
+            imap_url,
+            smtp_user,
+            smtp_url,
+            starttls,
+            pass_title,
+            folders,
+            default,
+            mailapp,
+        ) = (p.strip() for p in parts)
+        if not IDENT.match(name):
+            die(f"{path}:{lineno}: invalid account name {name!r}")
+        if folders not in FOLDER_PRESETS:
+            die(f"{path}:{lineno}: folders must be one of {sorted(FOLDER_PRESETS)}")
+        accounts.append(
+            Account(
+                name=name,
+                email=email,
+                display_name=display_name,
+                imap_user=imap_user,
+                imap_url=imap_url,
+                smtp_user=smtp_user,
+                smtp_url=smtp_url,
+                starttls=parse_bool(starttls, "starttls"),
+                pass_title=pass_title,
+                folders=folders,
+                default=parse_bool(default, "default"),
+                mailapp=parse_bool(mailapp, "mailapp"),
+            )
+        )
+    if not accounts:
+        die(f"no accounts in {path}")
+    defaults = [a.name for a in accounts if a.default]
+    if len(defaults) != 1:
+        print(
+            f"WARN: expected exactly one default account, got {defaults!r}",
+            file=sys.stderr,
+        )
+    return globals_, accounts
+
+
+def pass_command(vault: str, title: str) -> str:
+    parts = [
+        "pass-cli",
+        "item",
+        "view",
+        "--vault-name",
+        vault,
+        "--item-title",
+        title,
+        "--field",
+        "password",
+    ]
+    return "[" + ", ".join(toml_str(p) for p in parts) + "]"
+
+
+def render_toml(globals_: Dict[str, str], accounts: List[Account]) -> str:
+    vault = globals_["pass_vault"]
+    lines = [
+        "# Generated by scripts/himalaya-setup.sh — do not commit.",
+        "# Passwords stay in Proton Pass (password.command). Never password.raw.",
+        "",
+        f"display-name = {toml_str(globals_['display_name'])}",
+        f"downloads-dir = {toml_str(globals_['downloads_dir'])}",
+        "",
+    ]
+    for acct in accounts:
+        lines.append(f"[accounts.{acct.name}]")
+        if acct.default:
+            lines.append("default = true")
+        lines.append(f"email = {toml_str(acct.email)}")
+        lines.append(f"display-name = {toml_str(acct.display_name)}")
+        for alias, folder in FOLDER_PRESETS[acct.folders]:
+            lines.append(f"mailbox.alias.{alias} = {toml_str(folder)}")
+        cmd = pass_command(vault, acct.pass_title)
+        lines.append(f"imap.server = {toml_str(acct.imap_url)}")
+        lines.append(f"imap.sasl.plain.username = {toml_str(acct.imap_user)}")
+        lines.append(f"imap.sasl.plain.password.command = {cmd}")
+        lines.append(f"smtp.server = {toml_str(acct.smtp_url)}")
+        scheme = urlparse(acct.smtp_url).scheme.lower()
+        if acct.starttls and scheme != "smtps":
+            lines.append("smtp.starttls = true")
+        lines.append(f"smtp.sasl.plain.username = {toml_str(acct.smtp_user)}")
+        lines.append(f"smtp.sasl.plain.password.command = {cmd}")
+        lines.append("")
+    return "\n".join(lines)
+
+
+def write_atomic(path: Path, data: str, mode: int) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not path.parent.exists():
+        die(f"cannot create {path.parent}")
+    os.chmod(path.parent, stat.S_IRWXU)
+    fd, tmp = tempfile.mkstemp(prefix=".himalaya-", dir=str(path.parent), text=True)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(data)
+        os.chmod(tmp, mode)
+        os.replace(tmp, path)
+        os.chmod(path, mode)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
+def host_port(url: str, default_port: int) -> Tuple[str, int, bool]:
+    parsed = urlparse(url)
+    host = parsed.hostname
+    if not host:
+        die(f"URL missing host: {url}")
+    port = parsed.port or default_port
+    ssl = parsed.scheme.lower() in {"imaps", "smtps", "https"} or port in {993, 465, 587}
+    return host, port, ssl
+
+
+def pass_password(vault: str, title: str) -> str:
+    try:
+        result = subprocess.run(
+            [
+                "pass-cli",
+                "item",
+                "view",
+                "--vault-name",
+                vault,
+                "--item-title",
+                title,
+                "--field",
+                "password",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError:
+        die("pass-cli not found")
+    if result.returncode != 0:
+        die(f"pass-cli failed for Pass title {title!r} (GUI login required)")
+    password = result.stdout.rstrip("\n")
+    if not password.strip():
+        die(f"empty password for Pass title {title!r}")
+    return password
+
+
+def stable_uuid(*parts: str) -> str:
+    return str(uuid.uuid5(UUID_NS, "|".join(parts))).upper()
+
+
+def render_mobileconfig(globals_: Dict[str, str], accounts: List[Account]) -> bytes:
+    selected = [a for a in accounts if a.mailapp]
+    if not selected:
+        die("no accounts with mailapp=true")
+    vault = globals_["pass_vault"]
+    payload_id = globals_["mailapp_payload_id"]
+    payload_name = globals_["mailapp_payload_name"]
+    payloads = []
+    for acct in selected:
+        imap_host, imap_port, imap_ssl = host_port(acct.imap_url, 993)
+        smtp_host, smtp_port, smtp_ssl = host_port(acct.smtp_url, 587)
+        password = pass_password(vault, acct.pass_title)
+        payloads.append(
+            {
+                "EmailAccountDescription": acct.email,
+                "EmailAccountName": acct.display_name,
+                "EmailAccountType": "EmailTypeIMAP",
+                "EmailAddress": acct.email,
+                "IncomingMailServerAuthentication": "EmailAuthPassword",
+                "IncomingMailServerHostName": imap_host,
+                "IncomingMailServerPortNumber": imap_port,
+                "IncomingMailServerUseSSL": bool(imap_ssl or acct.starttls),
+                "IncomingMailServerUsername": acct.imap_user,
+                "IncomingPassword": password,
+                "OutgoingMailServerAuthentication": "EmailAuthPassword",
+                "OutgoingMailServerHostName": smtp_host,
+                "OutgoingMailServerPortNumber": smtp_port,
+                "OutgoingMailServerUseSSL": bool(smtp_ssl or acct.starttls),
+                "OutgoingMailServerUsername": acct.smtp_user,
+                "OutgoingPasswordSameAsIncomingPassword": True,
+                "PayloadDescription": f"IMAP account {acct.email}",
+                "PayloadDisplayName": acct.email,
+                "PayloadIdentifier": f"{payload_id}.{acct.name}",
+                "PayloadType": "com.apple.mail.managed",
+                "PayloadUUID": stable_uuid(payload_id, acct.name, acct.email),
+                "PayloadVersion": 1,
+                "PreventAppSheet": False,
+                "PreventMove": False,
+                "SMIMEEnabled": False,
+            }
+        )
+    root = {
+        "PayloadContent": payloads,
+        "PayloadDescription": "IMAP accounts for Apple Mail (unsigned).",
+        "PayloadDisplayName": payload_name,
+        "PayloadIdentifier": payload_id,
+        "PayloadOrganization": globals_.get("mailapp_payload_org", ""),
+        "PayloadRemovalDisallowed": False,
+        "PayloadType": "Configuration",
+        "PayloadUUID": stable_uuid(payload_id),
+        "PayloadVersion": 1,
+    }
+    return plistlib.dumps(root, fmt=plistlib.FMT_XML)
+
+
+def write_bytes_atomic(path: Path, data: bytes, mode: int) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    os.chmod(path.parent, stat.S_IRWXU)
+    fd, tmp = tempfile.mkstemp(prefix=".mailapp-", dir=str(path.parent))
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(data)
+        os.chmod(tmp, mode)
+        os.replace(tmp, path)
+        os.chmod(path, mode)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--map", required=True, type=Path)
+    parser.add_argument("--config", type=Path, default=Path.home() / ".config/himalaya/config.toml")
+    parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--mailapp", action="store_true")
+    parser.add_argument(
+        "--mailapp-out",
+        type=Path,
+        default=Path.home() / ".cache/dotfiles-macos/mailapp-imap.mobileconfig",
+    )
+    parser.add_argument("--open", action="store_true")
+    args = parser.parse_args()
+
+    globals_, accounts = load_map(args.map)
+
+    if args.mailapp:
+        if args.dry_run:
+            names = [a.email for a in accounts if a.mailapp]
+            print("mailapp dry-run; would include:")
+            for name in names:
+                print(f"  {name}")
+            print(f"payload {globals_['mailapp_payload_id']} ({globals_['mailapp_payload_name']})")
+            return
+        data = render_mobileconfig(globals_, accounts)
+        write_bytes_atomic(args.mailapp_out, data, 0o600)
+        print(f"mailapp: wrote {args.mailapp_out}")
+        print("Install: System Settings → General → Device Management.")
+        print(f"Then delete: rm -P {args.mailapp_out}")
+        if args.open:
+            subprocess.run(["open", str(args.mailapp_out)], check=False)
+        return
+
+    rendered = render_toml(globals_, accounts)
+    if args.dry_run:
+        sys.stdout.write(rendered)
+        if not rendered.endswith("\n"):
+            sys.stdout.write("\n")
+        return
+
+    existing = args.config.read_text(encoding="utf-8") if args.config.is_file() else None
+    if existing == rendered:
+        print(f"config: unchanged {args.config}")
+        return
+    write_atomic(args.config, rendered, 0o600)
+    print(f"config: wrote {args.config}")
+
+
+if __name__ == "__main__":
+    main()

@@ -11,7 +11,8 @@
 | App / brew / MAS parity with moon | [home-machines-apps.md](./home-machines-apps.md) |
 | Secondary host quirks | [moon.md](./moon.md) |
 | AeroSpace shortcuts & workspaces | [aerospace/](./aerospace/) |
-| Idempotent apply (brew, chezmoi, …) | [../ansible/README.md](../ansible/README.md) |
+| Idempotent apply (brew, chezmoi, himalaya, …) | [../ansible/README.md](../ansible/README.md) |
+| Himalaya + Mail.app extra IMAP | [himalaya.md](./himalaya.md) |
 | Shared package list | [../brewfile.home.machines](../brewfile.home.machines) |
 | **Private** reinstall brief (models, serial, IPs) | `machine-haumea.md` (gitignored) — start from [../machine.md.example](../machine.md.example) |
 
@@ -70,6 +71,8 @@ ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi
 # Checks
 aerospace --version
 command -v opencode && opencode --version
+command -v himalaya && himalaya --version
+command -v himalaya-tui && himalaya-tui --version
 # syncthing must NOT be installed:
 brew list --formula syncthing 2>/dev/null && echo "UNEXPECTED on primary" || echo "syncthing absent (ok)"
 ```

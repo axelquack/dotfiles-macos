@@ -8,10 +8,12 @@
 #   ansible-playbook setup-macos.yml --limit moon
 #
 # Tags:
-#   brew              Homebrew bundle (shared + moon extra)
+#   brew              Homebrew bundle (shared + moon extra; includes himalaya CLI)
 #   chezmoi           chezmoi apply (needs pass-cli session for templates)
 #   macos_defaults    macOS.sh (admin; --ask-become-pass)
 #   npm               pinned global npm ACP/CLI tools
+#   himalaya          himalaya-tui (cargo) + ~/.config/himalaya/config.toml from local map
+#   mailapp           unsigned Mail.app IMAP profile (GUI pass-cli; not committed)
 #   check             facts + dry reports only
 #
 # Examples:
@@ -19,6 +21,8 @@
 #   ansible-playbook setup-macos.yml --limit haumea --tags chezmoi
 #   ansible-playbook setup-macos.yml --limit haumea --tags macos_defaults --ask-become-pass
 #   ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi,npm
+#   ansible-playbook setup-macos.yml --limit haumea --tags himalaya
+#   ansible-playbook setup-macos.yml --limit haumea --tags mailapp
 
 - name: macOS home machines — brew, chezmoi, optional defaults/npm
   hosts: macos
@@ -174,6 +178,63 @@
         PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
       when: run_npm | bool
       tags: [npm]
+
+    - name: Himalaya CLI present
+      ansible.builtin.command:
+        cmd: "{{ homebrew_prefix }}/bin/himalaya --version"
+      register: himalaya_cli
+      changed_when: false
+      failed_when: false
+      tags: [himalaya]
+
+    - name: Fail if Himalaya CLI missing
+      ansible.builtin.assert:
+        that:
+          - himalaya_cli.rc == 0
+        fail_msg: >-
+          himalaya not on PATH. Run --tags brew first (formula himalaya in brewfile.home.machines).
+      when: run_himalaya | bool
+      tags: [himalaya]
+
+    - name: Himalaya TUI + config.toml (local map; titles only)
+      ansible.builtin.command:
+        cmd: /bin/bash "{{ repo_root }}/scripts/himalaya-setup.sh --tui"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.HOME }}/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+        HOME: "{{ ansible_env.HOME }}"
+      register: himalaya_setup
+      changed_when: >-
+        'tui: installed' in (himalaya_setup.stdout | default(''))
+        or 'config: wrote' in (himalaya_setup.stdout | default(''))
+      when: run_himalaya | bool
+      tags: [himalaya]
+
+    - name: Show Himalaya setup
+      ansible.builtin.debug:
+        msg: "{{ himalaya_setup.stdout_lines | default([]) }}"
+      when:
+        - run_himalaya | bool
+        - himalaya_setup is defined
+      tags: [himalaya]
+
+    - name: Mail.app IMAP profile (unsigned; passwords from pass-cli; not committed)
+      ansible.builtin.command:
+        cmd: /bin/bash "{{ repo_root }}/scripts/himalaya-setup.sh --mailapp --skip-config"
+      environment:
+        PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+        HOME: "{{ ansible_env.HOME }}"
+      register: mailapp_setup
+      changed_when: "'mailapp: wrote' in (mailapp_setup.stdout | default(''))"
+      when: run_mailapp | bool
+      tags: [mailapp]
+
+    - name: Show Mail.app profile path
+      ansible.builtin.debug:
+        msg: "{{ mailapp_setup.stdout_lines | default([]) }}"
+      when:
+        - run_mailapp | bool
+        - mailapp_setup is defined
+      tags: [mailapp]
 
     - name: Security audit (shellcheck + OSV)
       ansible.builtin.command:

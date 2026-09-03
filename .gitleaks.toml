@@ -16,11 +16,24 @@ description = "OpenSSH private key block"
 regex = '''-----BEGIN OPENSSH PRIVATE KEY-----'''
 keywords = ["BEGIN OPENSSH"]
 
+[[rules]]
+id = "himalaya-password-raw"
+description = "Himalaya inline IMAP password"
+regex = '''password\.raw\s*='''
+keywords = ["password.raw"]
+
+[[rules]]
+id = "apple-mail-incoming-password"
+description = "Apple Mail profile IMAP password field"
+regex = '''<key>IncomingPassword</key>'''
+keywords = ["IncomingPassword"]
+
 [allowlist]
 paths = [
   '''SECURITY\.md''',
   '''CHANGELOG\.md''',
   '''docs/secrets-pass\.md''',
+  '''docs/himalaya\.md''',
   '''AGENTS\.md''',
   '''scripts/check-secrets\.sh''',
   '''\.gitleaks\.toml''',

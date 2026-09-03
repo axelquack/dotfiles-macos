@@ -14,13 +14,18 @@ Proton Pass (your vault — never committed)
   ├── SSH Host Config (note)     ──chezmoi──►  ~/.ssh/config.local
   ├── Git Identity (login)       ──chezmoi──►  ~/.gitconfig name/email
   ├── SSH key items (ssh_key)    ──bootstrap──► ~/.ssh/id_*
-  └── API logins                 ──script──►   ~/.zshrc.local
+  ├── API logins                 ──script──►   ~/.zshrc.local
+  └── IMAP app passwords         ──script──►   ~/.config/himalaya/config.toml
+                                               (titles in password.command only)
 
 Local only (never git)
   ├── pass-cli login session
   ├── ~/.config/chezmoi/chezmoi.toml   (vault + item IDs)
   ├── scripts/pass-ssh-key-map.local   (basename → Pass title)
-  └── scripts/pass-env-map.local       (Pass title → ENV var)
+  ├── scripts/pass-env-map.local       (Pass title → ENV var)
+  ├── scripts/himalaya-accounts.local  (addresses + Pass titles, no passwords)
+  ├── ~/.config/himalaya/config.toml
+  └── generated Mail.app .mobileconfig (passwords; delete after install)
 ```
 
 Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
@@ -36,10 +41,12 @@ Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
 | LAN IPs, MACs, full host inventories | Private notes / `machine-*.md` / `machine-ssh-hosts.md` (gitignored) |
 | Your Pass item title inventory with IPs | `pass-ssh-key-map.local` (gitignored) |
 | Generated `~/.zshrc.local` | Home directory only |
+| Himalaya `config.toml` / Mail.app `.mobileconfig` | Home directory / `~/.cache` only; never `password.raw` in git |
+| Filled `himalaya-accounts.local` | gitignored (addresses + Pass titles) |
 | Grok LAN MCP URLs | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`, `grok_agentzero_mcp_url`) — optional; omit on hosts without those services |
 | UniFi NAS SMB IPs | gitignored `scripts/smb-hosts.local` (example committed) |
 
-Committed **examples** use placeholders only (`pass-ssh-key-map.example`, `pass-env-map.example`).
+Committed **examples** use placeholders only (`pass-ssh-key-map.example`, `pass-env-map.example`, `himalaya-accounts.example`).
 
 ---
 
@@ -53,6 +60,9 @@ Suggested naming (customize privately):
 | **Git Identity** | login | git name/email fields |
 | **SSH Key — \<label\>** | ssh_key | import via `pass-cli item create ssh-key import` |
 | API service logins | login | fields → env via `pass-env-map.local` |
+| `{addr} (INWX Froxlor)` | login | hosted IMAP password; himalaya `password.command` |
+| **Himalaya (Apple)** | login | iCloud app-specific password |
+| **Himalaya (Google Mail)** | login | Gmail app password (not the Google account login) |
 
 Prefer **labels without LAN IPs** in Pass titles when possible (e.g. `SSH Key — github`, not `SSH Key — host (192.168…)`). Existing IP-suffixed titles still work if listed only in your local map.
 
@@ -164,6 +174,7 @@ URL-encode awkward titles. Prefer `pass-write-zshrc-local.sh` + local map over c
 | `ensure-ssh-agent.sh` | Idempotent `pass-cli ssh-agent load` when agent empty |
 | `check-secrets.sh` | Pre-push scan for this public repo |
 | `mount-unifi-smb.sh` | SMB mounts; IPs from gitignored `smb-hosts.local` |
+| `himalaya-setup.sh` | himalaya-tui + config.toml from `himalaya-accounts.local`; optional Mail.app profile |
 
 ---
 
@@ -171,4 +182,5 @@ URL-encode awkward titles. Prefer `pass-write-zshrc-local.sh` + local map over c
 
 - [AGENTS.md](../AGENTS.md) — public agent instructions  
 - [SECURITY.md](../SECURITY.md) — what never to commit  
-- [machine.md.example](../machine.md.example) — private per-host brief (gitignored when filled)  
+- [machine.md.example](../machine.md.example) — private per-host brief (gitignored when filled)
+- [himalaya.md](./himalaya.md) — Himalaya CLI/TUI + Mail.app extra IMAP (local generation)  

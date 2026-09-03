@@ -120,9 +120,10 @@ See **`docs/secrets-pass.md`**.
 2. `pass-cli login` (GUI Terminal) → fill local `chezmoi.toml` (README Step 4).
 3. `./scripts/bootstrap-secrets-from-pass.sh --agent-load --with-zshrc-local`
 4. `ansible-playbook setup-macos.yml --limit <host> --tags brew,chezmoi` (if not covered above).
-5. Parallels: method for **this** arch (table above).
-6. AI **GUI** OAuth: re-login apps; CLI keys already in `~/.zshrc.local` from Pass.
-7. Restore this `machine.md` from private backup (Pass note, encrypted disk, …).
+5. Himalaya: copy `scripts/himalaya-accounts.example` → gitignored `himalaya-accounts.local`, then `--tags himalaya`. Mail.app extra IMAP: `--tags mailapp` in a GUI Terminal (then Device Management → Install → `rm -P` the profile). See `docs/himalaya.md`.
+6. Parallels: method for **this** arch (table above).
+7. AI **GUI** OAuth: re-login apps; CLI keys already in `~/.zshrc.local` from Pass.
+8. Restore this `machine.md` from private backup (Pass note, encrypted disk, …).
 
 ---
 

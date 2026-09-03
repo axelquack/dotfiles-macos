@@ -38,6 +38,11 @@ scripts/pass-env-map.local
 **/pass-env-map.local
 scripts/smb-hosts.local
 **/smb-hosts.local
+scripts/himalaya-accounts.local
+**/himalaya-accounts.local
+
+# Generated Mail.app profiles embed IMAP passwords — never git
+*.mobileconfig
 
 # Optional private AI notes (public AGENTS.md is committed; CLAUDE.md is obsolete)
 AGENTS.local.md

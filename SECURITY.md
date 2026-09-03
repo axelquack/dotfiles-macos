@@ -15,6 +15,8 @@
 | Private agent briefs | `machine-*.md` (gitignored) |
 | Real Pass title inventory with IPs | use gitignored `pass-*-map.local` only |
 | Filled NAS SMB maps | use gitignored `scripts/smb-hosts.local` only |
+| Himalaya config / Mail.app profiles | `~/.config/himalaya/config.toml`, `*.mobileconfig` (IMAP passwords) |
+| Filled mail account maps | gitignored `scripts/himalaya-accounts.local` (real addresses) |
 
 ## Allowed in public docs
 
@@ -59,6 +61,8 @@ Unpushed history can be rewritten; **pushed** history needs rotation + purge.
 ## Operator checklist
 
 - [ ] No `pass-*-map.local` staged  
+- [ ] No `himalaya-accounts.local` staged  
+- [ ] No `*.mobileconfig` staged  
 - [ ] No `machine-*.md` staged  
 - [ ] No vault IDs or key material in diff  
 - [ ] `./scripts/check-secrets.sh` PASS  

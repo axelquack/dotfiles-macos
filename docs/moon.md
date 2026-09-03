@@ -12,6 +12,7 @@
 | Primary host quirks | [haumea.md](./haumea.md) |
 | AeroSpace (if used on moon) | [aerospace/](./aerospace/) |
 | Idempotent apply | [../ansible/README.md](../ansible/README.md) (`--limit moon`) |
+| Himalaya + Mail.app extra IMAP | [himalaya.md](./himalaya.md) (same as primary; GUI `pass-cli` for IMAP check) |
 | Moon-only packages | [../brewfile.moon.extra](../brewfile.moon.extra) |
 | **Private** reinstall brief | `machine-moon.md` (gitignored; on haumea and/or moon) — [../machine.md.example](../machine.md.example) |
 
