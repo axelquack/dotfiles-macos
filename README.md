@@ -9,6 +9,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | Zsh | Shell | `dot_zshrc`, `dot_zshenv` |
 | [Starship](https://starship.rs) | Prompt | `dot_config/starship.toml` |
 | [AeroSpace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager | `dot_config/aerospace/aerospace.toml.tmpl` · [shortcuts](docs/aerospace/SHORTCUTS.md) · [workspaces](docs/aerospace/WORKSPACES.md) |
+| [Stream Deck](https://www.elgato.com/stream-deck) | 15-key MK.2 + MCP Deck | `elgato-stream-deck` cask · `dot_config/streamdeck/bin/` · [docs/stream-deck.md](docs/stream-deck.md) |
 | [Ansible](https://docs.ansible.com/) | Idempotent host setup | [`ansible/`](ansible/) (haumea local · moon over SSH) |
 | [Atuin](https://github.com/atuinsh/atuin) | Shell history | `dot_zshrc` |
 | [Homebrew](https://brew.sh) | Package manager | `brewfile.home.machines` |
@@ -248,6 +249,8 @@ $(chezmoi source-path)/macOS.sh
 | [AGENTS.md](AGENTS.md) · [SECURITY.md](SECURITY.md) | Public agent + security policy |
 | [AeroSpace Shortcuts](docs/aerospace/SHORTCUTS.md) | All keybindings for focus, move, layout, resize and workspaces |
 | [AeroSpace Workspaces](docs/aerospace/WORKSPACES.md) | App-to-workspace assignments and float rules |
+| [Stream Deck](docs/stream-deck.md) | MK.2 15-key layout (AeroSpace / chezmoi / Pass / git) + MCP Deck for Grok |
+| [Bartender 6](docs/bartender.md) | Shared menu-bar manager (Sequoia + Tahoe). License stays off git |
 
 ---
 
@@ -270,6 +273,8 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `dot_config/starship.toml` | `~/.config/starship.toml` | Starship prompt config |
 | `dot_config/topgrade.toml` | `~/.config/topgrade.toml` | Topgrade updater config |
 | `dot_config/aerospace/aerospace.toml.tmpl` | `~/.config/aerospace/aerospace.toml` | AeroSpace WM (chezmoi template; homeDir for helper scripts) |
+| `dot_config/aerospace/scripts/` | `~/.config/aerospace/scripts/` | WM helpers (Stream Deck float-center) |
+| `dot_config/streamdeck/bin/` | `~/.config/streamdeck/bin/` | Stream Deck `.command` actions (chezmoi apply + `scripts/streamdeck-apply.sh`) |
 | `dot_config/goose/custom_providers/` | `~/.config/goose/custom_providers/` | Goose model catalogs (no keys). SuperGrok OAuth stays local via `scripts/sync-goose-from-opencode.sh` |
 | `private_dot_ssh/config` | `~/.ssh/config` | SSH base config: OrbStack include, GitHub host entry |
 | `private_dot_ssh/config.local.tmpl` | `~/.ssh/config.local` | Machine-specific SSH host entries — populated from Proton Pass at apply time, never committed |
@@ -292,6 +297,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/sync-goose-from-opencode.sh` | Import OpenCode SuperGrok OAuth + Zen/Go/Cohere keys into local Goose (never prints secrets) |
 | `scripts/mount-unifi-smb.sh` | Mount UniFi NAS SMB shares by reserved IP (inventory in gitignored `smb-hosts.local`) |
 | `scripts/himalaya-setup.sh` | himalaya-tui (cargo) + `~/.config/himalaya/config.toml` from gitignored account map; optional Mail.app profile |
+| `scripts/streamdeck-apply.sh` | Quit Stream Deck app, compile `streamdeck-icon`, write MK.2 + MCP profiles from `streamdeck_profile.py`, relaunch |
 | `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, `himalaya`, …) |
 | `brewfile.moon.extra` | Secondary host only (Syncthing) |
 

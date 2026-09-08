@@ -291,6 +291,12 @@ description = "Zapier MCP — X (@axelquack) / Facebook (needs a Page) and other
 Authorization = "Bearer ${ZAPIER_MCP_TOKEN}"
 Accept = "application/json, text/event-stream"
 
+[mcp_servers.elgato]
+command = "npx"
+args = ["--yes", "@elgato/mcp-server@latest"]
+startup_timeout_sec = 90
+description = "Elgato Stream Deck MCP Deck — trigger keys on the MCP Actions profile (app must be running)"
+
 [marketplace]
 official_marketplace_auto_installed = true
 default_skills_installs_purged = true

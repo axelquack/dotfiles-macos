@@ -18,6 +18,8 @@
 
 This file only covers **moon-specific** behaviour. Do not repeat full app tables here.
 **Parallels on Intel:** manual install only (not brew) — [home-machines-apps.md §2](./home-machines-apps.md).
+**Stream Deck:** shared cask + scripts; run `./scripts/streamdeck-apply.sh` on this Mac when the USB deck is here — [stream-deck.md](./stream-deck.md).
+**Bartender 6:** same shared cask as primary; register the license on this Mac — [bartender.md](./bartender.md).
 
 ---
 

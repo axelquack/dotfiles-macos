@@ -67,6 +67,7 @@ Guide: [docs/himalaya.md](../docs/himalaya.md).
 - Filling `scripts/himalaya-accounts.local` (copy the example; never commit)
 - Clicking **Install** on a Mail.app profile (`profiles` has no install verb)
 - Manual apps (ATEM, Backdrop, Protect, …)
+- Stream Deck live profiles (`./scripts/streamdeck-apply.sh` after brew; quits the GUI app) — [stream-deck.md](../docs/stream-deck.md)
 
 ## Host notes
 

@@ -17,6 +17,8 @@ Canonical **inventory and parity** notes for primary (**haumea**) and secondary 
 | Secondary-only ops (Syncthing, Intel, SSH) | [moon.md](./moon.md) |
 | App / cask / formula **tables** (this file) | sections below |
 | AeroSpace keybindings | [aerospace/](./aerospace/) |
+| Stream Deck MK.2 + MCP Deck | [stream-deck.md](./stream-deck.md) |
+| Bartender 6 (menu bar) | [bartender.md](./bartender.md) |
 | Automation | [../ansible/README.md](../ansible/README.md) |
 | Himalaya CLI/TUI + Mail.app extra IMAP | [himalaya.md](./himalaya.md) |
 
@@ -30,6 +32,8 @@ Canonical **inventory and parity** notes for primary (**haumea**) and secondary 
 | Apply packages (manual) | `brew bundle --file="$(chezmoi source-path)/brewfile.home.machines"` |
 | Topgrade | [`dot_config/topgrade.toml`](../dot_config/topgrade.toml) |
 | AeroSpace | [`dot_config/aerospace/aerospace.toml.tmpl`](../dot_config/aerospace/aerospace.toml.tmpl) |
+| Stream Deck | [`scripts/streamdeck-apply.sh`](../scripts/streamdeck-apply.sh) · [stream-deck.md](./stream-deck.md) |
+| Bartender 6 | `cask "bartender"` · [bartender.md](./bartender.md) (license stays off git) |
 | pass-cli wrapper | [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) · workflow: [haumea.md](./haumea.md) / [moon.md](./moon.md) |
 
 Inventory date for tables below: **2026-08-27** (haumea live vs brewfile; re-check with the commands at the end when things drift).
@@ -190,6 +194,8 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 | **ATEM / Blackmagic** | Blackmagic site | Both | Both | Manual |
 | **Backdrop** | cindori.com | Both | Both | Manual |
 | **Proton Drive / Pass / VPN** | brewfile casks | Both | Both | |
+| **Elgato Stream Deck** | `cask "elgato-stream-deck"` | Yes | Yes | Companion app; profiles via `scripts/streamdeck-apply.sh`. Key icons need `librsvg` + `swiftc` — [stream-deck.md](./stream-deck.md) |
+| **Bartender 6** | `cask "bartender"` | Yes | Yes | Menu bar on Sequoia + Tahoe. License off git — [bartender.md](./bartender.md) |
 | **Proton Mail Bridge** | — | — | **Removed** | Not in brewfile; do not reinstall for SoT |
 
 ---

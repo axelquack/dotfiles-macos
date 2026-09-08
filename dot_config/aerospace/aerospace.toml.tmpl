@@ -92,6 +92,10 @@ on-window-detected = [
     { if.app-id = 'us.sitesucker.mac.sitesucker', run = 'layout floating' },
     { if.app-id = 'nz.co.pixeleyes.AutoMounter', run = 'layout floating' },
     { if.app-id = 'com.elgato.CameraHub', run = 'layout floating' },
+    { if.app-id = 'com.elgato.StreamDeck', run = [
+        'layout floating',
+        'exec-and-forget {{ .chezmoi.homeDir }}/.config/aerospace/scripts/center-floating-window.sh',
+    ] },                                                                                        # Stream Deck companion — float + center on current display
     { if.app-id = 'com.corsair.ControlCenter', run = 'layout floating' },
     { if.app-id = 'com.displaylink.DisplayLinkUserAgent', run = 'layout floating' },
     { if.app-id = 'com.8bitdo.firmwareupdater', run = 'layout floating' },

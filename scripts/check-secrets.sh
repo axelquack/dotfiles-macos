@@ -62,7 +62,9 @@ fi
 # Private map files must not be tracked
 if git ls-files --error-unmatch scripts/pass-ssh-key-map.local 2>/dev/null \
   || git ls-files --error-unmatch scripts/pass-env-map.local 2>/dev/null \
-  || git ls-files --error-unmatch scripts/himalaya-accounts.local 2>/dev/null; then
+  || git ls-files --error-unmatch scripts/himalaya-accounts.local 2>/dev/null \
+  || git ls-files --error-unmatch scripts/hue.local 2>/dev/null \
+  || git ls-files --error-unmatch scripts/smb-hosts.local 2>/dev/null; then
   echo "FAIL: gitignored map file is tracked"
   fail=1
 else

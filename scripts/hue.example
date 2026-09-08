@@ -1,0 +1,11 @@
+# Copy to hue.local (gitignored) only if you need to override defaults.
+# Do NOT commit hue.local — it may contain a Hue username and LAN host.
+#
+#   cp scripts/hue.example scripts/hue.local
+#
+# Default room is Keller (Fitness Schreibtisch) — Tokio / Malibu pink live there.
+# Auth is copied from We Love Lights by: python3 scripts/hue_scene.py --bootstrap
+
+room=Keller (Fitness Schreibtisch)
+# host=http://YOUR_BRIDGE_IPV4
+# token=YOUR_HUE_USERNAME

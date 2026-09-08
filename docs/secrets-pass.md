@@ -24,6 +24,7 @@ Local only (never git)
   ├── scripts/pass-ssh-key-map.local   (basename → Pass title)
   ├── scripts/pass-env-map.local       (Pass title → ENV var)
   ├── scripts/himalaya-accounts.local  (addresses + Pass titles, no passwords)
+  ├── scripts/hue.local                (optional Hue room / host / token)
   ├── ~/.config/himalaya/config.toml
   └── generated Mail.app .mobileconfig (passwords; delete after install)
 ```
@@ -45,6 +46,7 @@ Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
 | Filled `himalaya-accounts.local` | gitignored (addresses + Pass titles) |
 | Grok LAN MCP URLs | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`, `grok_agentzero_mcp_url`) — optional; omit on hosts without those services |
 | UniFi NAS SMB IPs | gitignored `scripts/smb-hosts.local` (example committed) |
+| Hue bridge host / username | We Love Lights on the Mac, or gitignored `scripts/hue.local` (`hue.example` committed) |
 
 Committed **examples** use placeholders only (`pass-ssh-key-map.example`, `pass-env-map.example`, `himalaya-accounts.example`).
 

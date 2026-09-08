@@ -105,6 +105,8 @@ Apps are automatically moved to their workspace when they open (`on-window-detec
 
 These windows open floating above the current workspace.
 
+**Stream Deck** is also centered on the display it occupies (`~/.config/aerospace/scripts/center-floating-window.sh`). AeroSpace has no native “center float” command.
+
 | App |
 |-----|
 | 8BitDo Firmware Updater |
@@ -119,6 +121,7 @@ These windows open floating above the current workspace.
 | DaVinci Resolve |
 | Elgato Camera Hub |
 | Elgato Control Center |
+| Elgato Stream Deck |
 | Finder |
 | Google Drive |
 | Home Assistant |

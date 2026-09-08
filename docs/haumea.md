@@ -52,6 +52,8 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github
 ## Desktop / WM notes (primary)
 
 - **AeroSpace:** live file `~/.config/aerospace/aerospace.toml` (from `dot_config/aerospace/aerospace.toml.tmpl`). Cheatsheet: [aerospace/SHORTCUTS.md](./aerospace/SHORTCUTS.md).
+- **Stream Deck:** cask + `~/.config/streamdeck/bin` via chezmoi; write live profiles with `./scripts/streamdeck-apply.sh` on the Mac the deck is plugged into — [stream-deck.md](./stream-deck.md).
+- **Bartender 6:** shared cask `bartender`; register the license on this Mac (not git) — [bartender.md](./bartender.md).
 - **Terminal:** tabs in one window = one tile; new windows get separate tiles.
 - **Marked 2** (optional): good for Markdown print; float in AeroSpace.
 - **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Developer/Projects` (prefer local disk, not iCloud Desktop & Documents).

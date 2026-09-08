@@ -15,6 +15,7 @@ cask "aerospace"             # i3-like tiling window manager for macOS
 # cask "automounterhelper" — removed: installer manual type, brew cannot upgrade it automatically.
 #   Install manually from the AutoMounter app preferences after installing the MAS app.
 cask "balenaetcher"          # Flash OS images to SD cards & USB drives
+cask "bartender"             # Menu bar icon organiser (Bartender 6; Sequoia + Tahoe). License is local — never commit the key
 cask "block-goose"           # Agentic AI assistant from Block
 cask "brave-browser"         # Privacy-focused web browser based on Chromium
 cask "claude"                # Anthropic's Claude AI desktop app
@@ -24,6 +25,7 @@ cask "crossover"             # Windows compatibility layer (Paid) — Intel Mac:
 cask "discord"               # Voice and text chat software
 cask "elgato-camera-hub"     # Control Elgato prompter device
 cask "elgato-control-center" # Control Elgato lighting and other devices
+cask "elgato-stream-deck"    # Stream Deck MK.2 companion (profiles via scripts/streamdeck-apply.sh)
 cask "epilogue-playback"     # Control GB Operator and SNES Operator
 cask "font-fira-code-nerd-font" # Nerd Font to use with macOS Terminal application
 cask "gog-galaxy"            # GOG Galaxy game launcher
@@ -101,6 +103,7 @@ brew "czkawka"                  # Multi-functional app to find duplicates / simi
 brew "docker"                   # Docker CLI client (works with OrbStack)
 brew "docker-compose"           # Docker Compose CLI (for multi-container apps)
 brew "ffmpeg"                   # Audio/video processing and conversion tool
+brew "librsvg"                  # rsvg-convert — Stream Deck key icons from Elgato SVG packs
 brew "gh"                       # GitHub CLI — manage repos, PRs, issues from the terminal
 brew "himalaya"                 # CLI email client (IMAP/SMTP). TUI is cargo, not bottled — scripts/himalaya-setup.sh --tui
 brew "just"                     # Command runner (justfile) — used across project repos

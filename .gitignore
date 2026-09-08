@@ -40,6 +40,8 @@ scripts/smb-hosts.local
 **/smb-hosts.local
 scripts/himalaya-accounts.local
 **/himalaya-accounts.local
+scripts/hue.local
+**/hue.local
 
 # Generated Mail.app profiles embed IMAP passwords — never git
 *.mobileconfig
