@@ -185,6 +185,7 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 |-----|--------|--------|------|--------|
 | **DevPod** | `cask "devpod"` | Yes | Yes | Bundle `sh.loft.devpod`; float in AeroSpace |
 | **Marked 2** | `mas "Marked 2", id: 890031187` | Yes | Yes | Float `com.brettterpstra.marked2` |
+| **Telefon** (Telephone) | `mas "Telefon", id: 406825478` | Yes | Yes | App Store [Telefon](https://apps.apple.com/de/app/telefon/id406825478?mt=12); bundle `com.tlphn.Telephone`. SIP client for Fritz intern **621** (haumea) / **622** (moon). Pass **Fritz Box (SIP, \<host\>)** is SoT; Keychain is a local cache. Paste in Einstellungen → Accounts so Telephone writes Keychain; never `security add-generic-password`. Float + `comms`. |
 | **Romm** | TestFlight / iOS wrapper | Yes | No | arm64 only |
 | **Pocket Sync** | GitHub [neil-morrison44/pocket-sync](https://github.com/neil-morrison44/pocket-sync) | Yes | Optional | Universal `.dmg` |
 | **8BitDo Firmware Updater** | Manual (support.8bitdo.com) | Yes | Optional | Not a brew cask; float `com.8bitdo.firmwareupdater` |
@@ -224,7 +225,7 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 
 ### Should match (brewfile + mas + manual SYSTM)
 
-DevPod, Marked 2, OrbStack, Claude, Proton Drive/Pass/VPN, Office, iWork, SYSTM, etc.
+DevPod, Marked 2, Telefon (Telephone, mas 406825478), OrbStack, Claude, Proton Drive/Pass/VPN, Office, iWork, SYSTM, etc.
 
 ---
 

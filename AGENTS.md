@@ -77,6 +77,8 @@ pass-cli login                          # only if vault list fails
 
 Details: [`docs/secrets-pass.md`](docs/secrets-pass.md) · host notes [`docs/moon.md`](docs/moon.md).
 
+App Store **Telefon** SIP passwords live in Pass **Fritz Box (SIP, \<host\>)**. Telephone Keychain is a local cache (the app cannot read Pass). Paste in the app GUI so Telephone writes Keychain; never `security add-generic-password`. Do not put LAN IPs in this public repo — private `machine-*.md` only.
+
 ## Safety for agents
 
 - Prefer **read** of public docs; write private notes only under gitignored `machine-*.md` / `machine-ssh-hosts.md` or outside the repo.  

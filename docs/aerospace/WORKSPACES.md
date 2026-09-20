@@ -35,6 +35,7 @@ Apps are automatically moved to their workspace when they open (`on-window-detec
 | WhatsApp |
 | Microsoft Teams |
 | Zoom |
+| Telephone (App Store **Telefon**, `com.tlphn.Telephone`) |
 
 ## `docs` — Alt Cmd 5
 | App |

@@ -184,6 +184,10 @@ on-window-detected = [
         'layout floating',
         'move-node-to-workspace comms',
     ] },
+    { if.app-id = 'com.tlphn.Telephone', run = [
+        'layout floating',
+        'move-node-to-workspace comms',
+    ] },                                 # Telephone / App Store Telefon (mdls 2026-09-20)
 
     # ========== WORKSPACE: docs (5) ==========
     { if.app-id = 'md.obsidian', run = 'move-node-to-workspace docs' },

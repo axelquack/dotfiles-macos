@@ -15,8 +15,9 @@ Proton Pass (your vault — never committed)
   ├── Git Identity (login)       ──chezmoi──►  ~/.gitconfig name/email
   ├── SSH key items (ssh_key)    ──bootstrap──► ~/.ssh/id_*
   ├── API logins                 ──script──►   ~/.zshrc.local
-  └── IMAP app passwords         ──script──►   ~/.config/himalaya/config.toml
-                                               (titles in password.command only)
+  ├── IMAP app passwords         ──script──►   ~/.config/himalaya/config.toml
+  └── Fritz Box (SIP, <host>)    ──GUI only──► Telephone Keychain
+                                               (cache; app cannot read Pass)
 
 Local only (never git)
   ├── pass-cli login session
@@ -65,6 +66,7 @@ Suggested naming (customize privately):
 | `{addr} (INWX Froxlor)` | login | hosted IMAP password; himalaya `password.command` |
 | **Himalaya (Apple)** | login | iCloud app-specific password |
 | **Himalaya (Google Mail)** | login | Gmail app password (not the Google account login) |
+| **Fritz Box (SIP, \<host\>)** | login | Fritz LAN/WLAN IP-phone password for App Store **Telefon**. SoT is Pass; extra fields `intern` / `registrar`. Telephone Keychain (service `SIP: {registrar}`) is a local cache — paste in the app GUI so **Telephone** writes it. Never `security add-generic-password` (`-A` or `-T`; `apple-tool` partition → 401). Username is not the intern number. Private host facts: gitignored `machine-*.md` |
 
 Prefer **labels without LAN IPs** in Pass titles when possible (e.g. `SSH Key — github`, not `SSH Key — host (192.168…)`). Existing IP-suffixed titles still work if listed only in your local map.
 
