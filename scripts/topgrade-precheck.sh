@@ -124,4 +124,39 @@ EOF
 fi
 
 ok "SSH agent has identities"
+
+# Intel Homebrew is Tier 3 as of 2026-09: no x86_64 bottles. `brew upgrade`
+# then compiles from source (hours). Pin outdated formulae so topgrade skips
+# them. Unpin only when you intend to build: brew unpin NAME && brew upgrade --build-from-source NAME
+pin_intel_outdated_formulae() {
+  [[ "$(uname -s)" == "Darwin" ]] || return 0
+  [[ "$(uname -m)" == "x86_64" ]] || return 0
+  if ! command -v brew >/dev/null 2>&1; then
+    if [[ -x /usr/local/bin/brew ]]; then
+      # Non-login SSH PATH often lacks Homebrew.
+      eval "$(/usr/local/bin/brew shellenv)"
+    else
+      return 0
+    fi
+  fi
+
+  local -a names=()
+  local f
+  while IFS= read -r f; do
+    [[ -n "${f}" ]] || continue
+    names+=("${f}")
+  done < <(brew outdated --formula 2>/dev/null || true)
+
+  if [[ "${#names[@]}" -eq 0 ]]; then
+    ok "Intel Homebrew: no outdated formulae to pin"
+    return 0
+  fi
+
+  brew pin "${names[@]}"
+  warn "Intel Homebrew has no bottles (Tier 3). Pinned to skip compile: ${names[*]}"
+  warn "To build one from source: brew unpin NAME && brew upgrade --build-from-source NAME"
+}
+
+pin_intel_outdated_formulae
+
 echo "topgrade-precheck: ready"

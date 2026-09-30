@@ -2,7 +2,7 @@
 
 **Role:** secondary Mac · Intel (`x86_64`) · Homebrew `/usr/local`  
 **Audience:** public (no accounts, vault IDs, LAN IPs, or personal paths)  
-**Last updated:** 2026-08-31  
+**Last updated:** 2026-09-30  
 
 ## Doc map (avoid duplication)
 
@@ -32,31 +32,42 @@ This file only covers **moon-specific** behaviour. Do not repeat full app tables
 | **Homebrew prefix** | `/usr/local` (Intel). Scripts and Ansible detect arch automatically. |
 | **Parallels** | Prefer **vendor installer** on Intel (brew cask historically flaky) — [home-machines-apps.md §2](./home-machines-apps.md) |
 | **Apple Silicon–only apps** | Not required (Protect iOS-on-Mac, etc.) — inventory lists these as primary-only |
-| **Intel bottle lag** | Some Homebrew formulae ship **arm64 bottles only** for a while (Tier 3 on Intel). Choose **pin** (stay on last bottle/source install) or **`brew install --build-from-source`** (compile current stable). |
+| **Intel bottles** | Homebrew **stopped shipping x86_64 bottles** (Tier 3, announced 2025-08, in effect 2026-09). `brew upgrade` / topgrade will **compile from source** unless formulae are pinned. |
+| **Xcode CLT** | Sequoia 15.7 Software Update only offers **Command Line Tools 16.4** (already installed). `brew doctor` asking for **CLT 26.3** is Homebrew’s macOS 15 mapping; 26.3 is a developer.apple.com download (Apple ID), and CLT 26.5+ requires **macOS 26.2+**. Updating CLT does **not** restore bottles. |
 
-### Intel Homebrew: no bottle for current stable
+### Intel Homebrew: no bottles (topgrade compiles)
 
-`topgrade` / `brew upgrade` errors with `no bottle available!` on Intel when stable has empty `bottle.stable.files`. Check with `brew info --json=v2 <formula>`.
+As of Homebrew 7 / September 2026, core formulae report `bottle: false` on Intel. `brew upgrade` then builds from source (llvm, gtk, rust, node, …). That is not a broken Command Line Tools install.
 
-**Option A — pin** (skip upgrades until an Intel bottle exists):
+**Default — pin** (what [`scripts/topgrade-precheck.sh`](../scripts/topgrade-precheck.sh) does on `x86_64` before topgrade):
 
 ```bash
-brew pin atuin uv llmfit node
+brew outdated --formula
+brew pin ansible atuin czkawka deno git gtk4 libssh2 llmfit node uv   # example set
 brew list --pinned
-# brew unpin … && brew upgrade …   # when bottles appear
+# brew unpin NAME && brew upgrade --build-from-source NAME   # only if you want a compile
 ```
 
-**Option B — build from source** (run current stable on Intel; Tier 3 — don’t file Homebrew issues):
+**Optional — build from source** (Tier 3 — don’t file Homebrew issues):
 
 ```bash
-brew unpin atuin uv llmfit node chezmoi   # if previously pinned
-brew install --build-from-source atuin uv llmfit chezmoi
-brew upgrade node                 # or --build-from-source if upgrade refuses
+brew unpin NAME
+brew upgrade --build-from-source NAME
 ```
 
-Next bump without bottles will fail again unless you re-pin or rebuild from source.
+Do **not** remove these from `brewfile.home.machines` just because Intel has no bottles — haumea (arm64) should still track them. `mistral-vibe` stays arm-gated.
 
-Do **not** remove these from `brewfile.home.machines` just because Intel lags — haumea (arm64) should still track them. `mistral-vibe` stays arm-gated (never had a usable Intel bottle).
+### Command Line Tools on Sequoia (Intel)
+
+| What | Reality on this host class |
+|------|----------------------------|
+| Installed | CLT **16.4** at `/Library/Developer/CommandLineTools` (clang 17.0.0, SDK 15.5) |
+| `softwareupdate` (with the on-demand flag file) | **16.2** and **16.4** only |
+| `brew doctor` | Wants **CLT 26.3** (`Library/Homebrew/os/mac/xcode.rb` maps macOS 15 → 26.3) |
+| CLT 26.3 | Xcode 26.3 supports Sequoia 15.6+; Apple does not offer it via Software Update on 15.7. Download from [developer.apple.com/download/all](https://developer.apple.com/download/all/) (signed-in Apple ID), then install the dmg. Needs GUI admin. Silences `brew doctor`; does **not** stop source builds. |
+| CLT 26.5 / 26.6 / 27 | `allowed-os-versions` min **26.2** / **26.6** — Tahoe or newer. Do not force-install on Sequoia. |
+
+Do **not** `sudo rm -rf /Library/Developer/CommandLineTools` on a working 16.4 install. Reinstalling via `xcode-select --install` will put 16.4 back.
 
 ---
 
