@@ -24,6 +24,10 @@ secrets/
 # Local-only files (not pushed to remote)
 CHANGELOG.md
 
+# Local topgrade flags (never Apple ID passwords)
+**/topgrade.env
+!**/topgrade.env.example
+
 # Per-machine private briefing for reinstall / agents (API models, specs, IPs, …)
 # Commit machine.md.example only — never machine.md / machine-*.md
 machine.md

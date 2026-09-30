@@ -764,7 +764,8 @@ Not app inventory, but required for `chezmoi apply` / topgrade templates on both
 | GUI vs SSH | Keyring unlock needs **GUI Terminal**; SSH hits `-25308` |
 | PAT | Optional optional local PAT file under `~/.config/pass-cli/` (mode 600, never commit) (mode 600); grant vault **viewer** for PAT |
 | PAT + `pass://` vault id | PAT share id ≠ user vault id → **422**; use [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) as `[protonPass] command` |
-| Precheck | `scripts/topgrade-precheck.sh` (pass-cli session + SSH agent; Keychain `-25308` over SSH → warn/continue; wired as topgrade `[pre_commands]`) |
+| Precheck | `scripts/topgrade-precheck.sh` (pass-cli session + SSH agent; Keychain `-25308` over SSH → warn/continue; wired as topgrade `[pre_commands]`). Intel also pins outdated formulae. |
+| MAS over SSH | Skip via `scripts/topgrade-wrap.sh` (zsh `topgrade`). Do not put Apple ID password in `~/.config/topgrade.env`. GUI Terminal still runs `mas`. |
 
 Details: [haumea.md](./haumea.md) (primary) · [moon.md](./moon.md) (secondary, soft Pass over SSH).
 

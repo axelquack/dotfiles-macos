@@ -19,9 +19,14 @@
 disable = ["uv", "node", "yarn", "pnpm", "containers", "colima"]
 
 # chezmoi update needs Proton Pass for templates. Over SSH, macOS Keychain returns
-# -25308 even when the GUI session is logged in — treat that as non-fatal so brew/MAS
+# -25308 even when the GUI session is logged in — treat that as non-fatal so brew
 # finishes. Apply dots in a GUI Terminal when Pass is available: pass-cli login && chezmoi apply
 ignore_failures = ["chezmoi"]
+
+# Mac App Store (`mas`) over SSH always prompts for Apple ID password. Do not
+# put that password in an env file (`mas signin` was removed). SSH runs skip
+# `mas` via scripts/topgrade-wrap.sh (zsh function `topgrade`). GUI still updates
+# MAS. Optional flags: ~/.config/topgrade.env (see topgrade.env.example).
 
 # I disabled 'containers' — hermes-stack uses Dockerfiles (locally built, no registry);
 # updates require `docker-compose build --pull && docker-compose up -d` per project.

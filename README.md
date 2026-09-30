@@ -290,6 +290,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/install-npm-cli-tools.sh` | Standalone AI CLI tools (`gemini-cli` and ACP agents — pinned versions) |
 | `scripts/audit-security.sh` | Security audit: `shellcheck` + OSV.dev for pinned npm packages |
 | `scripts/topgrade-precheck.sh` | Topgrade `[pre_commands]`: pass-cli session + SSH agent; on Intel also pin outdated formulae (no x86_64 bottles) |
+| `scripts/topgrade-wrap.sh` | Zsh `topgrade` function: skip Mac App Store over SSH (Apple ID password cannot be env-supplied). Flags: `~/.config/topgrade.env` |
 | `scripts/ensure-ssh-agent.sh` | Idempotent SSH agent load via `pass-cli ssh-agent load` (no-op if keys already present) |
 | `scripts/check-secrets.sh` | Pre-push public-repo scan (gitleaks + no LAN IPs / key material in git) |
 | `scripts/pass-cli-chezmoi.sh` | Proton Pass wrapper for chezmoi when PAT share IDs differ |
@@ -316,8 +317,9 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 | `containers` | Dockerfile-based stacks need rebuild; pulling images without restarting containers gives false confidence | `docker-compose build --pull && docker-compose up -d` (hermes-stack) · `docker-compose pull && docker-compose up -d` (mcp-stack) |
 | `uv` | Managed by Homebrew; `uv self update` fails for brew-managed installs | Updated automatically via Homebrew step |
 | `colima` | OrbStack is the Docker runtime; `colima update` fails when Colima is not running | N/A — use OrbStack |
+| `mas` over SSH | App Store asks for Apple ID password; `mas` cannot take it from an env file | GUI Terminal on that Mac, or `mas upgrade` there. SSH `topgrade` skips `mas` via `scripts/topgrade-wrap.sh` |
 
-**Before `topgrade`:** the config runs [`scripts/topgrade-precheck.sh`](scripts/topgrade-precheck.sh) (pass-cli session + SSH agent). On Intel it also **pins** outdated formulae so Homebrew does not compile for hours (no x86_64 bottles as of 2026-09 — [docs/moon.md](docs/moon.md)). Prefer Pass SoT: in a GUI Terminal run `pass-cli login` if needed, then [`scripts/ensure-ssh-agent.sh`](scripts/ensure-ssh-agent.sh) (`pass-cli ssh-agent load` when the agent is empty). Session is not permanent across reboot — see [AGENTS.md](AGENTS.md).
+**Before `topgrade`:** the config runs [`scripts/topgrade-precheck.sh`](scripts/topgrade-precheck.sh) (pass-cli session + SSH agent). On Intel it also **pins** outdated formulae so Homebrew does not compile for hours (no x86_64 bottles as of 2026-09 — [docs/moon.md](docs/moon.md)). Over SSH the zsh `topgrade` function skips Mac App Store (`mas`) — do not put an Apple ID password in `~/.config/topgrade.env`. Prefer Pass SoT: in a GUI Terminal run `pass-cli login` if needed, then [`scripts/ensure-ssh-agent.sh`](scripts/ensure-ssh-agent.sh) (`pass-cli ssh-agent load` when the agent is empty). Session is not permanent across reboot — see [AGENTS.md](AGENTS.md).
 
 **Avoid chezmoi “has changed since last wrote” prompts:**
 - Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.

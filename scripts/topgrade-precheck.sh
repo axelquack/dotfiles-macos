@@ -125,6 +125,11 @@ fi
 
 ok "SSH agent has identities"
 
+if [[ -n "${SSH_CONNECTION:-}" ]]; then
+  warn "SSH: Mac App Store (mas) cannot take an Apple ID password from env."
+  warn "Use the zsh topgrade function (scripts/topgrade-wrap.sh) or: topgrade --disable mas"
+fi
+
 # Intel Homebrew is Tier 3 as of 2026-09: no x86_64 bottles. `brew upgrade`
 # then compiles from source (hours). Pin outdated formulae so topgrade skips
 # them. Unpin only when you intend to build: brew unpin NAME && brew upgrade --build-from-source NAME

@@ -270,6 +270,17 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 
+# topgrade: skip Mac App Store over SSH. Apple ID password cannot live in an
+# env file (`mas signin` was removed). Flags: ~/.config/topgrade.env
+# (see scripts/topgrade-wrap.sh and dot_config/topgrade.env.example).
+if command -v chezmoi >/dev/null 2>&1; then
+  _tq_wrap="$(chezmoi source-path 2>/dev/null)/scripts/topgrade-wrap.sh"
+  if [[ -x "${_tq_wrap}" ]]; then
+    topgrade() { "${_tq_wrap}" "$@" }
+  fi
+  unset _tq_wrap
+fi
+
 # Machine-local overrides (API keys, Grok env, one-off PATH).
 # NOT managed by chezmoi — create ~/.zshrc.local on each machine as needed.
 # Keeps secrets out of the dotfiles repo and stops "has changed since last wrote" prompts.

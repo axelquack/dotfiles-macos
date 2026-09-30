@@ -74,6 +74,7 @@ pass-cli login                          # only if vault list fails
 
 - Over **SSH**, macOS often returns Keychain `-25308`. Either load on that Mac’s **GUI Terminal** first (login shells then attach the GUI agent via `~/.zprofile` / `~/.zshrc`), or use `ssh -A` from a host that already has keys loaded.
 - `scripts/topgrade-precheck.sh` soft-fails Pass Keychain over SSH and still tries to attach / load identities for brew updates. On Intel (`x86_64`) it also pins outdated formulae so topgrade does not compile from source (Homebrew dropped x86_64 bottles).
+- Over SSH, `mas` (Mac App Store) prompts for Apple ID password. Do **not** store that password in an env file (`mas signin` was removed). The zsh `topgrade` function runs `scripts/topgrade-wrap.sh` and skips `mas` when `SSH_CONNECTION` is set. Optional flags: gitignored `~/.config/topgrade.env`.
 
 Details: [`docs/secrets-pass.md`](docs/secrets-pass.md) · host notes [`docs/moon.md`](docs/moon.md).
 
