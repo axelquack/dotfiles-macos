@@ -272,7 +272,7 @@ Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.hom
 
 #### In brewfile (were listed as extras in older snapshots)
 
-`butane`, `just`, `p7zip`, `wakeonlan`, `czkawka` — already in `brewfile.home.machines`.
+`butane`, `just`, `p7zip`, `unar`, `wakeonlan`, `czkawka` — already in `brewfile.home.machines`.
 
 ### Casks vs brewfile (haumea 2026-08-27)
 
@@ -280,7 +280,7 @@ Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.hom
 |-----------|----------|
 | Live, not in shared brewfile | `parallels` (optional Silicon; see §2), `ledger-live` (app is Ledger Live; brewfile token is `ledger-wallet`) |
 | Added to brewfile this pass | `cursor` |
-| Manual (not brew) | 8BitDo Firmware Updater, Grok Bot, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager |
+| Manual (not brew) | 8BitDo Firmware Updater, Grok Bot, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager, **ComicTagger 1.6.0b10** (official arm64 DMG; Homebrew cask `comictagger` is Gatekeeper-disabled — do not brew-install) |
 | Removed from SoT | Perplexity (MAS), **Adobe Acrobat** (uninstalled) |
 | Silicon-only in brewfile | `riverside-studio`, `mistral-vibe` (`Hardware::CPU.arm?` — no Intel bottles / Tier 3) |
 | Intel bottles gone (moon: **pin**; optional `--build-from-source`) | Homebrew ships **no x86_64 bottles** as of 2026-09. Topgrade precheck pins outdated formulae on Intel so they are not compiled. See [moon.md](./moon.md). |

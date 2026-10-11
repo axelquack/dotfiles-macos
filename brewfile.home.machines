@@ -112,6 +112,7 @@ brew "mas"                      # Command-line interface for Mac App Store
 brew "mistral-vibe" if Hardware::CPU.arm?  # Mistral Vibe CLI + vibe-acp (Obsidian Agent Client)
 brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
 brew "p7zip"                    # 7-Zip file archiver (CLI)
+brew "unar"                     # The Unarchiver CLI — ComicTagger CBR read / CBR→CBZ export (Homebrew unrar gone; rar cask Gatekeeper-disabled)
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
 brew "shellcheck"               # Static analysis tool for shell scripts — catches bugs and security issues
 brew "gitleaks"                 # Secret scanner — used by scripts/check-secrets.sh before public pushes
