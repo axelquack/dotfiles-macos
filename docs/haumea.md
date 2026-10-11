@@ -2,7 +2,7 @@
 
 **Role:** daily-driver Mac · Apple Silicon · Homebrew `/opt/homebrew`  
 **Audience:** public (no accounts, vault IDs, or absolute home paths)  
-**Last updated:** 2026-08-30  
+**Last updated:** 2026-10-11  
 
 ## Doc map (avoid duplication)
 
@@ -58,6 +58,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github
 - **Marked 2** (optional): good for Markdown print; float in AeroSpace.
 - **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Developer/Projects` (prefer local disk, not iCloud Desktop & Documents).
 - **Grok Build TUI:** `~/.grok/config.toml` is chezmoi-managed (`dot_grok/config.toml.tmpl`). OAuth via `grok login`; MCP tokens in unmanaged `~/.grok/.env`. Do not export `XAI_API_KEY` into interactive shells.
+- **Grok Bot + Cursor (iPhone):** Grok Bot desktop **Execution on this computer** = **Always allow**; egress off. Cursor Remote Control **Connected** as **haumea**; keep-awake on. Cursor iOS pairing is still pending. SoT: `~/Developer/Projects/grok-bot-stack/docs/grok-bot-cursor.md` (not moon-omarchy). Do not Unregister All, dump pairing codes, or `curl | bash` vendor installers.
 - **Goose Desktop:** default is SuperGrok **`xai_oauth`**. If the app shows *Configuration Error* / “configure an API provider”, re-import from OpenCode (`./scripts/sync-goose-from-opencode.sh`) then relaunch Goose — see [home-machines-apps.md §12b](./home-machines-apps.md).
 - Obsidian Agent Client / cloud models usually **do not** need the OpenCode GUI running.
 
