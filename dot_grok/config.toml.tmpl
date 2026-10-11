@@ -21,6 +21,7 @@ name = "OpenCode Zen"
 base_url = "https://opencode.ai/zen/go/v1"
 env_key = "OPENCODE_GO_API_KEY"
 name = "OpenCode Go"
+extra_headers = { "x-opencode-session" = "grok-build-tui" }
 
 [model_providers.cohere]
 base_url = "https://api.cohere.ai/compatibility/v1"
@@ -169,28 +170,34 @@ api_backend = "chat_completions"
 model = "qwen3.6-plus"
 model_provider = "opencode-go"
 name = "Qwen 3.6 Plus (OpenCode Go)"
-description = "OpenCode Go — same as Obsidian/OpenCode picker"
+description = "OpenCode Go — Anthropic Messages (x-api-key), same as Goose oc_go_qwen"
 base_url = "https://opencode.ai/zen/go/v1"
 env_key = "OPENCODE_GO_API_KEY"
-api_backend = "chat_completions"
+api_backend = "messages"
+env_http_headers = { "x-api-key" = "OPENCODE_GO_API_KEY" }
+extra_headers = { "anthropic-version" = "2023-06-01", "x-opencode-session" = "grok-build-tui" }
 
 [model.oc-go-qwen3-8-max]
 model = "qwen3.8-max"
 model_provider = "opencode-go"
 name = "Qwen 3.8 Max (OpenCode Go)"
-description = "OpenCode Go — same as Obsidian/OpenCode picker"
+description = "OpenCode Go — Anthropic Messages (x-api-key), same as Goose oc_go_qwen"
 base_url = "https://opencode.ai/zen/go/v1"
 env_key = "OPENCODE_GO_API_KEY"
 api_backend = "messages"
+env_http_headers = { "x-api-key" = "OPENCODE_GO_API_KEY" }
+extra_headers = { "anthropic-version" = "2023-06-01", "x-opencode-session" = "grok-build-tui" }
 
 [model.oc-go-qwen3-7-plus]
 model = "qwen3.7-plus"
 model_provider = "opencode-go"
 name = "Qwen 3.7 Plus (OpenCode Go)"
-description = "OpenCode Go — same as Obsidian/OpenCode picker (Hermes default on haumea)"
+description = "OpenCode Go — Anthropic Messages (x-api-key), same as Goose oc_go_qwen (Hermes default on haumea)"
 base_url = "https://opencode.ai/zen/go/v1"
 env_key = "OPENCODE_GO_API_KEY"
-api_backend = "chat_completions"
+api_backend = "messages"
+env_http_headers = { "x-api-key" = "OPENCODE_GO_API_KEY" }
+extra_headers = { "anthropic-version" = "2023-06-01", "x-opencode-session" = "grok-build-tui" }
 
 [model.cohere-north-large]
 model = "north-large-01-2026"
