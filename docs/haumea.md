@@ -47,6 +47,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github
 
 - **pass-cli session mode:** pass-cli 2.5.0 errors when `~/Library/Application Support/proton-pass-cli/.session` is not mode `700` ("Session directory is accessible by group or others"). The topgrade precheck then says pass-cli is not logged in. On 2026-10-20 the directory was `755` (umask `022`). `chmod 700` that directory and `600` the secret files inside it (`pass-cli.db`, `passphrases.enc`, `session.json`). The precheck does not chmod this itself. Login still needs a GUI Terminal.
 - **topgrade skips `hermes_agent` and `colima`.** Docker is OrbStack. `~/Developer/bin/hermes` execs into the hermes-stack container, so `hermes update` exits 1 (not a git checkout). Upgrade that image in `~/Developer/Projects/hermes-stack` with `just hermes-upgrade`. Model and auth notes stay in gitignored `machine-haumea.md` and in the hermes-stack repo.
+- **Cursor extensions `[DEP0169]`:** topgrade's Cursor extensions step (`cursor --update-extensions`) prints a Node `url.parse()` deprecation, then `No extension to update`. The step succeeded. Seen on haumea 2026-10-20 at 08:55:56. Same warning in current Cursor and VS Code CLIs. Do not treat it as a failed update.
 
 - PAT / `pass://` share-id mismatch (HTTP 422): use [../scripts/pass-cli-chezmoi.sh](../scripts/pass-cli-chezmoi.sh) as chezmoi `[protonPass] command`. Full policy table: [home-machines-apps.md §15](./home-machines-apps.md) (high level) — **no vault IDs in git**.
 

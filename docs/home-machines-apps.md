@@ -770,6 +770,7 @@ Not app inventory, but required for `chezmoi apply` / topgrade templates on both
 | PAT + `pass://` vault id | PAT share id ≠ user vault id → **422**; use [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) as `[protonPass] command` |
 | Precheck | `scripts/topgrade-precheck.sh` (pass-cli session + SSH agent; Keychain `-25308` over SSH → warn/continue; wired as topgrade `[pre_commands]`). Intel also pins outdated formulae. |
 | MAS over SSH | Skip via `scripts/topgrade-wrap.sh` (zsh `topgrade`). Do not put Apple ID password in `~/.config/topgrade.env`. GUI Terminal still runs `mas`. |
+| Cursor extensions | `cursor --update-extensions` may print Node `[DEP0169]` (`url.parse()`). Cosmetic. `No extension to update` means the step finished with nothing to install. |
 
 Details: [haumea.md](./haumea.md) (primary) · [moon.md](./moon.md) (secondary, soft Pass over SSH).
 
