@@ -110,7 +110,11 @@ Topgrade:
 
 ```toml
 # dot_config/topgrade.toml
-disable = [..., "colima"]  # OrbStack is the runtime; colima update fails when not running
+disable = [..., "colima", "hermes_agent"]
+# colima: OrbStack is the runtime; colima update fails when not running.
+# hermes_agent: ~/Developer/bin/hermes execs into the hermes-stack container.
+#   `hermes update` exits 1 (no git checkout). Upgrade: just hermes-upgrade
+#   in ~/Developer/Projects/hermes-stack.
 ```
 
 After removing Colima on moon, optional leftover config:
@@ -935,5 +939,5 @@ rm -rf ~/.colima
 - [moon.md](./moon.md) — secondary host notes
 - [aerospace/WORKSPACES.md](./aerospace/WORKSPACES.md) — workspace / float map
 - [../brewfile.home.machines](../brewfile.home.machines) — package SoT
-- [../dot_config/topgrade.toml](../dot_config/topgrade.toml) — disabled steps (Colima, containers, …)
+- [../dot_config/topgrade.toml](../dot_config/topgrade.toml) — disabled steps (Colima, containers, Hermes Agent, …)
 - [../README.md](../README.md) — setup overview

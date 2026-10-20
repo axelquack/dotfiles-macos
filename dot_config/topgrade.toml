@@ -16,7 +16,11 @@
 # and mcp-stack public images are updated via docker-compose pull in their project folder.
 # I disabled 'colima' — Docker runtime is OrbStack on these Macs; colima is not the active VM
 # and `colima update` fails with "colima is not running".
-disable = ["uv", "node", "yarn", "pnpm", "containers", "colima"]
+# I disabled 'hermes_agent' — ~/Developer/bin/hermes is the hermes-stack container
+# wrapper. `hermes update` inside that image always exits 1 (no git checkout).
+# Upgrade on the host: cd ~/Developer/Projects/hermes-stack && just hermes-upgrade
+# (`docker compose build --pull` then recreate). `just hermes-rebuild` does not pull.
+disable = ["uv", "node", "yarn", "pnpm", "containers", "colima", "hermes_agent"]
 
 # chezmoi update needs Proton Pass for templates. Over SSH, macOS Keychain returns
 # -25308 even when the GUI session is logged in — treat that as non-fatal so brew
