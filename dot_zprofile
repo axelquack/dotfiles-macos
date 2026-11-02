@@ -1,5 +1,12 @@
 # ~/.zprofile — login-shell PATH and optional app hooks (no secrets).
 
+# Kiro's shell hook execs "zsh (kiro-cli-term)", a nested terminal. Herdr then
+# sees that wrapper instead of grok/opencode/etc. and leaves the agent list empty.
+# PROCESS_LAUNCHED_BY_Q is Kiro's own "do not launch the nested terminal" flag.
+if [[ -n "${HERDR_ENV:-}" ]]; then
+    export PROCESS_LAUNCHED_BY_Q=1
+fi
+
 # Kiro CLI pre hook (optional). See dot_zshrc for the same brew vs ~/.local/bin lookup.
 if [[ -x "${HOME}/.local/bin/kiro-cli" ]]; then
     eval "$("${HOME}/.local/bin/kiro-cli" init zsh pre --rcfile zprofile)"
@@ -20,13 +27,21 @@ fi
 # session's launchd agent already holds keys (needed for git/chezmoi over SSH).
 if [[ "$(uname -s)" == "Darwin" ]]; then
     if [[ -z "${SSH_AUTH_SOCK:-}" ]] || ! ssh-add -l >/dev/null 2>&1; then
-        # shellcheck disable=SC2231
-        for __ssh_sock in /private/tmp/com.apple.launchd.*/Listeners; do
-            if [[ -S "${__ssh_sock}" ]] && SSH_AUTH_SOCK="${__ssh_sock}" ssh-add -l >/dev/null 2>&1; then
-                export SSH_AUTH_SOCK="${__ssh_sock}"
-                break
-            fi
-        done
+        # launchctl knows the GUI session socket. Current macOS keeps it under
+        # /var/run/com.apple.launchd.*/Listeners; older releases used /private/tmp.
+        # (N) is zsh nullglob: a miss expands to nothing instead of "no matches found".
+        __ssh_sock="$(launchctl getenv SSH_AUTH_SOCK 2>/dev/null || true)"
+        if [[ -n "${__ssh_sock}" && -S "${__ssh_sock}" ]] && SSH_AUTH_SOCK="${__ssh_sock}" ssh-add -l >/dev/null 2>&1; then
+            export SSH_AUTH_SOCK="${__ssh_sock}"
+        else
+            # shellcheck disable=SC2231
+            for __ssh_sock in /var/run/com.apple.launchd.*/Listeners(N) /private/tmp/com.apple.launchd.*/Listeners(N); do
+                if [[ -S "${__ssh_sock}" ]] && SSH_AUTH_SOCK="${__ssh_sock}" ssh-add -l >/dev/null 2>&1; then
+                    export SSH_AUTH_SOCK="${__ssh_sock}"
+                    break
+                fi
+            done
+        fi
         unset __ssh_sock
     fi
 fi

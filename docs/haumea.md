@@ -58,7 +58,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github
 - **AeroSpace:** live file `~/.config/aerospace/aerospace.toml` (from `dot_config/aerospace/aerospace.toml.tmpl`). Cheatsheet: [aerospace/SHORTCUTS.md](./aerospace/SHORTCUTS.md).
 - **Stream Deck:** cask + `~/.config/streamdeck/bin` via chezmoi; write live profiles with `./scripts/streamdeck-apply.sh` on the Mac the deck is plugged into — [stream-deck.md](./stream-deck.md).
 - **Bartender 6:** shared cask `bartender`; register the license on this Mac (not git) — [bartender.md](./bartender.md).
-- **Terminal:** tabs in one window = one tile; new windows get separate tiles.
+- **Terminal:** Tokyo Night is the default and startup profile (storm `#24283b`, same background as Grok Build). Tabs in one window = one tile; new windows get separate tiles. Herdr uses that same storm panel (`tokyo-night`, auto-switch off). The live Terminal and Herdr files stay on this Mac.
 - **Marked 2** (optional): good for Markdown print; float in AeroSpace.
 - **OpenCode desktop:** avoid ghost project paths that no longer exist; open a real folder under `~/Developer/Projects` (prefer local disk, not iCloud Desktop & Documents).
 - **Grok Build TUI:** `~/.grok/config.toml` is chezmoi-managed (`dot_grok/config.toml.tmpl`). OAuth via `grok login`; MCP tokens in unmanaged `~/.grok/.env`. Do not export `XAI_API_KEY` into interactive shells.
@@ -66,7 +66,7 @@ ssh-add --apple-use-keychain ~/.ssh/id_ed25519_github
 - **Cursor Agents local repos:** each child of `~/Developer/Projects` is its own **Repositories** sidebar row (not one parent “Projects” folder). Click the repo, then New Chat — composer + Files follow that folder. Do not File → Open Folder on the parent. Do not grant Cursor GitHub **All**. SoT: `~/Developer/Projects/grok-bot-stack/docs/cursor-projects.md`.
 - **MCP split:** Cursor on this Mac uses `~/.cursor/mcp.json` generated from Grok Build (`grok-bot-stack/scripts/sync-cursor-mcp.sh`). Grok Bot does **not** read that file — Connect apps / Plugins, cloud computer only. **Context7** (plugin `406`) and **Raindrop** (`npx mcp-remote` + secret `RAINDROP_TOKEN`) are connected there. SoT: `~/Developer/Projects/grok-bot-stack/docs/mcp.md`. Do not tunnel localhost MCP or enable Grok Bot desktop egress.
 - **Goose Desktop:** default is SuperGrok **`xai_oauth`**. If the app shows *Configuration Error* / “configure an API provider”, re-import from OpenCode (`./scripts/sync-goose-from-opencode.sh`) then relaunch Goose — see [home-machines-apps.md §12b](./home-machines-apps.md).
-- Obsidian Agent Client / cloud models usually **do not** need the OpenCode GUI running.
+- Obsidian Agent Client / cloud models usually **do not** need the OpenCode GUI running. If the panel says **ACP connection closed** after the agent process has died, the haumea vault copy of plugin **0.13.0** `main.js` is patched so the next send starts a new process. **Restart agent** clears the chat. A plugin update overwrites that patch. Backup: `main.js.bak-pre-acp-reconnect-20261102`. The vault is not a git repo. Details: [home-machines-apps.md §13](./home-machines-apps.md).
 
 ---
 

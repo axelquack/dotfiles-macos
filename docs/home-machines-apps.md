@@ -497,6 +497,8 @@ Wrapper now: if `$1 == acp` then `exec opencode "$@"` else `exec opencode acp "$
 Same for **Kiro**: `kiro-cli acp acp` exits immediately (`unexpected argument 'acp'`). Wrapper is idempotent; plugin `args` is `["acp"]`.  
 Details: `hermes-stack/docs/guides/hermes-opencode-acp-editors.md`.
 
+**Pitfall (2026-11-02, haumea):** Plugin **0.13.0** kept a dead `opencode acp` process marked connected. The next send failed with *ACP connection closed* and did not start a new process. **Restart agent** clears the chat before it reconnects. The haumea vault `main.js` is patched so exit drops that connection and the next send reconnects. Backup next to `main.js`: `main.js.bak-pre-acp-reconnect-20261102`. A plugin update replaces `main.js` and drops the patch. The vault is not a git repo. Brew OpenCode on haumea stays **1.19.4**. Do not upgrade the plugin until this behavior is upstream.
+
 ### Agent Client plugin settings (moon, after fix)
 
 - **Default agent:** OpenCode  
@@ -768,7 +770,7 @@ Not app inventory, but required for `chezmoi apply` / topgrade templates on both
 | GUI vs SSH | Keyring unlock needs **GUI Terminal**; SSH hits `-25308` |
 | PAT | Optional optional local PAT file under `~/.config/pass-cli/` (mode 600, never commit) (mode 600); grant vault **viewer** for PAT |
 | PAT + `pass://` vault id | PAT share id ≠ user vault id → **422**; use [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) as `[protonPass] command` |
-| Precheck | `scripts/topgrade-precheck.sh` (pass-cli session + SSH agent; Keychain `-25308` over SSH → warn/continue; wired as topgrade `[pre_commands]`). Intel also pins outdated formulae. |
+| Precheck | `scripts/topgrade-precheck.sh` (pass-cli session + SSH agent; Keychain `-25308` over SSH → warn/continue; wired as topgrade `[pre_commands]`). The GUI agent is `launchctl getenv SSH_AUTH_SOCK`, then the `/var/run` and `/private/tmp` launchd listener sockets. Intel also pins outdated formulae. |
 | MAS over SSH | Skip via `scripts/topgrade-wrap.sh` (zsh `topgrade`). Do not put Apple ID password in `~/.config/topgrade.env`. GUI Terminal still runs `mas`. |
 | Cursor extensions | `cursor --update-extensions` may print Node `[DEP0169]` (`url.parse()`). Cosmetic. `No extension to update` means the step finished with nothing to install. |
 

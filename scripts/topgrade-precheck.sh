@@ -77,8 +77,19 @@ attach_macos_gui_ssh_agent() {
   if agent_has_ids; then
     return 0
   fi
-  # shellcheck disable=SC2231
-  for sock in /private/tmp/com.apple.launchd.*/Listeners; do
+  sock="$(launchctl getenv SSH_AUTH_SOCK 2>/dev/null || true)"
+  if [[ -n "${sock}" && -S "${sock}" ]] && SSH_AUTH_SOCK="${sock}" ssh-add -l >/dev/null 2>&1; then
+    export SSH_AUTH_SOCK="${sock}"
+    ok "attached to macOS GUI SSH agent (${sock})"
+    return 0
+  fi
+  # Current macOS: /var/run. Older macOS: /private/tmp.
+  # nullglob so a missing directory does not leave the literal pattern.
+  local -a candidates=()
+  shopt -s nullglob
+  candidates=(/var/run/com.apple.launchd.*/Listeners /private/tmp/com.apple.launchd.*/Listeners)
+  shopt -u nullglob
+  for sock in "${candidates[@]}"; do
     [[ -S "${sock}" ]] || continue
     if SSH_AUTH_SOCK="${sock}" ssh-add -l >/dev/null 2>&1; then
       export SSH_AUTH_SOCK="${sock}"
