@@ -19,7 +19,7 @@ Docker, containerd and runc ship inside OrbStack and only update with it. No led
 
 ## Hermes on haumea
 
-Hermes Agent v0.22.5 runs in hermes-stack on OrbStack (UPD-2026-10-31-002, done). v0.22.6 is optional and not applied (UPD-2026-11-03-005). See the hermes-stack CHANGELOG.
+Hermes Agent v0.22.6 runs in hermes-stack on OrbStack (upstream `f0d94882`, verified live 2026-11-04). It was rebuilt on 2026-11-03 during the pw-browser rollout on the unpinned `nousresearch/hermes-agent:latest` base, so UPD-2026-11-03-005 is in fact done on haumea (closed as superseded). v0.22.7 (UPD-2026-11-04-003) is researched; the v0.22.6 → v0.22.7 work order waits on Axel's go. Correction 2026-11-04: this line earlier said v0.22.5 runs and v0.22.6 was not applied. See the hermes-stack CHANGELOG.
 
 ## herdr
 
