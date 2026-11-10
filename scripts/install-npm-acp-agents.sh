@@ -6,5 +6,5 @@ set -euo pipefail
 
 eval "$(fnm env)"
 
-npm install -g @agentclientprotocol/claude-agent-acp@0.68.0   # Claude agent (ACP server)
+npm install -g @agentclientprotocol/claude-agent-acp@0.102.0   # Claude agent (ACP server)
 npm install -g @agentclientprotocol/codex-acp@1.3.0           # Codex agent (ACP server)
