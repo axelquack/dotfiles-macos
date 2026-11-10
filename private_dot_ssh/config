@@ -6,6 +6,17 @@ Include ~/.orbstack/ssh/config
 # Machine-specific host entries (populated from Proton Pass via chezmoi, not tracked in repo)
 Include ~/.ssh/config.local
 
+# vm-flatcar also answers as this DNS name and by LAN IP. The Proton Pass
+# config.local entry only lists `flatcar` / `flatcar.local`. Without this
+# block, `ssh vm-flatcar` uses the default local user and offers every
+# agent key, which hits "Too many authentication failures".
+# Added 2026-11-10 (Axel go t117u). Identity matches Host flatcar.
+Host vm-flatcar VM_FLATCAR_IP_REDACTED
+  HostName VM_FLATCAR_IP_REDACTED
+  User core
+  IdentityFile ~/.ssh/id_ed25519_proxmox
+  IdentitiesOnly yes
+
 Host github.com
   IdentityFile ~/.ssh/id_ed25519_github
   IdentitiesOnly yes
