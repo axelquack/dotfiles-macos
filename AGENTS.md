@@ -2,6 +2,15 @@
 
 **This repository is public.** Do not put LAN IPs, MACs, vault IDs, private keys, emails, or personal host inventories in commits or in this file.
 
+
+## Role
+
+- **Project:** Personal macOS dotfiles and setup (Zsh, Starship, AeroSpace, Homebrew, chezmoi, Ansible) for primary and secondary Macs. This repository is public.
+- **This agent owns:** The committed dotfiles, Ansible playbooks, public docs, and keeping those docs aligned with actual setup behaviour.
+- **Out of scope / handoff:** Secrets live in Proton Pass (`pass-cli`) and gitignored local maps; do not commit keys, tokens, vault IDs, mailbox addresses, LAN IPs, or host inventories. Sibling machine books (orion, uranus, and others) are separate private repos — do not copy their inventory into this public tree. Do not add a LaunchAgent that auto-unlocks Pass or silently loads keys at boot.
+
+Herdr agent: Ines (Dotfiles) · macOS haumea setup (pane w4:p1)
+
 ## What this is
 
 Personal **macOS** dotfiles and setup: Zsh, Starship, AeroSpace, Homebrew, chezmoi, Ansible for primary/secondary Macs. Secrets live in **Proton Pass** (`pass-cli`); chezmoi and scripts materialize them locally.
