@@ -61,3 +61,6 @@ COPILOT.md
 
 # Secret scan temp
 .gitleaks-report.json
+
+# secrets and backups (agent rule 2026-11-12)
+*.bak*
