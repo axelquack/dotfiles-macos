@@ -2,6 +2,21 @@
 
 Personal dotfiles and setup scripts for macOS, available at [github.com/axelquack/dotfiles-macos](https://github.com/axelquack/dotfiles-macos). Covers Zsh, Starship, AeroSpace, development tools, and system preferences — aimed at a productive, reproducible command-line environment.
 
+## Status
+
+2026-11-12, Europe/Berlin: public repository on the repo standard. The license is PolyForm Noncommercial 1.0.0. Versions published before this commit remain available under Apache-2.0.
+
+## Start here
+
+1. `AGENTS.md` (`CLAUDE.md` is a symlink to it)
+2. This file
+3. `BUGFIXES.md` and `SECURITY.md`
+4. `HANDOFF.md`, the last three entries in `CHANGELOG.md`, and `git log -5`. `HANDOFF.md` is gitignored in this public repository.
+5. The current ticket, or else `TODO.md` and `ROADMAP.md`
+6. `docs/README.md`
+
+`just` lists the recipes. `just setup` points this clone at `.githooks`. The recipe in `just/dotfiles.just` is preview only. Do not apply dotfiles from it.
+
 ## Overview
 
 | Tool | Purpose | Config |
@@ -10,7 +25,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [Starship](https://starship.rs) | Prompt | `dot_config/starship.toml` |
 | [AeroSpace](https://github.com/nikitabobko/AeroSpace) | Tiling window manager | `dot_config/aerospace/aerospace.toml.tmpl` · [shortcuts](docs/aerospace/SHORTCUTS.md) · [workspaces](docs/aerospace/WORKSPACES.md) |
 | [Stream Deck](https://www.elgato.com/stream-deck) | 15-key MK.2 + MCP Deck | `elgato-stream-deck` cask · `dot_config/streamdeck/bin/` · [docs/stream-deck.md](docs/stream-deck.md) |
-| [Ansible](https://docs.ansible.com/) | Idempotent host setup | [`ansible/`](ansible/) (haumea local · moon over SSH) |
+| [Ansible](https://docs.ansible.com/) | Idempotent host setup | [`ansible/`](ansible/) (primary is local, secondary is SSH) |
 | [Atuin](https://github.com/atuinsh/atuin) | Shell history | `dot_zshrc` |
 | [Homebrew](https://brew.sh) | Package manager | `brewfile.home.machines` |
 | [Topgrade](https://github.com/topgrade-rs/topgrade) | Update everything | `dot_config/topgrade.toml` |
@@ -88,22 +103,21 @@ No SSH keys required to **read** the public repo over HTTPS.
 
 Sign into the Mac App Store first — required for MAS apps.
 
-**Option A — Ansible (preferred, same pattern as orion/uranus):**
+**Option A — Ansible (preferred, same pattern as the other private machine repos):**
 
 ```bash
 brew install ansible
 cd /path/to/dotfiles-macos/ansible
-ansible-playbook setup-macos.yml --limit haumea --tags brew
-# moon (secondary): also installs brewfile.moon.extra (Syncthing)
-# ansible-playbook setup-macos.yml --limit moon --tags brew
+ansible-playbook setup-macos.yml --limit <primary-alias> --tags brew
+# secondary: also installs the extra brewfile (Syncthing)
+# ansible-playbook setup-macos.yml --limit <secondary-alias> --tags brew
 ```
 
 **Option B — manual brew bundle:**
 
 ```bash
 brew bundle --file=~/.local/share/chezmoi/brewfile.home.machines
-# secondary Mac only:
-# brew bundle --file=~/.local/share/chezmoi/brewfile.moon.extra
+# secondary Mac only: the extra brewfile in the repo root
 ```
 
 This also installs `pass-cli` (Proton Pass CLI), needed in the next step.
@@ -167,7 +181,7 @@ cp scripts/pass-env-map.example scripts/pass-env-map.local
 ./scripts/bootstrap-secrets-from-pass.sh --agent-load --with-zshrc-local
 
 # Ansible for packages/templates only:
-# cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags chezmoi
+# cd ansible && ansible-playbook setup-macos.yml --limit <primary-alias> --tags chezmoi
 ```
 
 Details: [docs/secrets-pass.md](docs/secrets-pass.md). **Do not** commit `pass-*-map.local`.
@@ -179,7 +193,7 @@ Details: [docs/secrets-pass.md](docs/secrets-pass.md). **Do not** commit `pass-*
 sudo ./macOS.sh
 
 # or Ansible
-cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags macos_defaults --ask-become-pass
+cd ansible && ansible-playbook setup-macos.yml --limit <primary-alias> --tags macos_defaults --ask-become-pass
 ```
 
 Some changes (e.g. Dock, Finder) take effect after logout/restart.
@@ -190,7 +204,7 @@ Some changes (e.g. Dock, Finder) take effect after logout/restart.
 ./scripts/install-npm-acp-agents.sh
 ./scripts/install-npm-cli-tools.sh
 
-# or: ansible-playbook setup-macos.yml --limit haumea --tags npm
+# or: ansible-playbook setup-macos.yml --limit <primary-alias> --tags npm
 ```
 
 ### Step 8 — Restart terminal
@@ -238,10 +252,9 @@ $(chezmoi source-path)/macOS.sh
 |------|-------------|
 | [Ansible setup](ansible/README.md) | Idempotent brew + chezmoi + optional macOS defaults / npm / himalaya |
 | [Himalaya + Mail.app IMAP](docs/himalaya.md) | CLI/TUI install; config + unsigned Mail.app profile generated locally (no secrets in git) |
-| [Home machines apps](docs/home-machines-apps.md) | Shared inventory & parity (haumea vs moon) — no host-only prose |
-| [haumea host notes](docs/haumea.md) | Primary-only ops (shell, topgrade, WM pointers) |
-| [moon host notes](docs/moon.md) | Secondary-only ops (Syncthing, Intel, SSH soft-Pass) |
-| [machine.md.example](machine.md.example) | Template for private `machine-haumea.md` / `machine-moon.md` (gitignored) |
+| [Home machines apps](docs/home-machines-apps.md) | Shared inventory and parity. No host-only prose |
+| [Host habit pages](docs/README.md) | Primary and secondary ops. The docs index links them |
+| [machine.md.example](machine.md.example) | Template for private gitignored `machine-*.md` files |
 | [machine-ssh-hosts.md.example](machine-ssh-hosts.md.example) | Template for private fleet SSH inventory (gitignored `machine-ssh-hosts.md`) |
 | [Secrets: Pass + chezmoi](docs/secrets-pass.md) | Replicate keys/API env from Pass (no private inventory in git) |
 | [Home layout](docs/home-layout.md) | `$HOME` vs `~/.config` vs `~/Developer`; what chezmoi owns |
@@ -300,7 +313,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/himalaya-setup.sh` | himalaya-tui (cargo) + `~/.config/himalaya/config.toml` from gitignored account map; optional Mail.app profile |
 | `scripts/streamdeck-apply.sh` | Quit Stream Deck app, compile `streamdeck-icon`, write MK.2 + MCP profiles from `streamdeck_profile.py`, relaunch |
 | `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, `himalaya`, …) |
-| `brewfile.moon.extra` | Secondary host only (Syncthing) |
+| extra brewfile in the repo root | Secondary host only (Syncthing). Do not install it on the primary Mac |
 
 ---
 
@@ -322,7 +335,7 @@ The following are intentionally excluded from topgrade (see `dot_config/topgrade
 
 **Cursor extensions noise:** the topgrade step runs `cursor --update-extensions`. Cursor's bundled Node prints `[DEP0169]` about `url.parse()`. That check still finishes. `No extension to update` means every installed extension was already current. Node does not issue CVEs for `url.parse()`. The same line shows up in the VS Code CLI. Leave it. `NODE_OPTIONS=--no-deprecation` does not hide it, because the `cursor` wrapper clears `NODE_OPTIONS`. `NODE_NO_WARNINGS=1` does pass through if you want a quiet run.
 
-**Before `topgrade`:** the config runs [`scripts/topgrade-precheck.sh`](scripts/topgrade-precheck.sh) (pass-cli session + SSH agent). pass-cli 2.5.0 requires `~/Library/Application Support/proton-pass-cli/.session` to be mode `700`; a looser directory makes the precheck say pass-cli is not logged in. On Intel it also **pins** outdated formulae so Homebrew does not compile for hours (no x86_64 bottles as of 2026-09 — [docs/moon.md](docs/moon.md)). Over SSH the zsh `topgrade` function skips Mac App Store (`mas`) — do not put an Apple ID password in `~/.config/topgrade.env`. Prefer Pass SoT: in a GUI Terminal run `pass-cli login` if needed, then [`scripts/ensure-ssh-agent.sh`](scripts/ensure-ssh-agent.sh) (`pass-cli ssh-agent load` when the agent is empty). Session is not permanent across reboot — see [AGENTS.md](AGENTS.md).
+**Before `topgrade`:** the config runs [`scripts/topgrade-precheck.sh`](scripts/topgrade-precheck.sh) (pass-cli session + SSH agent). pass-cli 2.5.0 requires `~/Library/Application Support/proton-pass-cli/.session` to be mode `700`; a looser directory makes the precheck say pass-cli is not logged in. On Intel it also **pins** outdated formulae so Homebrew does not compile for hours (no x86_64 bottles as of 2026-09 — the secondary host notes are indexed under `docs/`). Over SSH the zsh `topgrade` function skips Mac App Store (`mas`) — do not put an Apple ID password in `~/.config/topgrade.env`. Prefer Pass SoT: in a GUI Terminal run `pass-cli login` if needed, then [`scripts/ensure-ssh-agent.sh`](scripts/ensure-ssh-agent.sh) (`pass-cli ssh-agent load` when the agent is empty). Session is not permanent across reboot — see [AGENTS.md](AGENTS.md).
 
 **Avoid chezmoi “has changed since last wrote” prompts:**
 - Put secrets and host-only shell config in `~/.zshrc.local` (sourced by `~/.zshrc`), not in the managed `~/.zshrc`.
@@ -360,14 +373,16 @@ The following require manual download/installation outside of Homebrew or the Ap
 Retired from this setup (not installed by brewfile/Ansible):
 
 - **ZimaSpace Client** — Zima OS hardware uses separate repos (e.g. `dotfiles-zimaos`), not this Mac brewfile
-- **Adobe Acrobat** — uninstalled on haumea; not in brewfile
+- **Adobe Acrobat** — uninstalled on the primary Mac; not in brewfile
 - **Perplexity** — MAS app removed from SoT
 
 ---
 
 ## License
 
-Licensed under the **Apache License 2.0**. See [LICENSE](LICENSE.md) for details.
+PolyForm Noncommercial 1.0.0. See `LICENSE`.
+
+Versions published before this commit remain available under Apache-2.0.
 
 ## Feedback
 
