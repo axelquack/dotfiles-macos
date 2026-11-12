@@ -11,8 +11,11 @@ Include ~/.ssh/config.local
 # block, `ssh vm-flatcar` uses the default local user and offers every
 # agent key, which hits "Too many authentication failures".
 # Added 2026-11-10 (Axel go t117u). Identity matches Host flatcar.
-Host vm-flatcar VM_FLATCAR_IP_REDACTED
-  HostName VM_FLATCAR_IP_REDACTED
+{{- /* LAN IP from local chezmoi data `vm_flatcar_ip` in ~/.config/chezmoi/chezmoi.toml (untracked). Without it, only the alias is rendered. */}}
+Host vm-flatcar{{ with get . "vm_flatcar_ip" }} {{ . }}{{ end }}
+{{- with get . "vm_flatcar_ip" }}
+  HostName {{ . }}
+{{- end }}
   User core
   IdentityFile ~/.ssh/id_ed25519_proxmox
   IdentitiesOnly yes
