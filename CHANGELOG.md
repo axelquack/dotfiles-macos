@@ -42,6 +42,14 @@ Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the s
 
 **Why:** This repository is public. Real host names and the private inventory belong in the gitignored overlays, not in tracked files. Approved by Axel on 2026-11-13.
 
+## 2026-11-13 — Work tracking rule
+
+### Changed
+
+- AGENTS.md has a Work tracking section: open work goes on the owner's GitHub Project board, not into new TODO.md items.
+
+**Why:** one board for all open work (Axel, 2026-11-13).
+
 ## 2026-11-13 — Pin GitHub Actions and add Dependabot
 
 ### Added
