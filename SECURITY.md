@@ -20,7 +20,7 @@ Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 | Threat | What can happen | What we do |
 | --- | --- | --- |
-| A secret is added to a commit | The value is public as soon as it is pushed | `pre-commit` runs `scripts/check-secrets.sh --staged`. GitHub Actions runs gitleaks on push and pull_request. |
+| A secret is added to a commit | The value is public as soon as it is pushed | `pre-commit` runs `scripts/check-secrets.sh --staged`. GitHub Actions runs gitleaks on push and pull_request. The workflow pins `actions/checkout` and `gitleaks/gitleaks-action` to commit SHAs. Dependabot watches `github-actions` weekly. |
 | A private detail is written into a public file | Addresses, names, or paths become public | This file's never-appear list is the rule. Longer private notes go in gitignored `CHANGELOG.private.md`, or in the agent-platform handoff, not here. |
 | A local secret file is committed by name | `.env`, a key, or a credential file is published | The secret check rejects those names. `.env.example` is the one env file that may be committed, and it holds names only. |
 | A leak stays valid | The old value still works | Rotate the secret first. Then tell Axel. |
@@ -61,6 +61,8 @@ scripts/check-secrets.sh --history
 The default mode scans the working tree (tracked files and untracked files that are not ignored). `--staged` is what the pre-commit hook runs. `--history` scans commits. Before a push, run `just pre-push`: it runs the staged check, then shows `git diff @{u}..HEAD`.
 
 The check uses `.gitleaks.toml` when that file is present. If `gitleaks` is missing, the script exits 127 and names the missing tool. The same script also rejects tracked private map names, Mail.app profiles, inline IMAP password fields, and private-network addresses.
+
+The gitleaks GitHub Actions workflow pins `actions/checkout` and `gitleaks/gitleaks-action` to full commit SHAs with a version comment. `.github/dependabot.yml` requests weekly updates for the `github-actions` ecosystem so those pins do not go stale.
 
 `scripts/audit-security.sh` covers shellcheck and the npm OSV check. Run it before a script change that pins a package.
 
