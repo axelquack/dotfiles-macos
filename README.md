@@ -312,7 +312,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/mount-unifi-smb.sh` | Mount UniFi NAS SMB shares by reserved IP (inventory in gitignored `smb-hosts.local`) |
 | `scripts/himalaya-setup.sh` | himalaya-tui (cargo) + `~/.config/himalaya/config.toml` from gitignored account map; optional Mail.app profile |
 | `scripts/streamdeck-apply.sh` | Quit Stream Deck app, compile `streamdeck-icon`, write MK.2 + MCP profiles from `streamdeck_profile.py`, relaunch |
-| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, `himalaya`, …) |
+| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, `himalaya`, Terraform from `hashicorp/tap`, …). homebrew-core no longer ships current Terraform (BSL); the inwx repo's `just validate` needs the tap formula. |
 | extra brewfile in the repo root | Secondary host only (Syncthing). Do not install it on the primary Mac |
 
 ---
