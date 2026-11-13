@@ -10,6 +10,18 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-13 — Tighten permissions on the local chezmoi config
+
+### Changed
+
+- README Step 4d now runs `chmod 600` on `~/.config/chezmoi/chezmoi.toml` after creating it. Step 4e, `docs/secondary.md`, and `docs/secrets-pass.md` say the same file must stay mode 600, because it holds vault IDs and private data keys.
+
+### Notes
+
+- On the primary Mac, the local `chezmoi.toml` is now mode 600. The leftover local backup of that file from the Developer-directory move was deleted. Neither the file nor the backup is tracked. Local dotfile drift was left as it is.
+
+**Why:** Approved by Axel on 2026-11-13: "Yes, chmod 600 chezmoi.toml and delete the old backup."
+
 ## 2026-11-13 — Chezmoi follow-up after the host-name passes
 
 ### Changed

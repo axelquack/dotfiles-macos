@@ -112,7 +112,7 @@ pass-cli login                          # only if pass-cli vault list fails
 
 ## Apply / health (secondary)
 
-**Before any `chezmoi apply` here:** the secondary Mac's local `~/.config/chezmoi/chezmoi.toml` needs the same private data keys as the primary (`ssh_private_hosts` and the twelve `private_*` keys listed in the README, Step 4e). Without them the SSH config misses the private host block and the Grok, AeroSpace, and Stream Deck files get generic labels. Copy the keys over SSH, never through git, then run `chezmoi diff` before `chezmoi apply`. As of 2026-11-13 the secondary's macOS is not in use, so this was not done there yet.
+**Before any `chezmoi apply` here:** the secondary Mac's local `~/.config/chezmoi/chezmoi.toml` needs the same private data keys as the primary (`ssh_private_hosts` and the twelve `private_*` keys listed in the README, Step 4e). Without them the SSH config misses the private host block and the Grok, AeroSpace, and Stream Deck files get generic labels. Copy the keys over SSH, never through git, then run `chmod 600 ~/.config/chezmoi/chezmoi.toml` and `chezmoi diff` before `chezmoi apply`. The file must stay mode 600 because it holds vault IDs and those private keys. As of 2026-11-13 the secondary's macOS is not in use, so this was not done there yet.
 
 ```bash
 # From primary (or on secondary with this repo checked out)
