@@ -30,11 +30,11 @@ Do **not** use the Google account login item for IMAP. Gmail app passwords need 
 
 ```bash
 # Packages (himalaya CLI)
-cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags brew
+cd ansible && ansible-playbook setup-macos.yml --limit primary --tags brew
 
 # TUI + config.toml (skips config if the local map is missing)
-ansible-playbook setup-macos.yml --limit haumea --tags himalaya
-# secondary: --limit moon
+ansible-playbook setup-macos.yml --limit primary --tags himalaya
+# secondary: --limit secondary
 
 # Or without Ansible:
 ./scripts/himalaya-setup.sh --tui
@@ -58,7 +58,7 @@ Unsigned `com.apple.mail.managed` profile. `profiles` has **no** install verb on
 ./scripts/himalaya-setup.sh --mailapp
 
 # Ansible (off by default — needs GUI Pass + a click in System Settings)
-cd ansible && ansible-playbook setup-macos.yml --limit haumea --tags mailapp
+cd ansible && ansible-playbook setup-macos.yml --limit primary --tags mailapp
 ```
 
 Only map rows with `mailapp=true` are included (the extra IMAP `mail@` boxes, not `spam@` / `admin@`, not iCloud, not Gmail). iCloud custom-domain addresses are identities on the Apple ID mailbox — signing into iCloud Mail is enough; do not add one IMAP account per iCloud domain.
@@ -80,4 +80,4 @@ iPhone is **not** automated here.
 
 - Ansible tags: [ansible/README.md](../ansible/README.md)
 - Secrets: [secrets-pass.md](./secrets-pass.md)
-- Host notes: [haumea.md](./haumea.md) · [moon.md](./moon.md)
+- Host notes: [primary.md](./primary.md) · [secondary.md](./secondary.md)

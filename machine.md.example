@@ -4,12 +4,12 @@ Copy to a host-specific file and fill in. **Never commit** (`.gitignore`).
 
 | Host | Recommended local filename |
 |------|----------------------------|
-| primary (haumea) | `machine-haumea.md` |
-| secondary (moon) | `machine-moon.md` |
+| primary | `machine-<host>.md` |
+| secondary | `machine-<host>.md` |
 | other | `machine-<hostname>.md` |
 
 Pattern `machine-*.md` and bare `machine.md` are gitignored. Only this example is tracked.
-On the primary you can keep **both** `machine-haumea.md` and `machine-moon.md` for offline agent context.
+On the primary you can keep **both** `machine-<host>.md` for offline agent context.
 
 **Purpose:** reinstall this host and brief agents (Grok/Claude/etc.) with facts that are
 useful but **must not** be in the public repo (models, serials, LAN, vault item titles, …).
@@ -17,9 +17,9 @@ useful but **must not** be in the public repo (models, serials, LAN, vault item 
 Public counterparts:
 
 - Shared inventory: `docs/home-machines-apps.md`
-- Host habits: `docs/haumea.md` / `docs/moon.md`
+- Host habits: `docs/primary.md` / `docs/secondary.md`
 - SSH alias **policy** (no IPs): `docs/ssh-hosts.md`
-- Packages: `brewfile.home.machines` (+ `brewfile.moon.extra` on secondary)
+- Packages: `brewfile.home.machines` (+ `brewfile.secondary.extra` on secondary)
 
 Fleet SSH IP inventory (all hosts): copy **`machine-ssh-hosts.md.example`** → **`machine-ssh-hosts.md`** (gitignored).
 
@@ -94,7 +94,7 @@ Installed version / license notes:
 | Host | Policy |
 |------|--------|
 | primary | never |
-| secondary | `brewfile.moon.extra` |
+| secondary | `brewfile.secondary.extra` |
 
 Folders / device IDs (private):
 

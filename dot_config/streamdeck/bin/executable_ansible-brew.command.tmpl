@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Stream Deck: Ansible brew bundle for this Mac (haumea or moon)
+{{ or (get $ "private_sd_ansible_comment") "# Stream Deck: Ansible brew bundle for this Mac" }}
 set -euo pipefail
 # shellcheck disable=SC1091
 source "${HOME}/.config/streamdeck/bin/lib.sh"

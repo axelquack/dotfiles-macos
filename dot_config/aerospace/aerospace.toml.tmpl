@@ -1,5 +1,5 @@
 # ~/.config/aerospace/aerospace.toml
-# AeroSpace tiling WM — haumea (audited against installed apps 2026-07-29)
+{{ or (get $ "private_aerospace_comment_title") "# AeroSpace tiling WM \u2014 primary Mac" }}
 # App version: 0.21.3-Beta · config-version = 2
 #
 # Workspaces (Alt+Cmd+N):
@@ -145,7 +145,7 @@ on-window-detected = [
     # ========== WORKSPACE: comms (4) ==========
     # Mail is the primary tiled app on `comms` (full width).
     # Chat / call apps are floated: their own multi-column UIs fight Mail when
-    # both are h_tiles side-by-side (see haumea docs). Still moved to `comms`
+{{ or (get $ "private_aerospace_comment_comms") "    # both are h_tiles side-by-side (see primary Mac notes). Still moved to `comms`" }}
     # so ⌥⌘4 focuses that workspace; float keeps them usable overlays.
     { if.app-id = 'com.apple.mail', run = 'move-node-to-workspace comms' },
     { if.app-id = 'com.apple.MobileSMS', run = [

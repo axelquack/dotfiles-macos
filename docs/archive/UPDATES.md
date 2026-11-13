@@ -1,10 +1,10 @@
 # Updates (maintained by Nils)
 
-Update log for haumea and moon (macOS side). `CHANGELOG.md` in this repo is gitignored, so this file is the tracked record. IDs are from the news-digest ledger (`infra/updates.jsonl`). Times are Europe/Berlin (CET).
+Update log for primary and secondary (macOS side). `CHANGELOG.md` in this repo is gitignored, so this file is the tracked record. IDs are from the news-digest ledger (`infra/updates.jsonl`). Times are Europe/Berlin (CET).
 
-## OrbStack on haumea (2026-11-03, read-only check, no ledger item)
+## OrbStack on primary (2026-11-03, read-only check, no ledger item)
 
-Read on haumea (macOS 26.6.2, 25G83) at about 07:40:
+Read on primary (macOS 26.6.2, 25G83) at about 07:40:
 
 | Component | Version | Notes |
 |---|---|---|
@@ -17,11 +17,11 @@ Read on haumea (macOS 26.6.2, 25G83) at about 07:40:
 
 Docker, containerd and runc ship inside OrbStack and only update with it. No ledger item was opened: OrbStack is current, the kernel is fixed, and the open containerd and Docker items are medium DoS bugs. The daily scan opens an item when an OrbStack release ships Docker 29.9.x or containerd 2.3.7 or newer.
 
-## Hermes on haumea
+## Hermes on primary
 
-Hermes Agent v0.22.6 runs in hermes-stack on OrbStack (upstream `f0d94882`, verified live 2026-11-04). It was rebuilt on 2026-11-03 during the pw-browser rollout on the unpinned `nousresearch/hermes-agent:latest` base, so UPD-2026-11-03-005 is in fact done on haumea (closed as superseded). v0.22.7 (UPD-2026-11-04-003) is researched; the v0.22.6 → v0.22.7 work order waits on Axel's go. Correction 2026-11-04: this line earlier said v0.22.5 runs and v0.22.6 was not applied. See the hermes-stack CHANGELOG.
+Hermes Agent v0.22.6 runs in hermes-stack on OrbStack (upstream `f0d94882`, verified live 2026-11-04). It was rebuilt on 2026-11-03 during the pw-browser rollout on the unpinned `nousresearch/hermes-agent:latest` base, so UPD-2026-11-03-005 is in fact done on primary (closed as superseded). v0.22.7 (UPD-2026-11-04-003) is researched; the v0.22.6 → v0.22.7 work order waits on Axel's go. Correction 2026-11-04: this line earlier said v0.22.5 runs and v0.22.6 was not applied. See the hermes-stack CHANGELOG.
 
 ## herdr
 
-- moon (Omarchy side): herdr 0.8.2-1, update to v0.9.5 is optional and still proposed (UPD-2026-10-31-004). Logged in moon-omarchy.
-- haumea: no herdr version in the inventory. Unknown.
+- secondary (Omarchy side): herdr 0.8.2-1, update to v0.9.5 is optional and still proposed (UPD-2026-10-31-004). Logged in the Omarchy machine book (private repo).
+- primary: no herdr version in the inventory. Unknown.

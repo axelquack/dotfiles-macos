@@ -10,6 +10,22 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-13 — Remaining host names moved out of tracked files
+
+### Changed
+
+- The Mac notes are `docs/primary.md` and `docs/secondary.md`. The secondary bundle is `brewfile.secondary.extra`; the Ansible variable is `brewfile_secondary_extra`.
+- Per-Mac Ansible vars moved from `host_vars/<alias>.yml` to `group_vars/primary.yml` and `group_vars/secondary.yml`. The real aliases stay in the gitignored `inventory.local.ini`, in the `primary` and `secondary` groups. `ansible-inventory --list` gives the same groups and host vars as before; only the renamed bundle variable differs.
+- Docs, comments, `machine.md.example`, `.chezmoiignore`, the archived update log, and the scripts say "primary" and "secondary" (or `machine-<host>.md`) instead of real host names. The local model host is called the GPU host.
+- Host labels in the Grok, AeroSpace, and Stream Deck templates come from local chezmoi data keys named `private_*`. Without them, generic labels are rendered. The Stream Deck action is now a template (`executable_ansible-brew.command.tmpl`) for that reason.
+- On the primary Mac, every rendered file is byte-for-byte unchanged (`chezmoi archive` compared before and after; `chezmoi diff` output unchanged). Nothing was applied.
+
+### Security
+
+- Older commits still contain the previous names. History was not rewritten.
+
+**Why:** This repository is public. Approved by Axel on 2026-11-13 as a second pass after the private overlay change.
+
 ## 2026-11-13 — Host names moved into the private overlays
 
 ### Changed

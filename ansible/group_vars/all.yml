@@ -6,7 +6,7 @@ username: "{{ ansible_user_id | default(lookup('env', 'USER')) }}"
 repo_root: "{{ playbook_dir | dirname }}"
 
 brewfile_shared: "{{ repo_root }}/brewfile.home.machines"
-brewfile_moon_extra: "{{ repo_root }}/brewfile.moon.extra"
+brewfile_secondary_extra: "{{ repo_root }}/brewfile.secondary.extra"
 
 # Steps (tags): brew | chezmoi | macos_defaults | npm | himalaya | mailapp | all
 run_brew: true

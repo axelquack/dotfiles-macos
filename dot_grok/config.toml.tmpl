@@ -234,9 +234,9 @@ theme = "tokyonight"
 auto_compact_threshold_percent = 50
 
 {{- with get . "grok_agentzero_mcp_url" }}
-[mcp_servers.agentzero-olares]
+[mcp_servers.{{ or (get $ "private_grok_agentzero_name") "agentzero-local" }}]
 url = "{{ . }}"
-description = "Agent Zero Researcher on Olares (local 35B GPU pod) — not haumea; enable when pod is up"
+description = "{{ or (get $ "private_grok_agentzero_description") "Agent Zero Researcher on a GPU host; enable when available" }}"
 enabled = false
 {{- end }}
 
@@ -260,28 +260,28 @@ Authorization = "Bearer ${HOMEASSISTANT_MCP_TOKEN}"
 url = "https://mcp.context7.com/mcp/"
 description = "Context7 — up-to-date library documentation (cloud)"
 
-[mcp_servers.searxng-haumea]
+[mcp_servers.{{ or (get $ "private_grok_search_name") "searxng-local" }}]
 url = "http://localhost:8001/mcp"
-description = "SearXNG on haumea (hermes-stack / OrbStack) — private web search gateway"
+description = "{{ or (get $ "private_grok_search_description") "SearXNG \u2014 private web search gateway" }}"
 
-[mcp_servers.searxng-haumea.headers]
+[mcp_servers.{{ or (get $ "private_grok_search_name") "searxng-local" }}.headers]
 Authorization = "Bearer ${MCP_SEARXNG_AUTH_TOKEN}"
 
-[mcp_servers.playwright-haumea]
+[mcp_servers.{{ or (get $ "private_grok_browser_name") "playwright-local" }}]
 url = "http://localhost:8002/mcp"
-description = "Playwright on haumea (hermes-stack / OrbStack) — headless browser automation"
+description = "{{ or (get $ "private_grok_browser_description") "Playwright \u2014 headless browser automation" }}"
 
-[mcp_servers.playwright-haumea.headers]
+[mcp_servers.{{ or (get $ "private_grok_browser_name") "playwright-local" }}.headers]
 Authorization = "Bearer ${MCP_PLAYWRIGHT_AUTH_TOKEN}"
 
-[mcp_servers.penpot-haumea]
+[mcp_servers.{{ or (get $ "private_grok_design_name") "penpot-local" }}]
 url = "http://localhost:9001/mcp/stream?userToken=${PENPOT_MCP_TOKEN}"
-description = "Penpot on haumea (hermes-stack) — decks/presentations via execute_code"
+description = "{{ or (get $ "private_grok_design_description") "Penpot \u2014 decks/presentations via execute_code" }}"
 
 [mcp_servers.zapier]
 url = "https://mcp.zapier.com/api/mcp/sse"
 enabled = true
-description = "Zapier MCP — X (@axelquack) / Facebook (needs a Page) and other Zapier apps"
+description = "{{ or (get $ "private_grok_zapier_description") "Zapier MCP \u2014 social integrations and other Zapier apps" }}"
 
 [mcp_servers.zapier.headers]
 Authorization = "Bearer ${ZAPIER_MCP_TOKEN}"

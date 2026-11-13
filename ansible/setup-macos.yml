@@ -1,14 +1,14 @@
 ---
-# Idempotent macOS workstation setup (haumea / moon).
-# Mirrors the style of orion/uranus ansible (inventory + single playbook).
+# Idempotent macOS workstation setup (primary / secondary).
+# Mirrors the style of the sibling machine-book ansible (inventory + single playbook).
 #
 # From this repo:
 #   cd ansible
-#   ansible-playbook setup-macos.yml --limit haumea
-#   ansible-playbook setup-macos.yml --limit moon
+#   ansible-playbook setup-macos.yml --limit primary
+#   ansible-playbook setup-macos.yml --limit secondary
 #
 # Tags:
-#   brew              Homebrew bundle (shared + moon extra; includes himalaya CLI)
+#   brew              Homebrew bundle (shared + secondary extra; includes himalaya CLI)
 #   chezmoi           chezmoi apply (needs pass-cli session for templates)
 #   macos_defaults    macOS.sh (admin; --ask-become-pass)
 #   npm               pinned global npm ACP/CLI tools
@@ -17,12 +17,12 @@
 #   check             facts + dry reports only
 #
 # Examples:
-#   ansible-playbook setup-macos.yml --limit haumea --tags brew
-#   ansible-playbook setup-macos.yml --limit haumea --tags chezmoi
-#   ansible-playbook setup-macos.yml --limit haumea --tags macos_defaults --ask-become-pass
-#   ansible-playbook setup-macos.yml --limit haumea --tags brew,chezmoi,npm
-#   ansible-playbook setup-macos.yml --limit haumea --tags himalaya
-#   ansible-playbook setup-macos.yml --limit haumea --tags mailapp
+#   ansible-playbook setup-macos.yml --limit primary --tags brew
+#   ansible-playbook setup-macos.yml --limit primary --tags chezmoi
+#   ansible-playbook setup-macos.yml --limit primary --tags macos_defaults --ask-become-pass
+#   ansible-playbook setup-macos.yml --limit primary --tags brew,chezmoi,npm
+#   ansible-playbook setup-macos.yml --limit primary --tags himalaya
+#   ansible-playbook setup-macos.yml --limit primary --tags mailapp
 
 - name: macOS home machines — brew, chezmoi, optional defaults/npm
   hosts: macos
@@ -87,23 +87,23 @@
       when: run_brew | bool
       tags: [brew]
 
-    - name: Install moon-only packages (brewfile.moon.extra)
+    - name: Install secondary-only packages (brewfile.secondary.extra)
       ansible.builtin.command:
-        cmd: "{{ brew_bin }} bundle install --file={{ brewfile_moon_extra }}"
+        cmd: "{{ brew_bin }} bundle install --file={{ brewfile_secondary_extra }}"
       environment:
         PATH: "{{ homebrew_prefix }}/bin:{{ homebrew_prefix }}/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
         HOMEBREW_NO_AUTO_UPDATE: "1"
         HOMEBREW_NO_ENV_HINTS: "1"
-      register: brew_bundle_moon
+      register: brew_bundle_secondary
       changed_when: >-
-        'Installing' in (brew_bundle_moon.stdout | default(''))
-        or 'Upgrading' in (brew_bundle_moon.stdout | default(''))
+        'Installing' in (brew_bundle_secondary.stdout | default(''))
+        or 'Upgrading' in (brew_bundle_secondary.stdout | default(''))
       when:
         - run_brew | bool
         - install_syncthing | default(false) | bool
       tags: [brew]
 
-    - name: Ensure syncthing is not installed on primary (haumea policy)
+    - name: Ensure syncthing is not installed on primary (policy)
       ansible.builtin.command:
         cmd: "{{ brew_bin }} list --formula syncthing"
       register: syncthing_on_primary

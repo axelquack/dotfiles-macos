@@ -16,7 +16,7 @@ cp ansible/inventory.ini ansible/inventory.local.ini   # then fill in the real a
 ansible-inventory --list                               # from ansible/; check the primary and secondary groups
 ```
 
-Each alias needs a matching `host_vars/<alias>.yml`. The commands below use the group names `primary` and `secondary`, so they work with any alias.
+Per-machine vars live in `group_vars/primary.yml` and `group_vars/secondary.yml`, so put each alias in the matching group. The commands below use the group names `primary` and `secondary`, so they work with any alias.
 
 ## Prerequisites
 

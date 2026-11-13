@@ -1,4 +1,4 @@
-# moon — secondary host notes
+# secondary — secondary host notes
 
 **Role:** secondary Mac · Intel (`x86_64`) · Homebrew `/usr/local`  
 **Audience:** public (no accounts, vault IDs, LAN IPs, or personal paths)  
@@ -8,15 +8,15 @@
 
 | Topic | Canonical doc |
 |-------|----------------|
-| App / brew / MAS parity with haumea | [home-machines-apps.md](./home-machines-apps.md) |
-| Primary host quirks | [haumea.md](./haumea.md) |
-| AeroSpace (if used on moon) | [aerospace/](./aerospace/) |
-| Idempotent apply | [../ansible/README.md](../ansible/README.md) (`--limit moon`) |
+| App / brew / MAS parity with primary | [home-machines-apps.md](./home-machines-apps.md) |
+| Primary host quirks | [primary.md](./primary.md) |
+| AeroSpace (if used on secondary) | [aerospace/](./aerospace/) |
+| Idempotent apply | [../ansible/README.md](../ansible/README.md) (`--limit secondary`) |
 | Himalaya + Mail.app extra IMAP | [himalaya.md](./himalaya.md) (same as primary; GUI `pass-cli` for IMAP check) |
-| Moon-only packages | [../brewfile.moon.extra](../brewfile.moon.extra) |
-| **Private** reinstall brief | `machine-moon.md` (gitignored; on haumea and/or moon) — [../machine.md.example](../machine.md.example) |
+| Secondary-only packages | [../brewfile.secondary.extra](../brewfile.secondary.extra) |
+| **Private** reinstall brief | `machine-<host>.md` (gitignored; on primary and/or secondary) — [../machine.md.example](../machine.md.example) |
 
-This file only covers **moon-specific** behaviour. Do not repeat full app tables here.
+This file only covers **secondary-specific** behaviour. Do not repeat full app tables here.
 **Parallels on Intel:** manual install only (not brew) — [home-machines-apps.md §2](./home-machines-apps.md).
 **Stream Deck:** shared cask + scripts; run `./scripts/streamdeck-apply.sh` on this Mac when the USB deck is here — [stream-deck.md](./stream-deck.md).
 **Bartender 6:** same shared cask as primary; register the license on this Mac — [bartender.md](./bartender.md).
@@ -27,7 +27,7 @@ This file only covers **moon-specific** behaviour. Do not repeat full app tables
 
 | Item | Policy |
 |------|--------|
-| **Syncthing** | **Allowed / expected** here only. Install via `brewfile.moon.extra` (Ansible when `--limit moon`). Never “fix” primary for missing Syncthing. |
+| **Syncthing** | **Allowed / expected** here only. Install via `brewfile.secondary.extra` (Ansible when `--limit secondary`). Never “fix” primary for missing Syncthing. |
 | **Docker** | **OrbStack only** (same as primary). Colima removed — see [home-machines-apps.md §3](./home-machines-apps.md) |
 | **Homebrew prefix** | `/usr/local` (Intel). Scripts and Ansible detect arch automatically. |
 | **Parallels** | Prefer **vendor installer** on Intel (brew cask historically flaky) — [home-machines-apps.md §2](./home-machines-apps.md) |
@@ -55,7 +55,7 @@ brew unpin NAME
 brew upgrade --build-from-source NAME
 ```
 
-Do **not** remove these from `brewfile.home.machines` just because Intel has no bottles — haumea (arm64) should still track them. `mistral-vibe` stays arm-gated.
+Do **not** remove these from `brewfile.home.machines` just because Intel has no bottles — primary (arm64) should still track them. `mistral-vibe` stays arm-gated.
 
 ### Command Line Tools on Sequoia (Intel)
 
@@ -73,35 +73,35 @@ Do **not** `sudo rm -rf /Library/Developer/CommandLineTools` on a working 16.4 i
 
 ## Catch-up (2026-08-30 → 2026-08-31)
 
-Public summary of the secondary-host parity pass. Host names, vault IDs, and LAN details stay in private `machine-moon.md`.
+Public summary of the secondary-host parity pass. Host names, vault IDs, and LAN details stay in private `machine-<host>.md`.
 
 | Area | What changed |
 |------|----------------|
 | **Topgrade precheck** | Soft-fail Pass Keychain `-25308` over SSH; attach GUI launchd SSH agent when `SSH_AUTH_SOCK` is empty; `ignore_failures = ["chezmoi"]` so brew/MAS finish over SSH |
 | **Shell** | `dot_zprofile` / `dot_zshrc` reuse the GUI SSH agent socket on Darwin SSH logins |
-| **Intel Homebrew** | Prefer pin **or** `--build-from-source` when bottles are missing; moon ran source builds for `atuin` / `uv` / `llmfit` / `node` / `chezmoi` |
+| **Intel Homebrew** | Prefer pin **or** `--build-from-source` when bottles are missing; secondary ran source builds for `atuin` / `uv` / `llmfit` / `node` / `chezmoi` |
 | **Goose** | Align with primary: SuperGrok **`xai_oauth`** via `./scripts/sync-goose-from-opencode.sh` (GUI); CLI wrapper prefers Goose.app |
-| **Chezmoi apply** | Pass-backed templates: run in a **GUI Terminal** on moon (`pass-cli login` if needed). SSH cannot unlock Keychain |
-| **Projects** | Clone GitHub SoT stacks onto moon as needed; rsync **gitignored** locals (`.env`, small library/config) from primary when running the same OrbStack stacks — never commit those files |
+| **Chezmoi apply** | Pass-backed templates: run in a **GUI Terminal** on secondary (`pass-cli login` if needed). SSH cannot unlock Keychain |
+| **Projects** | Clone GitHub SoT stacks onto secondary as needed; rsync **gitignored** locals (`.env`, small library/config) from primary when running the same OrbStack stacks — never commit those files |
 | **Hygiene** | Prefer `~/Developer/Projects` only; archive broken non-git trees and untracked local-only files under `_restore-backups/` before deleting |
 
-**Still optional / host-local:** turn off iCloud Desktop & Documents when Desktop is cleared; archive leftover non-git cruft dirs; start OrbStack services only when you need them on the secondary; publish local-only repos (no `origin`) before cloning them to moon.
+**Still optional / host-local:** turn off iCloud Desktop & Documents when Desktop is cleared; archive leftover non-git cruft dirs; start OrbStack services only when you need them on the secondary; publish local-only repos (no `origin`) before cloning them to secondary.
 
 ---
 
 ## Shell / remote ops
 
-- SSH from primary for admin: use the moon host entry and key (names live in **local** SSH config / Pass — not published here).
-- **pass-cli / Keychain over SSH:** often cannot unlock (`-25308`). [`scripts/topgrade-precheck.sh`](../scripts/topgrade-precheck.sh) **warns and continues** on that Keychain failure (still hard-fails if Pass is truly logged out). Chezmoi template steps that need Pass may still fail later — prefer GUI Terminal on moon for a full Pass-backed apply.
+- SSH from primary for admin: use the secondary host entry and key (names live in **local** SSH config / Pass — not published here).
+- **pass-cli / Keychain over SSH:** often cannot unlock (`-25308`). [`scripts/topgrade-precheck.sh`](../scripts/topgrade-precheck.sh) **warns and continues** on that Keychain failure (still hard-fails if Pass is truly logged out). Chezmoi template steps that need Pass may still fail later — prefer GUI Terminal on secondary for a full Pass-backed apply.
 - **topgrade + chezmoi:** `ignore_failures = ["chezmoi"]` in [`dot_config/topgrade.toml`](../dot_config/topgrade.toml) so SSH topgrade continues after Pass-blocked `chezmoi update`. Source repo must track `origin/master` (`git branch --set-upstream-to=origin/master master`).
 - **topgrade + Mac App Store over SSH:** `mas` always prompts for Apple ID password (Keychain `-25308`; `mas signin` was removed — **do not** put the password in an `.env`). The zsh `topgrade` function runs [`scripts/topgrade-wrap.sh`](../scripts/topgrade-wrap.sh) and **skips `mas`** when `SSH_CONNECTION` is set. Optional flags in gitignored `~/.config/topgrade.env` (example: [`dot_config/topgrade.env.example`](../dot_config/topgrade.env.example)). Run MAS from a **GUI Terminal** on this Mac, or `mas upgrade` there.
 - **SSH agent over SSH:** login shells may lack `SSH_AUTH_SOCK`. `~/.zprofile`, `~/.zshrc`, [`scripts/ensure-ssh-agent.sh`](../scripts/ensure-ssh-agent.sh), and the topgrade precheck ask `launchctl getenv SSH_AUTH_SOCK` first, then `/var/run/com.apple.launchd.*/Listeners` (current macOS) and `/private/tmp/com.apple.launchd.*/Listeners` (older macOS). They attach only when that socket already has identities.
 - **Herdr:** when `HERDR_ENV` is set, the same zsh files export `PROCESS_LAUNCHED_BY_Q=1` so Kiro’s nested `zsh (kiro-cli-term)` does not hide other agents from Herdr.
 - Secrets: `~/.zshrc.local` + local chezmoi data only.
-- **Goose:** prefer the same SuperGrok **`xai_oauth`** path as primary (`./scripts/sync-goose-from-opencode.sh` after OpenCode xAI login **on moon**). A Dock/AionUI wrapper under `~/.local/bin/goose` may still exist for PATH/env; do not treat console `XAI_API_KEY` as the long-term default — see [home-machines-apps.md §12b](./home-machines-apps.md).
+- **Goose:** prefer the same SuperGrok **`xai_oauth`** path as primary (`./scripts/sync-goose-from-opencode.sh` after OpenCode xAI login **on secondary**). A Dock/AionUI wrapper under `~/.local/bin/goose` may still exist for PATH/env; do not treat console `XAI_API_KEY` as the long-term default — see [home-machines-apps.md §12b](./home-machines-apps.md).
 
 ```bash
-# On moon (GUI Terminal — after reboot or cold agent)
+# On secondary (GUI Terminal — after reboot or cold agent)
 pass-cli login                          # only if pass-cli vault list fails
 ./scripts/ensure-ssh-agent.sh           # pass-cli ssh-agent load when empty (idempotent)
 # Manual equivalent:
@@ -113,12 +113,12 @@ pass-cli login                          # only if pass-cli vault list fails
 ## Apply / health (secondary)
 
 ```bash
-# From primary (or on moon with this repo checked out)
+# From primary (or on secondary with this repo checked out)
 cd /path/to/dotfiles-macos/ansible
-ansible-playbook setup-macos.yml --limit moon --tags brew,chezmoi
-# brew tag applies brewfile.home.machines + brewfile.moon.extra
+ansible-playbook setup-macos.yml --limit secondary --tags brew,chezmoi
+# brew tag applies brewfile.home.machines + brewfile.secondary.extra
 
-# On moon
+# On secondary
 brew list --formula syncthing   # expected present if you use sync
 brew services list | grep -i syncthing || true
 ```
@@ -137,6 +137,6 @@ Keep those in a **private** notes vault if needed.
 
 ## See also
 
-- [haumea.md](./haumea.md) — primary host  
+- [primary.md](./primary.md) — primary host
 - [home-machines-apps.md](./home-machines-apps.md) — shared inventory & drift  
 - [../ansible/README.md](../ansible/README.md) — automation  
