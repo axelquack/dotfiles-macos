@@ -161,6 +161,15 @@ sourceDir = "~/Developer/Projects/dotfiles-macos"
 EOF
 ```
 
+**4e — Private label and host keys (optional, local only):** the templates read these extra `[data]` keys from the same untracked `chezmoi.toml`. Without them, generic labels are rendered and no private SSH host block is added. Keep the values out of git.
+
+- `ssh_private_hosts`: extra `~/.ssh/config` host blocks, rendered verbatim (see [docs/ssh-hosts.md](docs/ssh-hosts.md)).
+- `private_aerospace_comment_title`, `private_aerospace_comment_comms`: AeroSpace header comments.
+- `private_grok_agentzero_name`, `private_grok_agentzero_description`, `private_grok_search_name`, `private_grok_search_description`, `private_grok_browser_name`, `private_grok_browser_description`, `private_grok_design_name`, `private_grok_design_description`, `private_grok_zapier_description`: Grok MCP server names and descriptions.
+- `private_sd_ansible_comment`: Stream Deck Ansible action header.
+
+Every Mac that runs `chezmoi apply` needs the same keys as the primary, or its rendered files differ. Check with `chezmoi diff` first.
+
 Get `proton_ssh_host_item_id` by looking up the **"SSH Host Config"** note in your Personal vault:
 ```bash
 pass-cli item list Personal | grep "SSH Host Config"

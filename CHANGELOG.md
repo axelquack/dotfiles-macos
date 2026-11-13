@@ -10,6 +10,24 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-13 — Chezmoi follow-up after the host-name passes
+
+### Changed
+
+- `.chezmoiignore` skips the repo-standard files (`LICENSE`, `BUGFIXES.md`, `ROADMAP.md`, `TODO.md`, `HANDOFF.md`, `CHANGELOG.private.md`, `justfile`, `just/`). Before this, `chezmoi apply` would have copied them into the home directory.
+- README Step 4e lists the local private data keys (`ssh_private_hosts` and the twelve `private_*` keys) by name. `docs/secondary.md` says the secondary Mac needs the same keys before any `chezmoi apply`.
+
+### Removed
+
+- On the primary Mac, the unused local chezmoi data key `vm_flatcar_ip` (no template reads it since the private overlay change) and the temporary local backup of the old `chezmoi.toml`. Neither was ever tracked.
+
+### Notes
+
+- On the primary Mac, `chezmoi diff` was the same before and after merging the two host-name passes, so the templates render with the local keys. The remaining diff is local drift in the AeroSpace, Grok, and zsh files that predates these changes. Nothing was applied; that is left for Axel.
+- The secondary Mac was skipped because its macOS is not in use.
+
+**Why:** Follow-up to the host-name passes, approved by Axel on 2026-11-13 (dotfiles-macos#4).
+
 ## 2026-11-13 — Remaining host names moved out of tracked files
 
 ### Changed

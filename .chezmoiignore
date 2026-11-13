@@ -22,3 +22,12 @@ ansible/
 AGENTS.md
 SECURITY.md
 .gitleaks.toml
+# Repo-standard files (2026-11-12) are repo files, not dotfiles.
+LICENSE
+BUGFIXES.md
+ROADMAP.md
+TODO.md
+HANDOFF.md
+CHANGELOG.private.md
+justfile
+just/
