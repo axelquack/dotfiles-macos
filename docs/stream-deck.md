@@ -114,6 +114,6 @@ Optional: in the Stream Deck UI, select an MCP key → AI button → add the phr
 
 Live profiles live under `~/Library/Application Support/com.elgato.StreamDeck/` (app-owned, device UUID, generated PNGs). Do not commit that tree. Action scripts and the generator are the source of truth.
 
-## Moon vs haumea
+## Secondary vs primary
 
-The cask and scripts are **shared**. Run `streamdeck-apply.sh` on whichever Mac currently has the USB deck. Intel (`moon`) and Apple Silicon (`haumea`) both work; Open targets that exist only on one host simply do nothing.
+The cask and scripts are **shared**. Run `streamdeck-apply.sh` on whichever Mac currently has the USB deck. Intel (`secondary`) and Apple Silicon (`primary`) both work; Open targets that exist only on one host simply do nothing.

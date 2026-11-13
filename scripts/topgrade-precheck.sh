@@ -8,7 +8,7 @@
 #
 # Pass / Keychain over SSH: macOS returns -25308 ("User interaction is not
 # allowed"). That is NOT "logged out" — the GUI session may be fine. Per
-# docs/moon.md we warn and continue so topgrade can still upgrade brew/MAS.
+# docs/secondary.md we warn and continue so topgrade can still upgrade brew/MAS.
 # Chezmoi template steps that need Pass may still fail later in that case.
 set -euo pipefail
 

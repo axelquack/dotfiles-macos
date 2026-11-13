@@ -21,9 +21,9 @@ Do not put this filled file in any public repository.
 
 | Aliases | HostName (IPv4) | User | IdentityFile | Notes / last SSH test |
 |---------|-----------------|------|--------------|------------------------|
-| moon moon.local | | | id_ed25519_moon | |
-| haumea haumea.local | | | id_ed25519_haumea | |
-| mars mars.local mars.cosmic.local | | | id_ed25519_proxmox | |
+| host1 host1.local | | | id_ed25519_<label> | |
+| host2 host2.local | | | id_ed25519_<label> | |
+| node1 node1.local node1.<site>.local | | | id_ed25519_<label> | |
 | … | | | | |
 
 ---
@@ -41,5 +41,5 @@ Do not put this filled file in any public repository.
 When the admin Mac is on a non-home subnet (e.g. travel router):
 
 - mDNS (`*.local`) often fails even if home gateway unicast works.
-- Prefer short alias (`ssh moon`) which uses `HostName` IP.
+- Prefer short alias (`ssh host1`) which uses `HostName` IP.
 - Primary Mac’s own home reservation may not answer until that interface is on home LAN.

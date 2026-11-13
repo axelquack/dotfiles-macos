@@ -5,20 +5,17 @@ Include ~/.orbstack/ssh/config
 
 # Machine-specific host entries (populated from Proton Pass via chezmoi, not tracked in repo)
 Include ~/.ssh/config.local
+{{- /*
+  Optional private host blocks that are not in the Pass note (for example a
+  VM alias that needs its own User and IdentityFile). They come verbatim from
+  the local chezmoi data key `ssh_private_hosts` in
+  ~/.config/chezmoi/chezmoi.toml, which is never committed. Without the key,
+  nothing is rendered here. See docs/ssh-hosts.md.
+*/}}
+{{- with get . "ssh_private_hosts" }}
 
-# vm-flatcar also answers as this DNS name and by LAN IP. The Proton Pass
-# config.local entry only lists `flatcar` / `flatcar.local`. Without this
-# block, `ssh vm-flatcar` uses the default local user and offers every
-# agent key, which hits "Too many authentication failures".
-# Added 2026-11-10 (Axel go t117u). Identity matches Host flatcar.
-{{- /* LAN IP from local chezmoi data `vm_flatcar_ip` in ~/.config/chezmoi/chezmoi.toml (untracked). Without it, only the alias is rendered. */}}
-Host vm-flatcar{{ with get . "vm_flatcar_ip" }} {{ . }}{{ end }}
-{{- with get . "vm_flatcar_ip" }}
-  HostName {{ . }}
+{{ . }}
 {{- end }}
-  User core
-  IdentityFile ~/.ssh/id_ed25519_proxmox
-  IdentitiesOnly yes
 
 Host github.com
   IdentityFile ~/.ssh/id_ed25519_github

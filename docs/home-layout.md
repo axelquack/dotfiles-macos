@@ -93,5 +93,5 @@ Dual short name + `.local` with reserved IP `HostName` (mDNS alone fails across 
 
 - [secrets-pass.md](./secrets-pass.md) — Pass + chezmoi secrets flow  
 - [ssh-hosts.md](./ssh-hosts.md) — SSH alias pattern  
-- [haumea.md](./haumea.md) / [moon.md](./moon.md) — host habits (no LAN inventory)  
+- [primary.md](./primary.md) / [secondary.md](./secondary.md) — host habits (no LAN inventory)
 - README — chezmoi source layout (`dot_` / `dot_config/`)  

@@ -523,7 +523,7 @@ def app(name: str) -> Path:
     for cand in (mac, sysapp, util, core):
         if cand.exists():
             return cand
-    return mac  # still bind; Open no-ops if missing (haumea vs moon)
+    return mac  # still bind; Open no-ops if missing (depends on the Mac)
 
 
 def shell_app(name: str, script: str) -> Path:

@@ -46,9 +46,9 @@ cask "obsidian"              # Powerful knowledge base and Markdown note-taking 
 cask "opencode-desktop"      # AI coding assistant (opencode.ai)
 cask "orbstack"              # Docker/VM management
 # cask "parallels" — NOT in shared brewfile (arch-dependent):
-#   arm64 (haumea): optional `brew install --cask parallels`
-#   Intel (moon):   manual install only — brew cask fails (inittool preinitialization error)
-#   Details: docs/home-machines-apps.md §2 · local machine-haumea.md / machine-moon.md
+#   arm64 (primary): optional `brew install --cask parallels`
+#   Intel (secondary):   manual install only — brew cask fails (inittool preinitialization error)
+#   Details: docs/home-machines-apps.md §2 · local machine-<host>.md
 cask "proton-drive"          # Desktop client for Proton Drive encrypted cloud storage
 cask "protonvpn"             # Desktop client for Proton VPN service
 cask "proton-pass"           # Desktop client for Proton Pass password manager
@@ -79,7 +79,7 @@ brew "protonpass/tap/pass-cli"  # Proton Pass CLI — access secrets from Proton
 # Shell & Prompt & History
 brew "starship"                 # The prompt system used in .zshrc
 brew "zsh-completions"          # Additional completions for Zsh
-# Intel (moon): Homebrew ships no x86_64 bottles (Tier 3, 2026-09). Topgrade precheck pins outdated formulae (docs/moon.md).
+# Intel (secondary): Homebrew ships no x86_64 bottles (Tier 3, 2026-09). Topgrade precheck pins outdated formulae (docs/secondary.md).
 brew "atuin"                    # Enhanced shell history with sync
 
 # Language Version Managers & Related
@@ -110,7 +110,7 @@ brew "just"                     # Command runner (justfile) — used across proj
 brew "hashicorp/tap/terraform"  # Terraform CLI from the official tap, not homebrew-core. The inwx repo's `just validate` needs it.
 brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
-# Intel (moon): no bottle for mistral-vibe / pydantic deps (Homebrew Tier 3) — arm64 only
+# Intel (secondary): no bottle for mistral-vibe / pydantic deps (Homebrew Tier 3) — arm64 only
 brew "mistral-vibe" if Hardware::CPU.arm?  # Mistral Vibe CLI + vibe-acp (Obsidian Agent Client)
 brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
 brew "p7zip"                    # 7-Zip file archiver (CLI)
@@ -119,7 +119,7 @@ brew "ripgrep"                  # Fast recursive search tool (used by editors an
 brew "shellcheck"               # Static analysis tool for shell scripts — catches bugs and security issues
 brew "gitleaks"                 # Secret scanner — used by scripts/check-secrets.sh before public pushes
 brew "rustup"                   # Rust toolchain installer and version manager
-# brew "syncthing" — NOT on primary (haumea). Secondary (moon) only: see brewfile.moon.extra
+# brew "syncthing" — NOT on primary. Secondary only: see brewfile.secondary.extra
 brew "topgrade"                 # Tool to update everything (including brew, mas, system)
 brew "ngrep"                    # Network grep utility (used in .zshrc alias)
 brew "wakeonlan"                # Send Wake-on-LAN magic packets
@@ -176,8 +176,8 @@ mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 # - Grok Bot — vendor download (not a Homebrew cask; AeroSpace workspace `code`)
 #
 # Parallels Desktop — ARCH-DEPENDENT (do not put a single rule in the cask list):
-#   Apple Silicon (haumea): brew install --cask parallels   (works; optional)
-#   Intel (moon):           manual from parallels.com/download
+#   Apple Silicon (primary): brew install --cask parallels   (works; optional)
+#   Intel (secondary):           manual from parallels.com/download
 #                           (brew cask fails: inittool preinitialization error)
 #   See docs/home-machines-apps.md §2 and local machine.md (gitignored).
 #

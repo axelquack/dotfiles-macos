@@ -2,8 +2,8 @@
 
 This repository is **public**. This file describes **how** hosts are configured — not your LAN inventory.
 
-**Source of truth for the live host list:** Proton Pass secure note **"SSH Host Config"**  
-**Rendered to:** `~/.ssh/config.local` via chezmoi (`private_dot_ssh/config.local.tmpl`)  
+**Source of truth for the live host list:** Proton Pass secure note **"SSH Host Config"**
+**Rendered to:** `~/.ssh/config.local` via chezmoi (`private_dot_ssh/config.local.tmpl`)
 **Private IP inventory (this machine only):** gitignored `machine-ssh-hosts.md` (see [machine-ssh-hosts.md.example](../machine-ssh-hosts.md.example))
 
 Related: [secrets-pass.md](./secrets-pass.md)
@@ -14,9 +14,9 @@ Related: [secrets-pass.md](./secrets-pass.md)
 
 Every SSH host entry should provide:
 
-1. **Short alias** — e.g. `moon`, `mars`  
-2. **mDNS-style alias** — e.g. `moon.local` (and site suffixes such as `mars.cosmic.local` when used)  
-3. **`HostName`** — **reserved LAN IPv4** (DHCP reservation / static), not only a `.local` name  
+1. **Short alias** — e.g. `host1`, `node1`
+2. **mDNS-style alias** — e.g. `host1.local` (and site suffixes such as `node1.<site>.local` when used)
+3. **`HostName`** — **reserved LAN IPv4** (DHCP reservation / static), not only a `.local` name
 4. **`User`**, **`IdentityFile`**, **`IdentitiesOnly yes`**
 
 ```sshconfig
@@ -31,7 +31,7 @@ Host <shortname> <shortname>.local
 Proxmox-style multi-suffix example:
 
 ```sshconfig
-Host <node> <node>.local <node>.cosmic.local
+Host <node> <node>.local <node>.<site>.local
     HostName <RESERVED_LAN_IPV4>
     User root
     IdentityFile ~/.ssh/id_ed25519_proxmox
@@ -54,9 +54,9 @@ Unicast to the home gateway can work while `ping host.local` still fails. SSH co
 
 ## Edit workflow
 
-1. Edit Pass note **"SSH Host Config"** (not long-term hand-edits to `config.local`).  
-2. `pass-cli login` (GUI Terminal if needed).  
-3. `chezmoi apply`  
+1. Edit Pass note **"SSH Host Config"** (not long-term hand-edits to `config.local`).
+2. `pass-cli login` (GUI Terminal if needed).
+3. `chezmoi apply`
 4. Verify:
 
 ```bash
@@ -79,12 +79,30 @@ ssh -o ConnectTimeout=6 -o BatchMode=yes <shortname> 'hostname || cat /etc/hostn
 |------|------------|---------|
 | Dual-alias **policy** | This file + secrets-pass | — |
 | Real IPs, keys paths inventory, test matrix | **Forbidden** | Pass note + `machine-ssh-hosts.md` (gitignored) |
-| Per-host reinstall notes | `docs/moon.md` etc. (no IPs) | `machine-<host>.md` |
+| Per-host reinstall notes | `docs/<role>.md` (no IPs) | `machine-<host>.md` |
 
 ---
 
 ## Related
 
-- [secrets-pass.md](./secrets-pass.md) — Pass / chezmoi architecture  
-- [moon.md](./moon.md) / [haumea.md](./haumea.md) — host habits (no LAN inventory)  
-- `~/.ssh/config` (chezmoi) includes `config.local`  
+- [secrets-pass.md](./secrets-pass.md) — Pass / chezmoi architecture
+- Per-Mac habit notes (no LAN inventory): see the index in [README.md](./README.md)
+- `~/.ssh/config` (chezmoi) includes `config.local`
+
+---
+
+## Private host blocks outside the Pass note
+
+A few host blocks do not belong in the Pass note, for example a VM alias that needs its own `User` and `IdentityFile`. They live in the local chezmoi data key `ssh_private_hosts` in `~/.config/chezmoi/chezmoi.toml`, which is never committed. `private_dot_ssh/config.tmpl` renders that string verbatim after the `Include ~/.ssh/config.local` line. Without the key, nothing is rendered.
+
+```toml
+[data]
+    ssh_private_hosts = '''
+Host <alias>
+  HostName <RESERVED_LAN_IPV4>
+  User <user>
+  IdentityFile ~/.ssh/id_ed25519_<label>
+  IdentitiesOnly yes'''
+```
+
+Check with `chezmoi diff ~/.ssh/config` before `chezmoi apply`.

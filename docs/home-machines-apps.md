@@ -1,20 +1,20 @@
-# Home machines — apps & Homebrew (haumea vs moon)
+# Home machines — apps & Homebrew (primary vs secondary)
 
-Canonical **inventory and parity** notes for primary (**haumea**) and secondary (**moon**).
+Canonical **inventory and parity** notes for primary and secondary.
 
 > **Public repo:** no real email addresses, vault names, or absolute home paths. Personal inventory belongs in a private notes vault.
 
 | Host | Role | Chip | Homebrew prefix | Host-only notes |
 |------|------|------|-----------------|-----------------|
-| **haumea** | Primary | Apple Silicon (`arm64`) | `/opt/homebrew` | [haumea.md](./haumea.md) |
-| **moon** | Secondary | Intel (`x86_64`) | `/usr/local` | [moon.md](./moon.md) |
+| **primary** | Primary | Apple Silicon (`arm64`) | `/opt/homebrew` | [primary.md](./primary.md) |
+| **secondary** | Secondary | Intel (`x86_64`) | `/usr/local` | [secondary.md](./secondary.md) |
 
 **Doc map (do not duplicate)**
 
 | Topic | Where |
 |-------|--------|
-| Primary-only ops (shell, topgrade habits) | [haumea.md](./haumea.md) |
-| Secondary-only ops (Syncthing, Intel, SSH) | [moon.md](./moon.md) |
+| Primary-only ops (shell, topgrade habits) | [primary.md](./primary.md) |
+| Secondary-only ops (Syncthing, Intel, SSH) | [secondary.md](./secondary.md) |
 | App / cask / formula **tables** (this file) | sections below |
 | AeroSpace keybindings | [aerospace/](./aerospace/) |
 | Stream Deck MK.2 + MCP Deck | [stream-deck.md](./stream-deck.md) |
@@ -27,16 +27,16 @@ Canonical **inventory and parity** notes for primary (**haumea**) and secondary 
 | What | File / path |
 |------|-------------|
 | Shared packages | [`brewfile.home.machines`](../brewfile.home.machines) |
-| Moon-only packages | [`brewfile.moon.extra`](../brewfile.moon.extra) (Syncthing) |
-| Apply (Ansible) | `cd ansible && ansible-playbook setup-macos.yml --limit haumea` (or `moon`) |
+| Secondary-only packages | [`brewfile.secondary.extra`](../brewfile.secondary.extra) (Syncthing) |
+| Apply (Ansible) | `cd ansible && ansible-playbook setup-macos.yml --limit primary` (or `secondary`) |
 | Apply packages (manual) | `brew bundle --file="$(chezmoi source-path)/brewfile.home.machines"` |
 | Topgrade | [`dot_config/topgrade.toml`](../dot_config/topgrade.toml) |
 | AeroSpace | [`dot_config/aerospace/aerospace.toml.tmpl`](../dot_config/aerospace/aerospace.toml.tmpl) |
 | Stream Deck | [`scripts/streamdeck-apply.sh`](../scripts/streamdeck-apply.sh) · [stream-deck.md](./stream-deck.md) |
 | Bartender 6 | `cask "bartender"` · [bartender.md](./bartender.md) (license stays off git) |
-| pass-cli wrapper | [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) · workflow: [haumea.md](./haumea.md) / [moon.md](./moon.md) |
+| pass-cli wrapper | [`scripts/pass-cli-chezmoi.sh`](../scripts/pass-cli-chezmoi.sh) · workflow: [primary.md](./primary.md) / [secondary.md](./secondary.md) |
 
-Inventory date for tables below: **2026-08-27** (haumea live vs brewfile; re-check with the commands at the end when things drift).
+Inventory date for tables below: **2026-08-27** (primary live vs brewfile; re-check with the commands at the end when things drift).
 
 ---
 
@@ -52,8 +52,8 @@ They will **not** share:
 
 - Apple Silicon–only iOS-on-Mac apps (Protect, iOS WiFiman, Romm).
 - Install **method** for Parallels (brew on Silicon, vendor installer on Intel).
-- Optional primary-only extras — prefer documenting in local `machine-haumea.md` / `machine-moon.md`.
-- **Syncthing — moon only** (see §10). Do **not** install, start, or propose on **haumea**.
+- Optional primary-only extras — prefer documenting in local `machine-<host>.md`.
+- **Syncthing — secondary only** (see §10). Do **not** install, start, or propose on **primary**.
 
 ---
 
@@ -61,7 +61,7 @@ They will **not** share:
 
 Same product on both Macs; **different package managers**.
 
-| | **haumea** (arm64) | **moon** (x86_64) |
+| | **primary** (arm64) | **secondary** (x86_64) |
 |--|--------------------|-------------------|
 | App path | `/Applications/Parallels Desktop.app` | same |
 | Bundle ID | `com.parallels.desktop.console` | same |
@@ -71,11 +71,11 @@ Same product on both Macs; **different package managers**.
 | Caskroom | often under `/opt/homebrew/Caskroom/parallels/` if brew-installed | **none** (vendor install) |
 | CLI | via cask / app | vendor paths under `/usr/local/bin` (e.g. `prlctl`) |
 | AeroSpace | workspace `vm` (`com.parallels.desktop.console`) | same |
-| Per-host versions | record in local **`machine-haumea.md` / `machine-moon.md`** (gitignored) | same |
+| Per-host versions | record in local **`machine-<host>.md`** (gitignored) | same |
 
 ### Why the shared brewfile does not enable Parallels
 
-The Homebrew cask runs Parallels’ `inittool` during install. On **Intel** that fails with an **inittool preinitialization error**. On **Apple Silicon** the cask usually works, but putting it in the **shared** brewfile would still make moon’s `brew bundle` fail.
+The Homebrew cask runs Parallels’ `inittool` during install. On **Intel** that fails with an **inittool preinitialization error**. On **Apple Silicon** the cask usually works, but putting it in the **shared** brewfile would still make secondary’s `brew bundle` fail.
 
 ```text
 # brewfile.home.machines (comment only)
@@ -85,21 +85,21 @@ The Homebrew cask runs Parallels’ `inittool` during install. On **Intel** that
 
 | Host | Practical rule |
 |------|----------------|
-| **haumea** | `brew install --cask parallels` / `brew upgrade --cask parallels` is fine; may show in `brew list --cask` |
-| **moon** | Install/upgrade **only** via Parallels installer or in-app update — **not** `brew install --cask parallels` |
+| **primary** | `brew install --cask parallels` / `brew upgrade --cask parallels` is fine; may show in `brew list --cask` |
+| **secondary** | Install/upgrade **only** via Parallels installer or in-app update — **not** `brew install --cask parallels` |
 
-Inventory will often show **`parallels` cask only on haumea** while the **app exists on both**. That is expected, not a missing install on moon.
+Inventory will often show **`parallels` cask only on primary** while the **app exists on both**. That is expected, not a missing install on secondary.
 
 ### Upgrades
 
-- **haumea:** Homebrew and/or Parallels auto-update.
-- **moon:** Parallels auto-update / re-download; version may lag haumea slightly.
+- **primary:** Homebrew and/or Parallels auto-update.
+- **secondary:** Parallels auto-update / re-download; version may lag primary slightly.
 
 ---
 
 ## 3. Docker runtime: OrbStack only (no Colima)
 
-| Component | SoT | haumea | moon |
+| Component | SoT | primary | secondary |
 |-----------|-----|--------|------|
 | Engine / UI | `cask "orbstack"` | Yes | Yes |
 | CLI | `brew "docker"`, `brew "docker-compose"` | Yes | Yes |
@@ -117,7 +117,7 @@ disable = [..., "colima", "hermes_agent"]
 #   in ~/Developer/Projects/hermes-stack.
 ```
 
-After removing Colima on moon, optional leftover config:
+After removing Colima on secondary, optional leftover config:
 
 ```bash
 rm -rf ~/.colima   # only if you do not need old Colima VM data
@@ -135,10 +135,10 @@ Do **not** add `colima` to the brewfile.
 | Bundle ID | `com.ubnt.wifiman` | `ui.wifiman.desktop` |
 | Install | MAS / iOS-on-Mac (`1385561119`) | `brew install --cask wifiman` |
 | Arch | **Silicon only** | Intel **and** Silicon |
-| Typical host | **haumea** (installed) | **moon** if you want a native Intel client; **not** in the shared brewfile |
+| Typical host | **primary** (installed) | **secondary** if you want a native Intel client; **not** in the shared brewfile |
 | AeroSpace float | `com.ubnt.wifiman` | `ui.wifiman.desktop` |
 
-**Policy (2026-08-27):** haumea uses the **iOS-on-Mac** app. Desktop is optional for Intel; do not treat a missing `wifiman` cask on haumea as drift. Never treat MAS `1385561119` as a moon requirement.
+**Policy (2026-08-27):** primary uses the **iOS-on-Mac** app. Desktop is optional for Intel; do not treat a missing `wifiman` cask on primary as drift. Never treat MAS `1385561119` as a secondary requirement.
 
 ---
 
@@ -146,9 +146,9 @@ Do **not** add `colima` to the brewfile.
 
 | | |
 |--|--|
-| haumea | `/Applications/Protect.app` — `com.ubnt.protect` (iOS-on-Mac, arm64) |
-| moon | **No native app** — use web UI (console / [unifi.ui.com](https://unifi.ui.com)) |
-| AeroSpace | Float `com.ubnt.protect` (haumea) |
+| primary | `/Applications/Protect.app` — `com.ubnt.protect` (iOS-on-Mac, arm64) |
+| secondary | **No native app** — use web UI (console / [unifi.ui.com](https://unifi.ui.com)) |
+| AeroSpace | Float `com.ubnt.protect` (primary) |
 
 No reliable Intel desktop package from Ubiquiti for Protect.
 
@@ -160,14 +160,14 @@ No reliable Intel desktop package from Ubiquiti for Protect.
 |--|--|
 | **App** | Riverside Studio (`RVS-Riverside.fm-Mac`) |
 | **Binary** | **arm64 only** — no Intel build in the official DMG |
-| **haumea** | OK — `cask "riverside-studio" if Hardware::CPU.arm?` in the shared brewfile |
-| **moon** | **No desktop app** — arm64 vendor binary; use the web app |
+| **primary** | OK — `cask "riverside-studio" if Hardware::CPU.arm?` in the shared brewfile |
+| **secondary** | **No desktop app** — arm64 vendor binary; use the web app |
 | **Intel alternative** | **Web app** in Chrome/Edge: [riverside.fm](https://riverside.fm) / [riverside.com](https://riverside.com) |
 | **brewfile** | Guarded with `Hardware::CPU.arm?` so Intel `brew bundle` does not try to install it |
 
 There is **no** separate Riverside desktop build for Intel Macs. Mobile: App Store “Riverside Podcast Video Studio”.
 
-AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
+AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (primary only).
 
 ---
 
@@ -185,11 +185,11 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 
 ## 8. Other apps (source + host)
 
-| App | Source | haumea | moon | Notes |
+| App | Source | primary | secondary | Notes |
 |-----|--------|--------|------|--------|
 | **DevPod** | `cask "devpod"` | Yes | Yes | Bundle `sh.loft.devpod`; float in AeroSpace |
 | **Marked 2** | `mas "Marked 2", id: 890031187` | Yes | Yes | Float `com.brettterpstra.marked2` |
-| **Telefon** (Telephone) | `mas "Telefon", id: 406825478` | Yes | Yes | App Store [Telefon](https://apps.apple.com/de/app/telefon/id406825478?mt=12); bundle `com.tlphn.Telephone`. SIP client for Fritz intern **621** (haumea) / **622** (moon). Pass **Fritz Box (SIP, \<host\>)** is SoT; Keychain is a local cache. Paste in Einstellungen → Accounts so Telephone writes Keychain; never `security add-generic-password`. Float + `comms`. |
+| **Telefon** (Telephone) | `mas "Telefon", id: 406825478` | Yes | Yes | App Store [Telefon](https://apps.apple.com/de/app/telefon/id406825478?mt=12); bundle `com.tlphn.Telephone`. SIP client for Fritz intern **621** (primary) / **622** (secondary). Pass **Fritz Box (SIP, \<host\>)** is SoT; Keychain is a local cache. Paste in Einstellungen → Accounts so Telephone writes Keychain; never `security add-generic-password`. Float + `comms`. |
 | **Romm** | TestFlight / iOS wrapper | Yes | No | arm64 only |
 | **Pocket Sync** | GitHub [neil-morrison44/pocket-sync](https://github.com/neil-morrison44/pocket-sync) | Yes | Optional | Universal `.dmg` |
 | **8BitDo Firmware Updater** | Manual (support.8bitdo.com) | Yes | Optional | Not a brew cask; float `com.8bitdo.firmwareupdater` |
@@ -207,22 +207,22 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (haumea only).
 
 ## 9. Snapshot: remaining host diffs (apps)
 
-### Mainly / only haumea
+### Mainly / only primary
 
 - UniFi Protect (iOS-on-Mac)
 - WiFiman iOS-on-Mac
-- **Riverside Studio** (arm64 desktop; moon uses browser)
+- **Riverside Studio** (arm64 desktop; secondary uses browser)
 - Romm, Pocket Sync, 8BitDo updater
-- Parallels **via brew cask** (app still on moon via vendor)
-- Cursor / Grok Bot (installed here; optional on moon)
+- Parallels **via brew cask** (app still on secondary via vendor)
+- Cursor / Grok Bot (installed here; optional on secondary)
 
-### Mainly / only moon
+### Mainly / only secondary
 
-- WiFiman **Desktop** if you want a native Intel client (not required on haumea)
+- WiFiman **Desktop** if you want a native Intel client (not required on primary)
 - Parallels **vendor-only** install path
-- **Syncthing** — intentional moon-only service (not a haumea gap; see §10)
+- **Syncthing** — intentional secondary-only service (not a primary gap; see §10)
 
-### Explicitly not on moon
+### Explicitly not on secondary
 
 - **Riverside Studio** — uninstalled; Silicon-only (use web on Intel)
 - **Proton Mail Bridge** — uninstalled; not in brewfile
@@ -247,9 +247,9 @@ DevPod, Marked 2, Telefon (Telephone, mas 406825478), OrbStack, Claude, Proton D
 
 The shared brewfile installs Terraform from the official HashiCorp tap (`tap "hashicorp/tap"` and `brew "hashicorp/tap/terraform"`). homebrew-core no longer ships current Terraform after the Business Source License change. The inwx repository's `just validate` needs this `terraform` binary. Do not replace the line with an unscoped `terraform` formula.
 
-### Formulae snapshot (2026-08-27, haumea)
+### Formulae snapshot (2026-08-27, primary)
 
-| | haumea |
+| | primary |
 |--|-------:|
 | All formulae | 147 |
 | Leaves | 41 |
@@ -257,7 +257,7 @@ The shared brewfile installs Terraform from the official HashiCorp tap (`tap "ha
 
 `deno` and `ripgrep` are in the brewfile **and** installed (also pulled in as deps of `yt-dlp` / `opencode`).
 
-#### Extra formulae on haumea (not in brewfile)
+#### Extra formulae on primary (not in brewfile)
 
 | Formula | Role |
 |---------|------|
@@ -269,20 +269,20 @@ The shared brewfile installs Terraform from the official HashiCorp tap (`tap "ha
 | `node` | Extra leaf (`fnm` is the version-manager SoT) |
 | `sshpass` | Non-interactive SSH passwords |
 
-#### Syncthing — **moon only** (intentional)
+#### Syncthing — **secondary only** (intentional)
 
 | Host | Policy |
 |------|--------|
-| **moon** | Install + `brew services start syncthing` as desired |
-| **haumea** | **Do not install. Do not start. Do not propose.** |
+| **secondary** | Install + `brew services start syncthing` as desired |
+| **primary** | **Do not install. Do not start. Do not propose.** |
 
-Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.home.machines` does **not** include `syncthing`. Install on moon only via `brewfile.moon.extra` (Ansible does this when `--limit moon`).
+Absence of Syncthing on primary is **by design**, not drift. Shared `brewfile.home.machines` does **not** include `syncthing`. Install on secondary only via `brewfile.secondary.extra` (Ansible does this when `--limit secondary`).
 
 #### In brewfile (were listed as extras in older snapshots)
 
 `butane`, `just`, `p7zip`, `unar`, `wakeonlan`, `czkawka` — already in `brewfile.home.machines`.
 
-### Casks vs brewfile (haumea 2026-08-27)
+### Casks vs brewfile (primary 2026-08-27)
 
 | Situation | Packages |
 |-----------|----------|
@@ -291,23 +291,23 @@ Absence of Syncthing on haumea is **by design**, not drift. Shared `brewfile.hom
 | Manual (not brew) | 8BitDo Firmware Updater, Grok Bot, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager, **ComicTagger 1.6.0b10** (official arm64 DMG; Homebrew cask `comictagger` is Gatekeeper-disabled — do not brew-install) |
 | Removed from SoT | Perplexity (MAS), **Adobe Acrobat** (uninstalled) |
 | Silicon-only in brewfile | `riverside-studio`, `mistral-vibe` (`Hardware::CPU.arm?` — no Intel bottles / Tier 3) |
-| Intel bottles gone (moon: **pin**; optional `--build-from-source`) | Homebrew ships **no x86_64 bottles** as of 2026-09. Topgrade precheck pins outdated formulae on Intel so they are not compiled. See [moon.md](./moon.md). |
+| Intel bottles gone (secondary: **pin**; optional `--build-from-source`) | Homebrew ships **no x86_64 bottles** as of 2026-09. Topgrade precheck pins outdated formulae on Intel so they are not compiled. See [secondary.md](./secondary.md). |
 
-Do **not** `brew install --cask wifiman` or `8bitdo-firmware-updater` as a haumea catch-up.
+Do **not** `brew install --cask wifiman` or `8bitdo-firmware-updater` as a primary catch-up.
 
 ### brew services (typical)
 
-| Service | haumea | moon |
+| Service | primary | secondary |
 |---------|--------|------|
 | `atuin` | started | started |
-| `syncthing` | **never** (moon-only) | **started** |
+| `syncthing` | **never** (secondary-only) | **started** |
 | `colima` | — | **removed** |
 
 ---
 
 ## 11. Mail (personal account — keep details private)
 
-### How it is set up on haumea
+### How it is set up on primary
 
 | | |
 |--|--|
@@ -317,7 +317,7 @@ Do **not** `brew install --cask wifiman` or `8bitdo-firmware-updater` as a haume
 | **Display name** | Your Name |
 | **EWS** | `https://outlook.office365.com/EWS/Exchange.asmx` |
 | **Auth** | Microsoft OAuth (`login.microsoftonline.com`) |
-| **Aliases seen on haumea** | includes example-mail-provider / example.capital / example.ventures addresses on the same identity |
+| **Aliases seen on primary** | includes example-mail-provider / example.capital / example.ventures addresses on the same identity |
 
 Pass item title: use a private vault item (password + TOTP). Do not publish item titles.
 
@@ -326,15 +326,15 @@ Related Pass items (different products — do not confuse):
 - `Google (you@example.com)` — Google account for that address if used elsewhere  
 - `hosteurope.de` — KIS login (domain panel), not the Mail Exchange config  
 
-haumea also has an MDM/profile identifier mentioning Proton for this address; **Proton Mail Bridge is not** the active path for this mailbox on haumea (Bridge app not installed).
+primary also has an MDM/profile identifier mentioning Proton for this address; **Proton Mail Bridge is not** the active path for this mailbox on primary (Bridge app not installed).
 
-### moon (2026-08-04)
+### secondary (2026-08-04)
 
 | Before | After goal |
 |--------|------------|
-| Address only under `mdmclient` (no Mail account) | Same **Exchange** account as haumea in Mail |
+| Address only under `mdmclient` (no Mail account) | Same **Exchange** account as primary in Mail |
 
-**Cannot be fully automated** (Microsoft OAuth needs interactive sign-in). On moon:
+**Cannot be fully automated** (Microsoft OAuth needs interactive sign-in). On secondary:
 
 1. **System Settings → Internet Accounts** → **Microsoft Exchange** (or **Mail → Add Account… → Microsoft Exchange**).
 2. Name: `Your Name` · Email: `you@example.com`
@@ -349,7 +349,7 @@ CLI (Homebrew `himalaya`) + TUI (cargo, not bottled) + optional unsigned Mail.ap
 
 | Piece | How |
 |-------|-----|
-| Apply | `ansible-playbook setup-macos.yml --limit haumea --tags himalaya` (or `moon`) |
+| Apply | `ansible-playbook setup-macos.yml --limit primary --tags himalaya` (or `secondary`) |
 | Account map | gitignored `scripts/himalaya-accounts.local` (copy the example) |
 | Config | `~/.config/himalaya/config.toml` — `password.command` → pass-cli titles |
 | Mail.app extra IMAP | `--tags mailapp` in a GUI Terminal; System Settings → Device Management; then `rm -P` the profile |
@@ -373,7 +373,7 @@ Canonical steps: [himalaya.md](./himalaya.md). Mailbox inventory stays in a priv
 
 **Syncing machines:** copy non-secret preferences only if needed; re-authenticate OAuth providers on the second machine (tokens are often device-bound). Do not commit or paste secrets into git or public docs. Avoid copying large session DBs unless you intentionally migrate chat history.
 
-**Ghost project paths:** do not open missing folders in the desktop app; use a real project directory (e.g. under `~/Developer/Projects`). Host-specific habits: [haumea.md](./haumea.md).
+**Ghost project paths:** do not open missing folders in the desktop app; use a real project directory (e.g. under `~/Developer/Projects`). Host-specific habits: [primary.md](./primary.md).
 
 ---
 
@@ -420,7 +420,7 @@ goose run -t "reply with only the word: pong"
 
 ### Vault layout (2026-08-04) — one vault, Obsidian Sync only
 
-**Problem:** multiple local trees (`Documents/YourVault`, `Documents/YourVault-Moon`, `~/...`) plus iCloud Desktop & Documents made dual-sync risk with **Obsidian Sync**.
+**Problem:** multiple local trees (`Documents/YourVault`, `Documents/YourVault-Secondary`, `~/...`) plus iCloud Desktop & Documents made dual-sync risk with **Obsidian Sync**.
 
 **Policy:**
 
@@ -435,8 +435,8 @@ goose run -t "reply with only the word: pong"
 
 | Host | Location |
 |------|----------|
-| haumea | `~/Documents/Backups/obsidian-20260804-204426/` |
-| moon | `~/Documents/Backups/obsidian-20260804-204427/` |
+| primary | `~/Documents/Backups/obsidian-20260804-204426/` |
+| secondary | `~/Documents/Backups/obsidian-20260804-204427/` |
 
 **Archived paths:** old folders left in place with `ZZZ-READ-ME-DO-NOT-EDIT-archived.txt` (safe leftovers; do not open as primary).
 
@@ -468,7 +468,7 @@ brew install --cask antigravity-cli   # agy TUI — not ACP / not Obsidian
 | **Claude Code ACP** | `@agentclientprotocol/claude-agent-acp@0.68.0` | Agent Client “Claude Code” |
 | **Codex ACP** | `@agentclientprotocol/codex-acp@1.3.0` | Agent Client “Codex” |
 | **Antigravity CLI** | brew cask `antigravity-cli` → `/opt/homebrew/bin/agy` | Gemini successor. **Not in Agent Client** (no ACP). Use Terminal or Antigravity 2.0. |
-| **Mistral Vibe** | brew `mistral-vibe` → `vibe-acp` (**arm64 only** in brewfile) | Agent Client via `~/.config/mistral-vibe/launch-acp-with-env.sh`; Intel moon: skip / use web or haumea |
+| **Mistral Vibe** | brew `mistral-vibe` → `vibe-acp` (**arm64 only** in brewfile) | Agent Client via `~/.config/mistral-vibe/launch-acp-with-env.sh`; Intel secondary: skip / use web or primary |
 | **Kiro CLI** | brew cask `kiro-cli` → `kiro-cli acp` | Agent Client via `~/.config/kiro/launch-acp-with-env.sh` |
 
 **Critical:** Agent Client must **not** store ephemeral `fnm_multishells/...` paths. Use stable:
@@ -477,7 +477,7 @@ brew install --cask antigravity-cli   # agy TUI — not ACP / not Obsidian
 
 and `/usr/local/bin/opencode` (Intel) or `/opt/homebrew/bin/opencode` (Silicon).
 
-### Agent Client plugin settings (haumea)
+### Agent Client plugin settings (primary)
 
 Vault: `~/Obsidian/YourVault` · plugin `agent-client` · file  
 `…/plugins/agent-client/data.json`
@@ -501,18 +501,18 @@ Wrapper now: if `$1 == acp` then `exec opencode "$@"` else `exec opencode acp "$
 Same for **Kiro**: `kiro-cli acp acp` exits immediately (`unexpected argument 'acp'`). Wrapper is idempotent; plugin `args` is `["acp"]`.  
 Details: `hermes-stack/docs/guides/hermes-opencode-acp-editors.md`.
 
-**Pitfall (2026-11-02, haumea):** Plugin **0.13.0** kept a dead `opencode acp` process marked connected. The next send failed with *ACP connection closed* and did not start a new process. **Restart agent** clears the chat before it reconnects. The haumea vault `main.js` is patched so exit drops that connection and the next send reconnects. Backup next to `main.js`: `main.js.bak-pre-acp-reconnect-20261102`. A plugin update replaces `main.js` and drops the patch. The vault is not a git repo. Brew OpenCode on haumea stays **1.19.4**. Do not upgrade the plugin until this behavior is upstream.
+**Pitfall (2026-11-02, primary):** Plugin **0.13.0** kept a dead `opencode acp` process marked connected. The next send failed with *ACP connection closed* and did not start a new process. **Restart agent** clears the chat before it reconnects. The primary vault `main.js` is patched so exit drops that connection and the next send reconnects. Backup next to `main.js`: `main.js.bak-pre-acp-reconnect-20261102`. A plugin update replaces `main.js` and drops the patch. The vault is not a git repo. Brew OpenCode on primary stays **1.19.4**. Do not upgrade the plugin until this behavior is upstream.
 
-### Agent Client plugin settings (moon, after fix)
+### Agent Client plugin settings (secondary, after fix)
 
 - **Default agent:** OpenCode  
 - **OpenCode command:** `~/.config/opencode/launch-acp-with-env.sh`  
-- **OpenCode args:** `["acp"]` (wrapper is **idempotent**, same as haumea — 2026-08-06)  
-- **nodePath:** stable fnm Node `…/installation/bin/node` (e.g. v24.19.0 on moon)  
+- **OpenCode args:** `["acp"]` (wrapper is **idempotent**, same as primary — 2026-08-06)
+- **nodePath:** stable fnm Node `…/installation/bin/node` (e.g. v24.19.0 on secondary)
 - **Binary:** brew `/usr/local/bin/opencode` (Intel) on PATH inside the wrapper  
 - Hermes agent dropped if `~/bin/hermes` is missing  
 
-**2026-08-06:** same double-`acp` fix as haumea applied on moon (wrapper + `agent-client` data.json).
+**2026-08-06:** same double-`acp` fix as primary applied on secondary (wrapper + `agent-client` data.json).
 
 ### Plugin list (enabled community plugins on YourVault)
 
@@ -522,14 +522,14 @@ Also present on disk (not all always enabled): `opencode-obsidian`, raindrop, te
 
 ### After changes
 
-1. Fully quit Obsidian on moon (⌘Q) and reopen.  
+1. Fully quit Obsidian on secondary (⌘Q) and reopen.
 2. Open vault **YourVault** under `~/Documents/YourVault`.  
 3. Enable **Agent Client** if needed (Community plugins).  
 4. New chat → agent **OpenCode** → pick a model you have configured locally (do not publish model IDs).
 
 ---
 
-## 14. MacWhisper (haumea + moon) — full setup
+## 14. MacWhisper (primary + secondary) — full setup
 
 **Last full audit:** 2026-08-05. Bundle ID: `com.goodsnooze.MacWhisper`. AeroSpace workspace: **media**.
 
@@ -549,7 +549,7 @@ Do **not** add Grok STT / Cohere Transcribe to `opencode.jsonc` — wire them on
 
 ### Inventory (2026-08-05)
 
-| | **haumea** | **moon** |
+| | **primary** | **secondary** |
 |--|------------|----------|
 | CPU | Apple Silicon (arm64) | Intel (x86_64) |
 | macOS (audit) | **26.6** | **15.7** |
@@ -566,7 +566,7 @@ CLI: `/Applications/MacWhisper.app/Contents/MacOS/mw`
 
 ### Architecture limits (critical)
 
-| Feature | haumea (Silicon) | moon (Intel) |
+| Feature | primary (Silicon) | secondary (Intel) |
 |---------|------------------|--------------|
 | **WhisperKit** (Large v3 Turbo, etc.) | Yes | **No** — [docs: WhisperKit is M‑series only](https://docs.macwhisper.com/article/29-switching-to-a-whisperkit-model) |
 | **Parakeet Pro** | Yes | **No** (Silicon / GPU-class stack) |
@@ -580,7 +580,7 @@ CLI: `/Applications/MacWhisper.app/Contents/MacOS/mw`
 
 ### Local models — recommendations
 
-#### haumea (Apple Silicon) — verified `mw models list`
+#### primary (Apple Silicon) — verified `mw models list`
 
 | ID | UI name | Use |
 |----|---------|-----|
@@ -598,7 +598,7 @@ Do **not** prefer **Large v2** over Large v3 Turbo on Silicon — v2 is older.
 
 Apple Speech packs: **Einstellungen → Lokale Modelle → Empfohlene Modelle → Apple Speech** (only on macOS 26+). Only downloaded packs appear under “Heruntergeladen”.
 
-#### moon (Intel) — Whisper C++
+#### secondary (Intel) — Whisper C++
 
 WhisperKit UI names (**Large v3 Turbo** under WhisperKit) **do not apply**. Local catalog is **Whisper C++**, e.g.:
 
@@ -665,7 +665,7 @@ If a model errors: Settings → AI services → try another model id the app acc
 | Global show shortcut | **⌥⌘K** (US; carbon keyCode 40 + option+cmd) |
 | Mic priority (template) | Continuity iPhone first, then built-in |
 | Obsidian folder | `/Transcripts` |
-| Watch folder | haumea: `/Volumes/media/podcasts/Example Podcast/` (when mounted); **moon: none** (volume not mounted) |
+| Watch folder | primary: `/Volumes/media/podcasts/Example Podcast/` (when mounted); **secondary: none** (volume not mounted) |
 
 ### Keychain inventory (names only — never commit secrets)
 
@@ -681,7 +681,7 @@ Service: `com.goodsnooze.MacWhisper` unless noted.
 | `elevenLabsAPIKeyForCloudTranscription_Key` | Cloud STT ElevenLabs |
 | `chatGPTAPIKey_Key` | OpenAI Whisper / legacy |
 | `obsidianIPAddress_Key` / `obsidianPort_Key` / `obsidianAPIToken_Key` | Local Obsidian API |
-| `com.goodsnooze.MacWhisper.Argmax.*` | Argmax / Pro model auth (haumea) |
+| `com.goodsnooze.MacWhisper.Argmax.*` | Argmax / Pro model auth (primary) |
 
 **Key sources:**
 
@@ -704,14 +704,14 @@ A chat subscription is not the same as unlimited API STT. STT is usually API-bil
 
 ### How to use day-to-day
 
-**haumea (local-first):**
+**primary (local-first):**
 
 1. Transcribe with **Large v3 Turbo** (WhisperKit).  
 2. Live / meetings → **Parakeet v3**.  
 3. Open transcript → **AI → xAI** → summary / custom prompt.  
 4. Optional: cloud STT for messy audio (cloud STT / OpenRouter / ElevenLabs).
 
-**moon (Intel — cloud-first for quality):**
+**secondary (Intel — cloud-first for quality):**
 
 1. Local fallback: Whisper C++ **Turbo** (not Large V2).  
 2. Prefer **Cloud-Modelle → xAI (Grok STT)** or OpenRouter Whisper Large V3.  
@@ -720,11 +720,11 @@ A chat subscription is not the same as unlimited API STT. STT is usually API-bil
 
 ### Parity / ops notes
 
-Functional prefs + Keychain were mirrored **haumea → moon** (2026-08-05).
+Functional prefs + Keychain were mirrored **primary → secondary** (2026-08-05).
 
 | Topic | Rule |
 |-------|------|
-| Keychain over SSH | moon fails with `-25308` (“User interaction is not allowed”) — use **GUI Terminal** or `open -a Terminal /path/to/install-script.sh` |
+| Keychain over SSH | secondary fails with `-25308` (“User interaction is not allowed”) — use **GUI Terminal** or `open -a Terminal /path/to/install-script.sh` |
 | Model files | Download in-app per machine; never copy arm64 CoreML to Intel |
 | Prefs write | `defaults export/import` + `plistlib` for complex arrays; provider list elements look like `'"xAI"'` (quoted strings) |
 | Watch folder | Only enable when `/Volumes/media/podcasts/...` is mounted |
@@ -778,11 +778,11 @@ Not app inventory, but required for `chezmoi apply` / topgrade templates on both
 | MAS over SSH | Skip via `scripts/topgrade-wrap.sh` (zsh `topgrade`). Do not put Apple ID password in `~/.config/topgrade.env`. GUI Terminal still runs `mas`. |
 | Cursor extensions | `cursor --update-extensions` may print Node `[DEP0169]` (`url.parse()`). Cosmetic. `No extension to update` means the step finished with nothing to install. |
 
-Details: [haumea.md](./haumea.md) (primary) · [moon.md](./moon.md) (secondary, soft Pass over SSH).
+Details: [primary.md](./primary.md) (primary) · [secondary.md](./secondary.md) (secondary, soft Pass over SSH).
 
 ---
 
-## 16. Zed editor (haumea + moon)
+## 16. Zed editor (primary + secondary)
 
 **Last sync:** 2026-08-05. Bundle ID: `dev.zed.Zed`. AeroSpace workspace: **code** (+ force-tile script for macOS native fullscreen — see [aerospace/README.md](./aerospace/README.md)).
 
@@ -790,18 +790,18 @@ Brew SoT: `cask "zed"` in `brewfile.home.machines`.
 
 ### Inventory
 
-| | haumea | moon |
+| | primary | secondary |
 |--|--------|------|
 | App | Zed **1.13.1** (arm64) | Zed **1.13.2** (x86_64) |
 | Config | `~/.config/zed/settings.json` | same path, **md5-matched** after sync |
 | Font | Hack Nerd Font (`Hack NF`) | installed via `font-hack-nerd-font` cask |
-| Extensions | dockerfile, html, solarized, toml, xml | **same** (synced from haumea `extensions/installed`) |
+| Extensions | dockerfile, html, solarized, toml, xml | **same** (synced from primary `extensions/installed`) |
 | CLI agent | brew `opencode` → `opencode acp` | same (`/usr/local/bin/opencode` on Intel) |
 | ACP helpers | claude-agent-acp, codex-acp | same npm pins as Obsidian Agent Client |
 
 ### settings.json (shared behaviour)
 
-Do **not** commit this file (contains LiteLLM / Olares tokens). Copy haumea → moon only over SSH.
+Do **not** commit this file (contains LiteLLM / GPU-host tokens). Copy primary → secondary only over SSH.
 
 | Area | Value |
 |------|--------|
@@ -811,8 +811,8 @@ Do **not** commit this file (contains LiteLLM / Olares tokens). Copy haumea → 
 | Panels | project / outline / collab / git → **right**; agent → **left** |
 | Default agent model | configure providers in the UI / keychain; do not commit model IDs or keys |
 | Agent servers | `claude-acp`, `gemini`, `codex-acp` (registry); **`opencode`** custom → `opencode acp` |
-| Language models | Ollama + OpenAI-compatible LiteLLM (Olares host URLs) |
-| Context server | `litellm-mcp` (Olares MCP URL + bearer) |
+| Language models | Ollama + OpenAI-compatible LiteLLM (GPU host URLs) |
+| Context server | `litellm-mcp` (GPU host MCP URL + bearer) |
 | **Edit predictions** | **Codestral** (`edit_predictions.codestral` → `https://codestral.mistral.ai`, model `codestral-latest`) |
 | Telemetry | diagnostics **off**, metrics **off** |
 | Session | `trust_all_worktrees: true` |
@@ -829,8 +829,8 @@ Zed does **not** store API keys in `settings.json` (keychain + env vars only). B
 | `deepseek` | `https://api.deepseek.com/v1` | `DEEPSEEK_API_KEY` |
 | `mistral` | `https://api.mistral.ai/v1` | `MISTRAL_API_KEY` |
 | `open_router` | `https://openrouter.ai/api/v1` | `OPENROUTER_API_KEY` |
-| `openai_compatible.LiteLLM` | Olares LiteLLM `/v1` | (key in URL headers / proxy) |
-| `ollama` | Olares ollama host | — |
+| `openai_compatible.LiteLLM` | GPU host LiteLLM `/v1` | (key in URL headers / proxy) |
+| `ollama` | GPU host Ollama | — |
 
 **Keys (stable Zed does not auto-load a config `.env` for LLM providers):**
 
@@ -850,7 +850,7 @@ Or paste keys once in **Settings → AI → LLM Providers** so Keychain is owned
 
 **Agent model IDs must exist in this Zed build** — use IDs the current Zed release accepts (mismatch → “provider not configured or does not support the configured model”).
 
-### Dependencies on moon (after install)
+### Dependencies on secondary (after install)
 
 ```bash
 # already done 2026-08-05 if brew/fnm present
@@ -863,18 +863,18 @@ npm install -g @agentclientprotocol/claude-agent-acp@0.68.0 \
 
 OpenCode on the secondary host: see **§12**. Re-authenticate providers in each app after setup; do not copy auth files into git.
 
-### Re-sync from haumea
+### Re-sync from primary
 
 ```bash
 # settings
 scp ~/.config/zed/settings.json secondary.local:~/.config/zed/settings.json
 
-# extensions (tar; rsync path-with-spaces is flaky on some moons)
+# extensions (tar; rsync path-with-spaces is flaky on some hosts)
 tar -C "$HOME/Library/Application Support/Zed/extensions" -cf - installed index.json \
   | ssh secondary.local 'tar -C "$HOME/Library/Application Support/Zed/extensions" -xf -'
 ```
 
-### First launch on moon
+### First launch on secondary
 
 1. Quit Zed fully if open (⌘Q).  
 2. Open Zed — confirm **Solarized Dark** + **Hack NF**.  
@@ -931,10 +931,10 @@ brew bundle --file="$(chezmoi source-path)/brewfile.home.machines"
 Optional cleanups / catch-up:
 
 ```bash
-# moon — Syncthing (moon only; never on haumea)
+# secondary — Syncthing (secondary only; never on primary)
 brew install syncthing && brew services start syncthing
 
-# moon — drop old Colima data if unused
+# secondary — drop old Colima data if unused
 rm -rf ~/.colima
 ```
 
@@ -942,8 +942,8 @@ rm -rf ~/.colima
 
 ## Related docs
 
-- [haumea.md](./haumea.md) — primary host notes
-- [moon.md](./moon.md) — secondary host notes
+- [primary.md](./primary.md) — primary host notes
+- [secondary.md](./secondary.md) — secondary host notes
 - [aerospace/WORKSPACES.md](./aerospace/WORKSPACES.md) — workspace / float map
 - [../brewfile.home.machines](../brewfile.home.machines) — package SoT
 - [../dot_config/topgrade.toml](../dot_config/topgrade.toml) — disabled steps (Colima, containers, Hermes Agent, …)

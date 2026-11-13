@@ -66,7 +66,7 @@ Read in this order:
 | `docs/smb-unifi-nas.md` | SMB mount policy. The filled map stays gitignored | Whoever changes the mount helper |
 | `docs/ssh-hosts.md` | SSH alias pattern. No address inventory | Whoever changes the SSH policy |
 | `docs/stream-deck.md` | Stream Deck layout and what is not in git | Whoever changes the deck profile |
-| `docs/<role>.md` | Public habit notes for one Mac. Two pages are tracked. No inventory | Whoever changes that Mac's setup |
+| `docs/<role>.md` | Public habit notes for one Mac: `docs/primary.md` and `docs/secondary.md`. No host names or inventory | Whoever changes that Mac's setup |
 | `.env.example` | Setting names only. No secret values | Whoever adds a setting |
 | `.githooks` | Git hooks. `pre-commit` runs the secret check | Whoever changes the check |
 | `.githooks/pre-commit` | Runs `scripts/check-secrets.sh --staged` | Whoever changes the check |
@@ -105,10 +105,11 @@ Read in this order:
 | `ansible/README.md` | How to run the macOS playbook | Whoever changes the playbook |
 | `ansible/ansible.cfg` | Ansible defaults for this repo | Whoever changes the playbook |
 | `ansible/group_vars/all.yml` | Variables shared by both Macs | Whoever changes the playbook |
-| `ansible/host_vars/*.yml` | Per-machine Ansible vars. One tracked file per inventory alias. No addresses | Whoever changes that Mac's vars |
-| `ansible/inventory.ini` | Inventory aliases. Do not add addresses | Whoever changes the inventory |
+| `ansible/group_vars/primary.yml`, `ansible/group_vars/secondary.yml` | Per-role Ansible vars for the `primary` and `secondary` groups. No host names or addresses | Whoever changes that Mac's vars |
+| `ansible/inventory.ini` | Public inventory template with placeholders. The real aliases live in gitignored `ansible/inventory.local.ini`, which `ansible.cfg` reads | Whoever changes the inventory |
 | `ansible/setup-macos.yml` | Idempotent setup: packages, chezmoi, defaults, npm, mail clients | Whoever changes the playbook |
 | `brewfile.home.machines` | Shared Homebrew bundle for both Macs | Whoever changes the bundle |
+| `brewfile.secondary.extra` | Extra Homebrew bundle for the secondary Mac only (Syncthing) | Whoever changes the bundle |
 | `brewfile.*.extra` | Extra Homebrew bundle for the secondary Mac only | Whoever changes that bundle |
 | `dot_config/aerospace/aerospace.toml.tmpl` | AeroSpace config template | Whoever changes the window manager |
 | `dot_config/aerospace/scripts/executable_center-floating-window.sh` | Center a floating window. Stream Deck calls it | Whoever changes that helper |
@@ -119,7 +120,7 @@ Read in this order:
 | `dot_config/goose/custom_providers/oc_zen_gpt.json` | Goose provider catalog. No keys | Whoever changes the catalog |
 | `dot_config/starship.toml` | Starship prompt | Whoever changes the prompt |
 | `dot_config/streamdeck/bin/executable_aerospace-reload.command` | Stream Deck action: reload AeroSpace | Whoever changes that button |
-| `dot_config/streamdeck/bin/executable_ansible-brew.command` | Stream Deck action: Ansible brew tag | Whoever changes that button |
+| `dot_config/streamdeck/bin/executable_ansible-brew.command.tmpl` | Stream Deck action: Ansible brew tag. Its header comment comes from local chezmoi data | Whoever changes that button |
 | `dot_config/streamdeck/bin/executable_check-secrets.command` | Stream Deck action: secret check | Whoever changes that button |
 | `dot_config/streamdeck/bin/executable_chezmoi-apply.command` | Stream Deck action: chezmoi apply. Operator only | Whoever changes that button |
 | `dot_config/streamdeck/bin/executable_chezmoi-diff.command` | Stream Deck action: chezmoi diff | Whoever changes that button |
@@ -151,7 +152,7 @@ Read in this order:
 | `macOS.sh` | macOS `defaults` settings. Operator runs it | Whoever changes those settings |
 | `machine.md.example` | Template for a gitignored per-machine briefing | Whoever changes the template |
 | `machine-ssh-hosts.md.example` | Template for the gitignored SSH inventory | Whoever changes the template |
-| `private_dot_ssh/config.tmpl` | Base SSH config chezmoi installs. No host inventory | Whoever changes the base SSH config |
+| `private_dot_ssh/config.tmpl` | Base SSH config chezmoi installs. No host inventory. Private extra host blocks come from the local chezmoi data key `ssh_private_hosts` | Whoever changes the base SSH config |
 | `private_dot_ssh/config.local.tmpl` | SSH host config rendered from the Pass note at apply time | Whoever changes that template |
 | `templates/zshrc.local.pass.tmpl` | Template for the gitignored local zsh secrets file | Whoever changes bootstrap |
 

@@ -3,7 +3,7 @@
 This repository is **public**. This file describes **how** macOS mounts NAS shares — not your LAN inventory.
 
 **Live share list:** gitignored `scripts/smb-hosts.local` (start from [`scripts/smb-hosts.example`](../scripts/smb-hosts.example))  
-**Private IP inventory (this machine only):** gitignored `machine-haumea.md` / `machine-ssh-hosts.md`
+**Private IP inventory (this machine only):** gitignored `machine-<host>.md` / `machine-ssh-hosts.md`
 
 Related: [ssh-hosts.md](./ssh-hosts.md) (same “reserved IPv4, not mDNS-only” rule)
 

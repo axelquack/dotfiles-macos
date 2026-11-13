@@ -1,0 +1,7 @@
+# brewfile.secondary.extra — packages for the secondary Mac only
+# Applied after brewfile.home.machines via Ansible (secondary group) or manually:
+#   brew bundle --file="$(chezmoi source-path)/brewfile.secondary.extra"
+#
+# Do NOT install these on the primary.
+
+brew "syncthing"                # Continuous file sync — secondary host only
