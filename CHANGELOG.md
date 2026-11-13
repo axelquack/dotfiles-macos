@@ -18,6 +18,22 @@ Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the s
 
 **Why:** one board for all open work (Axel, 2026-11-13).
 
+## 2026-11-13 — Pin GitHub Actions and add Dependabot
+
+### Added
+
+- `.github/dependabot.yml` for the `github-actions` ecosystem on a weekly schedule, so action SHA pins can be updated through Dependabot pull requests.
+
+### Changed
+
+- The gitleaks workflow pins `actions/checkout` to commit `d23441a48e516b6c34aea4fa41551a30e30af803` (v6.1.0) and `gitleaks/gitleaks-action` to commit `e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e` (v3.0.0). Both SHAs were taken from the upstream tags. Top-level `permissions` stay `contents: read` and `pull-requests: write`.
+
+### Security
+
+- Workflows no longer follow floating action tags. Dependabot opens weekly pull requests when those pins need a bump.
+
+**Why:** Pinning actions to a commit SHA, and keeping those pins current, reduces the risk of a tagged action changing under this public workflow.
+
 ## 2026-11-13 — Terraform from the HashiCorp tap
 
 ### Added
