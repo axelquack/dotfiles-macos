@@ -21,7 +21,7 @@ Proton Pass (your vault — never committed)
 
 Local only (never git)
   ├── pass-cli login session
-  ├── ~/.config/chezmoi/chezmoi.toml   (vault + item IDs)
+  ├── ~/.config/chezmoi/chezmoi.toml   (vault + item IDs; mode 600)
   ├── scripts/pass-ssh-key-map.local   (basename → Pass title)
   ├── scripts/pass-env-map.local       (Pass title → ENV var)
   ├── scripts/himalaya-accounts.local  (addresses + Pass titles, no passwords)
@@ -110,6 +110,7 @@ brew install pass-cli chezmoi
 pass-cli login
 
 # README Step 4: create ~/.config/chezmoi/chezmoi.toml (IDs from pass-cli list)
+# and chmod 600 it (the file holds vault IDs and optional private data keys)
 cp scripts/pass-ssh-key-map.example scripts/pass-ssh-key-map.local
 # edit map to match your Pass titles
 

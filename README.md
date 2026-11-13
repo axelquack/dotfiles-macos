@@ -161,7 +161,13 @@ sourceDir = "~/Developer/Projects/dotfiles-macos"
 EOF
 ```
 
-**4e — Private label and host keys (optional, local only):** the templates read these extra `[data]` keys from the same untracked `chezmoi.toml`. Without them, generic labels are rendered and no private SSH host block is added. Keep the values out of git.
+Then lock the file down. It holds vault IDs and, if you use Step 4e, private data keys:
+
+```bash
+chmod 600 ~/.config/chezmoi/chezmoi.toml
+```
+
+**4e — Private label and host keys (optional, local only):** the templates read these extra `[data]` keys from the same untracked `chezmoi.toml`. Without them, generic labels are rendered and no private SSH host block is added. Keep the values out of git. This file must stay mode 600.
 
 - `ssh_private_hosts`: extra `~/.ssh/config` host blocks, rendered verbatim (see [docs/ssh-hosts.md](docs/ssh-hosts.md)).
 - `private_aerospace_comment_title`, `private_aerospace_comment_comms`: AeroSpace header comments.
