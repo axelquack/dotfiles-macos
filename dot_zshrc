@@ -262,6 +262,21 @@ dalias() { alias | grep 'docker'; functions | grep '^d[a-z]* ()'; } # Show alias
 # Get an interactive bash shell inside a running container (pass container name/ID, e.g., dbash my-container)
 dbash() { docker exec --interactive --tty "$(docker ps -aqf "name=$1")" bash; }
 
+# --- just: global justfile fallback ---
+# `just <recipe>` runs the local justfile as usual. Only when the local justfile
+# (or none) lacks that recipe and ~/.config/just/justfile has it, run it with -g.
+# So `just <domain>` works from anywhere, and project recipes always win.
+# Flags (e.g. `just --list`) always go to the local justfile; use `just -g ...`.
+just() {
+  if [[ $# -gt 0 && "$1" != -* ]] \
+    && ! command just --summary 2>/dev/null | tr ' ' '\n' | grep -qxF -- "$1" \
+    && command just -g --summary 2>/dev/null | tr ' ' '\n' | grep -qxF -- "$1"; then
+    command just -g "$@"
+  else
+    command just "$@"
+  fi
+}
+
 # --- Final Setup ---
 
 # Rust / Cargo environment (added by rustup installer)

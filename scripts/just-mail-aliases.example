@@ -1,0 +1,5 @@
+# Copy to ~/.config/just/mail-aliases (local, not in git) and edit.
+# One `alias = himalaya-account` per line. Then run scripts/just-mail-gen.py.
+# Each alias becomes a recipe: `just <alias>` opens that Himalaya account.
+#
+# example = icloud
