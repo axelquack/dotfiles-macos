@@ -62,6 +62,7 @@ Defaults (`group_vars/all.yml`):
 ## What it does
 
 1. **brew** — `brew bundle` with `brewfile.home.machines` (includes `himalaya` CLI); on the secondary Mac also its extra brewfile (Syncthing). Warns if Syncthing is present on the primary.
+   Terraform in the shared brewfile is `hashicorp/tap/terraform`, not the homebrew-core formula.
 2. **chezmoi** — `chezmoi apply --source=<repo_root> --force`
 3. **macos_defaults** — `macOS.sh` with become
 4. **npm** — pinned install scripts + optional security audit

@@ -7,6 +7,7 @@
 # --- Custom Taps (for additional formulae/casks) ---
 tap "nikitabobko/tap"        # Adds casks for Aerospace
 tap "protonpass/tap"         # Adds formulae for Proton Pass CLI
+tap "hashicorp/tap"          # Official Terraform formulae. homebrew-core no longer ships current Terraform (BSL).
 
 # --- Homebrew Casks (GUI Applications & Fonts/Drivers) ---
 # Define GUI applications installed via `brew install --cask <cask>`
@@ -106,6 +107,7 @@ brew "librsvg"                  # rsvg-convert — Stream Deck key icons from El
 brew "gh"                       # GitHub CLI — manage repos, PRs, issues from the terminal
 brew "himalaya"                 # CLI email client (IMAP/SMTP). TUI is cargo, not bottled — scripts/himalaya-setup.sh --tui
 brew "just"                     # Command runner (justfile) — used across project repos
+brew "hashicorp/tap/terraform"  # Terraform CLI from the official tap, not homebrew-core. The inwx repo's `just validate` needs it.
 brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
 # Intel (secondary): no bottle for mistral-vibe / pydantic deps (Homebrew Tier 3) — arm64 only

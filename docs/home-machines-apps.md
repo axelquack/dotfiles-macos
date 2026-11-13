@@ -243,6 +243,10 @@ DevPod, Marked 2, Telefon (Telephone, mas 406825478), OrbStack, Claude, Proton D
 | Docker | OrbStack + docker/docker-compose formulae |
 | Machine-local tools | Allowed; document extras below |
 
+### Terraform
+
+The shared brewfile installs Terraform from the official HashiCorp tap (`tap "hashicorp/tap"` and `brew "hashicorp/tap/terraform"`). homebrew-core no longer ships current Terraform after the Business Source License change. The inwx repository's `just validate` needs this `terraform` binary. Do not replace the line with an unscoped `terraform` formula.
+
 ### Formulae snapshot (2026-08-27, primary)
 
 | | primary |
