@@ -16,6 +16,6 @@ import? 'mail.just'
 default:
     @just -g --list
 
-# List the mail recipes (one per Himalaya account, plus one per domain).
+# List the mail recipes (per Himalaya account, per domain, and local aliases).
 mail:
-    @just -g --list --unsorted 2>/dev/null | grep -E '# (mail|domain):' || echo "no mail.just yet: run scripts/just-mail-gen.py in the dotfiles clone"
+    @just -g --list --unsorted 2>/dev/null | grep -E '# (mail|domain|alias):' || echo "no mail.just yet: run scripts/just-mail-gen.py in the dotfiles clone"

@@ -16,7 +16,7 @@ Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the s
 
 - `dot_config/just/justfile` (global justfile, `just -g`): `default`, `mail`, and an optional import of the local, generated `mail.just`.
 - `dot_config/just/executable_himalaya-open.sh`: opens one Himalaya account (TUI with no args, otherwise `himalaya <args> -a <account>`).
-- `scripts/just-mail-gen.py`: writes `~/.config/just/mail.just` (mode 600, never committed) from the local Himalaya config, one recipe per account plus one per domain.
+- `scripts/just-mail-gen.py`: writes `~/.config/just/mail.just` (mode 600, never committed) from the local Himalaya config, one recipe per account plus one per domain, plus optional aliases from the local `~/.config/just/mail-aliases` (example: `scripts/just-mail-aliases.example`).
 - `dot_zshrc`: zsh `just` wrapper that falls back to the global justfile only when the local justfile has no such recipe.
 - `docs/himalaya.md`: section on the recipes and the shadowing tradeoff.
 

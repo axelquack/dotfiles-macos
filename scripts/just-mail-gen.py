@@ -10,6 +10,9 @@ Recipes:
               mailbox if exactly one local-part is not mail/spam/admin,
               otherwise <domain>-mail. Accounts without "-" (icloud, gmail)
               only get their own name.
+  <alias>     optional extra names from a local aliases file (default
+              ~/.config/just/mail-aliases, not in git), one `alias = account`
+              per line, `#` comments allowed. See scripts/just-mail-aliases.example.
 """
 from __future__ import annotations
 
@@ -28,6 +31,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", type=Path, default=Path.home() / ".config/himalaya/config.toml")
     ap.add_argument("--out", type=Path, default=Path.home() / ".config/just/mail.just")
+    ap.add_argument("--aliases", type=Path, default=Path.home() / ".config/just/mail-aliases")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
@@ -59,6 +63,20 @@ def main() -> None:
         recipe(domain, primary, "domain")
     for name in sorted(emails):
         recipe(name, name, "mail")
+
+    taken = set(emails) | set(groups) | {"default", "mail"}
+    if a.aliases.is_file():
+        for n, raw in enumerate(a.aliases.read_text().splitlines(), 1):
+            line = raw.split("#", 1)[0].strip()
+            if not line:
+                continue
+            alias, _, account = (x.strip() for x in line.partition("="))
+            if not IDENT.match(alias) or account not in emails:
+                raise SystemExit(f"{a.aliases}:{n}: need `alias = account` with an existing Himalaya account")
+            if alias in taken:
+                raise SystemExit(f"{a.aliases}:{n}: alias {alias!r} clashes with an existing recipe")
+            taken.add(alias)
+            recipe(alias, account, "alias")
 
     text = "\n".join(lines)
     if a.dry_run:
