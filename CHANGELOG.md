@@ -10,6 +10,23 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-13 — Global justfile: `just <domain>` opens a Himalaya mailbox
+
+### Added
+
+- `dot_config/just/justfile` (global justfile, `just -g`): `default`, `mail`, and an optional import of the local, generated `mail.just`.
+- `dot_config/just/executable_himalaya-open.sh`: opens one Himalaya account (TUI with no args, otherwise `himalaya <args> -a <account>`).
+- `scripts/just-mail-gen.py`: writes `~/.config/just/mail.just` (mode 600, never committed) from the local Himalaya config, one recipe per account plus one per domain.
+- `dot_zshrc`: zsh `just` wrapper that falls back to the global justfile only when the local justfile has no such recipe.
+- `docs/himalaya.md`: section on the recipes and the shadowing tradeoff.
+
+### Notes
+
+- Applied on the primary Mac: only `~/.config/just/` via `chezmoi apply` on those paths. `~/.zshrc` has unrelated local drift, so the wrapper was added to the source and the target by hand (same text) and `.zshrc` was not applied.
+- One more hosted mail domain was added to the local, gitignored Himalaya account map and config.
+
+**Why:** Axel asked on 2026-11-13 for `just <domain>` recipes that start Himalaya on that domain's mailbox from any directory.
+
 ## 2026-11-13 — Tighten permissions on the local chezmoi config
 
 ### Changed

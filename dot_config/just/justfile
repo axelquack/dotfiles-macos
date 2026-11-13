@@ -1,0 +1,21 @@
+# Global justfile (~/.config/just/justfile, managed by chezmoi).
+# Run from anywhere with `just -g <recipe>`. The zsh `just` wrapper in
+# ~/.zshrc falls back to this file only when the local justfile (if any)
+# has no recipe of that name, so project justfiles always win.
+#
+# Mail recipes come from the gitignored, generated ~/.config/just/mail.just
+# (scripts/just-mail-gen.py reads ~/.config/himalaya/config.toml). This public
+# repo never holds addresses or domains.
+
+set positional-arguments := true
+set dotenv-load := false
+
+import? 'mail.just'
+
+# List the global recipes.
+default:
+    @just -g --list
+
+# List the mail recipes (one per Himalaya account, plus one per domain).
+mail:
+    @just -g --list --unsorted 2>/dev/null | grep -E '# (mail|domain):' || echo "no mail.just yet: run scripts/just-mail-gen.py in the dotfiles clone"
