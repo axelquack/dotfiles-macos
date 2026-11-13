@@ -10,6 +10,15 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-13 — Terraform from the HashiCorp tap
+
+### Added
+
+- `brewfile.home.machines` taps `hashicorp/tap` and installs `hashicorp/tap/terraform` for both Macs.
+- A note in `docs/home-machines-apps.md`, the README brewfile row, and the Ansible brew step.
+
+**Why:** homebrew-core no longer ships current Terraform after the Business Source License change. The official HashiCorp tap does. The inwx repository's `just validate` needs that binary. The primary Mac already has Terraform v1.17.2 from this tap.
+
 ## 2026-11-12 — Public repo standard
 
 ### Added
