@@ -106,7 +106,7 @@ Read in this order:
 | `ansible/ansible.cfg` | Ansible defaults for this repo | Whoever changes the playbook |
 | `ansible/group_vars/all.yml` | Variables shared by both Macs | Whoever changes the playbook |
 | `ansible/host_vars/*.yml` | Per-machine Ansible vars. One tracked file per inventory alias. No addresses | Whoever changes that Mac's vars |
-| `ansible/inventory.ini` | Inventory aliases. Do not add addresses | Whoever changes the inventory |
+| `ansible/inventory.ini` | Public inventory template with placeholders. The real aliases live in gitignored `ansible/inventory.local.ini`, which `ansible.cfg` reads | Whoever changes the inventory |
 | `ansible/setup-macos.yml` | Idempotent setup: packages, chezmoi, defaults, npm, mail clients | Whoever changes the playbook |
 | `brewfile.home.machines` | Shared Homebrew bundle for both Macs | Whoever changes the bundle |
 | `brewfile.*.extra` | Extra Homebrew bundle for the secondary Mac only | Whoever changes that bundle |
@@ -151,7 +151,7 @@ Read in this order:
 | `macOS.sh` | macOS `defaults` settings. Operator runs it | Whoever changes those settings |
 | `machine.md.example` | Template for a gitignored per-machine briefing | Whoever changes the template |
 | `machine-ssh-hosts.md.example` | Template for the gitignored SSH inventory | Whoever changes the template |
-| `private_dot_ssh/config.tmpl` | Base SSH config chezmoi installs. No host inventory | Whoever changes the base SSH config |
+| `private_dot_ssh/config.tmpl` | Base SSH config chezmoi installs. No host inventory. Private extra host blocks come from the local chezmoi data key `ssh_private_hosts` | Whoever changes the base SSH config |
 | `private_dot_ssh/config.local.tmpl` | SSH host config rendered from the Pass note at apply time | Whoever changes that template |
 | `templates/zshrc.local.pass.tmpl` | Template for the gitignored local zsh secrets file | Whoever changes bootstrap |
 

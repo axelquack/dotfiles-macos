@@ -10,6 +10,22 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-13 — Host names moved into the private overlays
+
+### Changed
+
+- `private_dot_ssh/config.tmpl` no longer names a host. The extra VM host block is rendered verbatim from the local chezmoi data key `ssh_private_hosts` in the untracked `chezmoi.toml`. The rendered `~/.ssh/config` on the primary Mac is byte-for-byte unchanged (checked with `chezmoi cat`).
+- `ansible/ansible.cfg` reads the gitignored `ansible/inventory.local.ini`. The tracked `ansible/inventory.ini` is now a template with placeholder aliases. `ansible-inventory --list` resolves the same hosts and groups as before.
+- `ansible/README.md` uses the group names `primary` and `secondary` in its commands and explains the private inventory.
+- `docs/ssh-hosts.md` and `machine-ssh-hosts.md.example` use generic placeholders (`host1`, `node1.<site>.local`, `id_ed25519_<label>`) instead of real host names. `docs/ssh-hosts.md` documents the `ssh_private_hosts` key.
+
+### Security
+
+- `.gitignore` covers `inventory.local.ini`.
+- Older commits still contain the previous host names. History was not rewritten.
+
+**Why:** This repository is public. Real host names and the private inventory belong in the gitignored overlays, not in tracked files. Approved by Axel on 2026-11-13.
+
 ## 2026-11-12 — Public repo standard
 
 ### Added

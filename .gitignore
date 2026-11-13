@@ -87,3 +87,7 @@ COPILOT.md
 # CHANGELOG.private.md holds notes that must not be published.
 HANDOFF.md
 CHANGELOG.private.md
+
+# Private Ansible inventory with the real host aliases. inventory.ini is the public template.
+ansible/inventory.local.ini
+**/inventory.local.ini
