@@ -63,6 +63,7 @@ Defaults (`group_vars/all.yml`):
 
 1. **brew** — `brew bundle` with `brewfile.home.machines` (includes `himalaya` CLI); on the secondary Mac also its extra brewfile (Syncthing). Warns if Syncthing is present on the primary.
    Terraform in the shared brewfile is `hashicorp/tap/terraform`, not the homebrew-core formula.
+   Grok Bot in the shared brewfile is `cask "grok-bot"`. A vendor copy already in `/Applications` must be adopted (`brew install --cask --adopt grok-bot`) or overwritten (`brew install --cask --force grok-bot`) before `brew bundle` can take it. See `docs/home-machines-apps.md`.
 2. **chezmoi** — `chezmoi apply --source=<repo_root> --force`
 3. **macos_defaults** — `macOS.sh` with become
 4. **npm** — pinned install scripts + optional security audit

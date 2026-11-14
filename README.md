@@ -57,6 +57,7 @@ Installed by `brewfile.home.machines`. This repo does **not** manage their API k
 | `antigravity-cli` (`agy`) | Google Antigravity CLI — replaces Gemini CLI for consumer accounts | — (app-managed login) |
 | `zed` | AI-native editor | — (do not commit settings with keys) |
 | `cursor` | AI-native IDE | brew cask; AeroSpace workspace `code` |
+| `grok-bot` | Grok Bot desktop app | brew cask; AeroSpace workspace `code`. A vendor copy already in `/Applications` must be adopted or installed with `--force` before `brew bundle`. See [home-machines-apps](docs/home-machines-apps.md) |
 | `devpod` | Dev environments as code | — |
 | npm ACP agents | Obsidian Agent Client bridges | pinned versions in `scripts/install-npm-*.sh` |
 | Grok Build TUI (`~/.grok/bin/grok`) | xAI Grok coding agent | `dot_grok/config.toml.tmpl` (policy only; `grok login` OAuth + `~/.grok/.env` tokens stay local) |
@@ -327,7 +328,7 @@ Files prefixed with `dot_` map to dotfiles in `~/`. Files in `dot_config/` map t
 | `scripts/mount-unifi-smb.sh` | Mount UniFi NAS SMB shares by reserved IP (inventory in gitignored `smb-hosts.local`) |
 | `scripts/himalaya-setup.sh` | himalaya-tui (cargo) + `~/.config/himalaya/config.toml` from gitignored account map; optional Mail.app profile |
 | `scripts/streamdeck-apply.sh` | Quit Stream Deck app, compile `streamdeck-icon`, write MK.2 + MCP profiles from `streamdeck_profile.py`, relaunch |
-| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, `himalaya`, Terraform from `hashicorp/tap`, …). homebrew-core no longer ships current Terraform (BSL); the inwx repo's `just validate` needs the tap formula. |
+| `brewfile.home.machines` | Shared Homebrew casks, formulae, and MAS apps (includes `pass-cli`, `gitleaks`, `himalaya`, Terraform from `hashicorp/tap`, Grok Bot cask `grok-bot`, …). homebrew-core no longer ships current Terraform (BSL); the inwx repo's `just validate` needs the tap formula. |
 | extra brewfile in the repo root | Secondary host only (Syncthing). Do not install it on the primary Mac |
 
 ---
@@ -383,7 +384,6 @@ The following require manual download/installation outside of Homebrew or the Ap
 - **Romm** — TestFlight (self-hosted ROM manager)
 - **SYSTM** (Wahoo) — systmapp.com
 - **DisplayLink Manager** — for docks (vendor installer)
-- **Grok Bot** — vendor download (AeroSpace workspace `code`)
 
 Retired from this setup (not installed by brewfile/Ansible):
 
