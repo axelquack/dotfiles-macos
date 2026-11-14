@@ -10,6 +10,18 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-14 — Primary Mac: no full `chezmoi update` after the `just` fallback merge
+
+### Notes
+
+- The `just` global fallback (PR #11) is merged. On the primary Mac only the `~/.config/just/` targets were applied, and the wrapper hook lines were patched by hand into the live `.zshrc` and `.zshenv`.
+- A full `chezmoi update` / `chezmoi apply` was deliberately **not** run: four targets have local drift that is not in the source yet and would be overwritten: `.zshrc`, `.zshenv`, the AeroSpace config (`aerospace.toml`) and the Grok CLI config (`.grok/config.toml`).
+- Next: the owner decides per file whether to fold the local change into the source (`chezmoi add` / `chezmoi merge`) or to take the repo version. Until then, apply only specific targets (`chezmoi apply <path>`), never the whole tree. Check with `chezmoi status` and `chezmoi diff <path>` first.
+
+### Why
+
+A full apply would have silently replaced unreviewed local edits; the targeted apply plus the manual hook gives the fix without touching them.
+
 ## 2026-11-14 — `just <domain>` works from any directory, in every zsh
 
 ### Changed
