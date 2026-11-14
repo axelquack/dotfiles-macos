@@ -30,6 +30,7 @@ cask "elgato-stream-deck"    # Stream Deck MK.2 companion (profiles via scripts/
 cask "epilogue-playback"     # Control GB Operator and SNES Operator
 cask "font-fira-code-nerd-font" # Nerd Font to use with macOS Terminal application
 cask "gog-galaxy"            # GOG Galaxy game launcher
+cask "grok-bot"              # Grok Bot desktop (x.ai). A vendor copy already in /Applications is not owned by Homebrew; adopt or --force before brew bundle. See docs/home-machines-apps.md.
 cask "google-drive"          # Google Drive cloud storage desktop sync client
 cask "heroic"                # Open source game launcher (Epic, GOG, Amazon)
 cask "jdownloader"           # Download manager for file hosting sites
@@ -173,7 +174,6 @@ mas "Yomu Ebook Reader", id: 562211012      # Ebook reader application
 # - Romm — TestFlight (self-hosted ROM manager)
 # - SYSTM (Wahoo) — systmapp.com
 # - DisplayLink Manager — synaptics.com (dock firmware; not always in brewfile)
-# - Grok Bot — vendor download (not a Homebrew cask; AeroSpace workspace `code`)
 #
 # Parallels Desktop — ARCH-DEPENDENT (do not put a single rule in the cask list):
 #   Apple Silicon (primary): brew install --cask parallels   (works; optional)

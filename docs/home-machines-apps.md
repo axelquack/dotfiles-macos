@@ -194,7 +194,7 @@ AeroSpace still maps `RVS-Riverside.fm-Mac` → workspace `media` (primary only)
 | **Pocket Sync** | GitHub [neil-morrison44/pocket-sync](https://github.com/neil-morrison44/pocket-sync) | Yes | Optional | Universal `.dmg` |
 | **8BitDo Firmware Updater** | Manual (support.8bitdo.com) | Yes | Optional | Not a brew cask; float `com.8bitdo.firmwareupdater` |
 | **Cursor** | `cask "cursor"` | Yes | Optional | Workspace `code` (`com.todesktop.230313mzl4w4u92`) |
-| **Grok Bot** | Vendor download | Yes | Optional | Workspace `code` (`com.anysphere.sand`); not a brew cask |
+| **Grok Bot** | `cask "grok-bot"` | Yes | Optional | Workspace `code` (`com.anysphere.sand`). Homebrew cask, not a vendor-only install. See the adopt note in §10. |
 | **Riverside Studio** | brew cask (Silicon only) | Yes | **No** — use web | arm64 binary only; see §6 |
 | **ATEM / Blackmagic** | Blackmagic site | Both | Both | Manual |
 | **Backdrop** | cindori.com | Both | Both | Manual |
@@ -247,6 +247,17 @@ DevPod, Marked 2, Telefon (Telephone, mas 406825478), OrbStack, Claude, Proton D
 
 The shared brewfile installs Terraform from the official HashiCorp tap (`tap "hashicorp/tap"` and `brew "hashicorp/tap/terraform"`). homebrew-core no longer ships current Terraform after the Business Source License change. The inwx repository's `just validate` needs this `terraform` binary. Do not replace the line with an unscoped `terraform` formula.
 
+### Grok Bot
+
+The shared brewfile installs the Homebrew cask `grok-bot` (app `Grok Bot.app`). `brew info --cask grok-bot` confirms the token. The cask version checked on 2026-11-14 is 1.1.0.
+
+The primary Mac already has Grok Bot 1.1.0 in `/Applications`. `brew list --cask grok-bot` reports that the cask is not installed, so Homebrew does not own that copy. A plain `brew bundle` stops on the existing app. This change does not adopt it and does not run `brew install`, `brew bundle`, or `chezmoi apply`.
+
+When the brewfile is next applied:
+
+- If the app matches the cask artifact, run `brew install --cask --adopt grok-bot`. `--adopt` keeps identical files. It cannot be combined with `--force`.
+- If Homebrew reports that the files differ, run `brew install --cask --force grok-bot`. That overwrites the app. `brew bundle install --file=brewfile.home.machines --force` passes `--force` for every entry in the file, not only this cask.
+
 ### Formulae snapshot (2026-08-27, primary)
 
 | | primary |
@@ -288,7 +299,7 @@ Absence of Syncthing on primary is **by design**, not drift. Shared `brewfile.ho
 |-----------|----------|
 | Live, not in shared brewfile | `parallels` (optional Silicon; see §2), `ledger-live` (app is Ledger Live; brewfile token is `ledger-wallet`) |
 | Added to brewfile this pass | `cursor` |
-| Manual (not brew) | 8BitDo Firmware Updater, Grok Bot, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager, **ComicTagger 1.6.0b10** (official arm64 DMG; Homebrew cask `comictagger` is Gatekeeper-disabled — do not brew-install) |
+| Manual (not brew) | 8BitDo Firmware Updater, Pocket Sync, Protect, SYSTM, ATEM, Backdrop, DisplayLink Manager, **ComicTagger 1.6.0b10** (official arm64 DMG; Homebrew cask `comictagger` is Gatekeeper-disabled — do not brew-install). Grok Bot left this list on 2026-11-14 (`cask "grok-bot"`). |
 | Removed from SoT | Perplexity (MAS), **Adobe Acrobat** (uninstalled) |
 | Silicon-only in brewfile | `riverside-studio`, `mistral-vibe` (`Hardware::CPU.arm?` — no Intel bottles / Tier 3) |
 | Intel bottles gone (secondary: **pin**; optional `--build-from-source`) | Homebrew ships **no x86_64 bottles** as of 2026-09. Topgrade precheck pins outdated formulae on Intel so they are not compiled. See [secondary.md](./secondary.md). |

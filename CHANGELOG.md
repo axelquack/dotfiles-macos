@@ -10,6 +10,20 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-14 — Grok Bot from the Homebrew cask
+
+### Changed
+
+- `brewfile.home.machines` installs `cask "grok-bot"` for both Macs.
+- README, `docs/home-machines-apps.md`, and the Ansible brew step no longer list Grok Bot as a vendor-only install.
+
+### Notes
+
+- Cask token checked with `brew info --cask grok-bot` (version 1.1.0, app `Grok Bot.app`).
+- The primary Mac already has Grok Bot 1.1.0 in `/Applications`. Homebrew does not own it. The next `brew bundle` needs `brew install --cask --adopt grok-bot` when the app matches the cask, or `--force` when it does not. Neither was run from this change.
+
+**Why:** Axel decided on 2026-11-14 to switch Grok Bot to the Homebrew cask.
+
 ## 2026-11-14 — Documentation rule
 
 ### Changed
