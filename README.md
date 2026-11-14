@@ -36,7 +36,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [rustup](https://rustup.rs) | Rust toolchain management | `dot_zshrc`, `dot_zshenv` |
 | [OrbStack](https://orbstack.dev) | Docker / VM runtime | — |
 | [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — **secret vault** (SSH keys, host config, API keys) | [`docs/secrets-pass.md`](docs/secrets-pass.md) · local `chezmoi.toml` IDs only |
-| [Himalaya](https://github.com/pimalaya/himalaya) | CLI + TUI email (IMAP/SMTP) | [`docs/himalaya.md`](docs/himalaya.md) · config generated locally from Pass titles |
+| [Himalaya](https://github.com/pimalaya/himalaya) | CLI + TUI email (IMAP/SMTP) | [`docs/himalaya.md`](docs/himalaya.md) · config generated locally from Pass titles · `just <domain>` opens a mailbox from any directory |
 | [Deno](https://deno.com) | JavaScript / TypeScript runtime | brew formula |
 | [OpenCode](https://opencode.ai) | AI coding agent (CLI + desktop) | brew `opencode` + `opencode-desktop`; secrets **local only** |
 | Grok Build TUI | xAI coding agent (`~/.grok/bin/grok`) | `dot_grok/config.toml.tmpl`; OAuth via `grok login`; tokens local |
@@ -266,7 +266,7 @@ $(chezmoi source-path)/macOS.sh
 | File | Description |
 |------|-------------|
 | [Ansible setup](ansible/README.md) | Idempotent brew + chezmoi + optional macOS defaults / npm / himalaya |
-| [Himalaya + Mail.app IMAP](docs/himalaya.md) | CLI/TUI install; config + unsigned Mail.app profile generated locally (no secrets in git) |
+| [Himalaya + Mail.app IMAP](docs/himalaya.md) | CLI/TUI install; config + unsigned Mail.app profile generated locally (no secrets in git). `just <domain>` opens a mailbox from any directory (zsh wrapper falls back to the global justfile) |
 | [Home machines apps](docs/home-machines-apps.md) | Shared inventory and parity. No host-only prose |
 | [Host habit pages](docs/README.md) | Primary and secondary ops. The docs index links them |
 | [machine.md.example](machine.md.example) | Template for private gitignored `machine-*.md` files |

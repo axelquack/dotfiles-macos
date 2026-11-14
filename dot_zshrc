@@ -263,19 +263,13 @@ dalias() { alias | grep 'docker'; functions | grep '^d[a-z]* ()'; } # Show alias
 dbash() { docker exec --interactive --tty "$(docker ps -aqf "name=$1")" bash; }
 
 # --- just: global justfile fallback ---
-# `just <recipe>` runs the local justfile as usual. Only when the local justfile
-# (or none) lacks that recipe and ~/.config/just/justfile has it, run it with -g.
-# So `just <domain>` works from anywhere, and project recipes always win.
-# Flags (e.g. `just --list`) always go to the local justfile; use `just -g ...`.
-just() {
-  if [[ $# -gt 0 && "$1" != -* ]] \
-    && ! command just --summary 2>/dev/null | tr ' ' '\n' | grep -qxF -- "$1" \
-    && command just -g --summary 2>/dev/null | tr ' ' '\n' | grep -qxF -- "$1"; then
-    command just -g "$@"
-  else
-    command just "$@"
-  fi
-}
+# `just <recipe>` runs the local justfile as usual. Only when the first recipe
+# is missing locally and exists in ~/.config/just/justfile, the wrapper in
+# ~/.config/just/just-wrapper.zsh runs it with -g. Project recipes always win.
+# Flags such as --dry-run before the recipe are preserved. `just --list` still
+# targets the local justfile; use `just -g --list` for the global one.
+# Sourced here (interactive) and from ~/.zshenv (all zsh, including scripts).
+[[ -f "$HOME/.config/just/just-wrapper.zsh" ]] && source "$HOME/.config/just/just-wrapper.zsh"
 
 # --- Final Setup ---
 
