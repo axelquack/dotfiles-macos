@@ -21,6 +21,14 @@ Do **not** put API keys, model defaults, or serial numbers in this public file â
 
 ---
 
+## Chezmoi drift (2026-11-14)
+
+Four targets on primary differ locally from the source and are **not** applied wholesale: `~/.zshrc`, `~/.zshenv`, `~/.config/aerospace/aerospace.toml`, `~/.grok/config.toml`. After the `just` fallback merge (PR #11) only `~/.config/just/` was applied; the wrapper hook lines were added to the live `.zshrc` / `.zshenv` by hand (they match the source). Do **not** run a full `chezmoi update` or `chezmoi apply` on primary until each drifted file is reconciled:
+
+1. `chezmoi status` and `chezmoi diff <target>` to see the local change.
+2. Owner decides: keep local (`chezmoi add <target>` or `chezmoi merge <target>`, then PR) or take the repo version (`chezmoi apply <target>`).
+3. Apply only named targets until the list above is empty. Changes land in [../CHANGELOG.md](../CHANGELOG.md).
+
 ## Policies unique to primary
 
 | Item | Policy |
