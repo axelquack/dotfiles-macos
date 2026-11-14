@@ -10,6 +10,22 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-14 — `just <domain>` works from any directory, in every zsh
+
+### Changed
+
+- The zsh `just` wrapper no longer lives only as an inline function in `.zshrc`. It is `~/.config/just/just-wrapper.zsh`, sourced from `.zshrc` (interactive) and `.zshenv` (every zsh, including `zsh -c`).
+- Recipe detection moved to `~/.config/just/just-global-fallback.sh`. It finds the first recipe after just flags (so `just --dry-run <recipe>` and `just --show <recipe>` fall back too). Project recipes still always win. `just --list` still targets the local justfile.
+- `scripts/lint.sh` also shellchecks `dot_config/just/*.sh`.
+
+### Notes
+
+- Applied on the primary Mac: only the new and updated files under `~/.config/just/` via `chezmoi apply` on those paths. `.zshrc` and `.zshenv` have unrelated local drift, so the wrapper hook was added to the source and the live files by hand and those two targets were not applied.
+
+### Why
+
+The previous wrapper was only loaded in interactive zsh and only looked at `$1`, so `just <domain>` failed inside a repo with its own justfile when the shell was non-interactive, and `just --dry-run <domain>` never fell back.
+
 ## 2026-11-13 — Global justfile: `just <domain>` opens a Himalaya mailbox
 
 ### Added

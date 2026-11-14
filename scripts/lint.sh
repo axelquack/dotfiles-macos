@@ -16,7 +16,7 @@ rc=0
 
 if command -v shellcheck >/dev/null 2>&1; then
   files=()
-  for f in scripts/* .githooks/*; do
+  for f in scripts/* .githooks/* dot_config/just/*.sh; do
     if [[ ! -f "$f" || -L "$f" ]]; then
       continue
     fi
