@@ -10,6 +10,19 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-15 — Grok CLI default reasoning effort set to medium
+
+### Changed
+
+- In the chezmoi template for the Grok CLI config, `default_reasoning_effort` is now `medium` (it was `xhigh` in the template). Raise effort per task when a task needs more depth.
+- The live config on the primary Mac was updated by hand to `medium` as well, after a local backup. A full `chezmoi apply` was **not** run: that file remains on the 2026-11-14 drift list, and applying it would overwrite other local settings.
+
+### Notes
+
+- Already-open Grok CLI sessions read this setting at startup, so they keep their current effort until they are restarted. No session was restarted from this change.
+
+**Why:** Axel (2026-11-15, 05:39 Europe/Berlin): "4: yes, medium default".
+
 ## 2026-11-14 — Grok Bot from the Homebrew cask
 
 ### Changed
