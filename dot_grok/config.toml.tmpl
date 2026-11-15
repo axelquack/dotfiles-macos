@@ -6,11 +6,14 @@
   Do not emit TOML # comments: Grok TUI rewrites this file and strips them,
   which makes chezmoi think the dest drifted. [privacy] is TUI-local — re-injected
   from the destination at apply time (see end of this file).
+  2026-11-15: default_reasoning_effort is medium (Axel: "4: yes, medium default").
+  Raise effort per task when a task needs more depth. A full chezmoi apply is still
+  withheld: the live dest has other local drift (including the default model).
 */ -}}
 [models]
 default = "oc-go-qwen3-8-max"
 web_search = "grok-4.5"
-default_reasoning_effort = "xhigh"
+default_reasoning_effort = "medium"
 
 [model_providers.opencode-go]
 base_url = "https://opencode.ai/zen/go/v1"
