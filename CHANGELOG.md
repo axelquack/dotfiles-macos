@@ -10,6 +10,24 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-15 — Remove OpenCode Zen and Cohere keys
+
+### Removed
+
+- `dot_grok/config.toml.tmpl`: the `opencode-zen` and `cohere` model providers and all `oc-zen-*` and `cohere-*` model entries. OpenCode Go models stay.
+
+### Changed
+
+- `docs/home-machines-apps.md`: note on the removed providers; Cohere North / Command marked as not wired.
+
+### Notes
+
+- Local, not versioned here: the OpenCode Zen and Cohere entries and key definitions were removed from the OpenCode config, both local env files, and OpenCode auth on the primary Mac. A timestamped local backup was kept outside any repository.
+- Goose still has its own Zen and Cohere provider catalogs and local secrets. They were not changed here.
+- No key value appears in this change. Revoking the keys at the providers is Axel's call.
+
+**Why:** Axel decided on 2026-11-15 to remove both unused keys. No live agent used them.
+
 ## 2026-11-15 — Grok CLI default reasoning effort set to medium
 
 ### Changed
@@ -22,6 +40,7 @@ Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the s
 - Already-open Grok CLI sessions read this setting at startup, so they keep their current effort until they are restarted. No session was restarted from this change.
 
 **Why:** Axel (2026-11-15, 05:39 Europe/Berlin): "4: yes, medium default".
+
 
 ## 2026-11-14 — Grok Bot from the Homebrew cask
 
