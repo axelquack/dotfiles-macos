@@ -29,7 +29,7 @@ Four targets on primary differ locally from the source and are **not** applied w
 2. Owner decides: keep local (`chezmoi add <target>` or `chezmoi merge <target>`, then PR) or take the repo version (`chezmoi apply <target>`).
 3. Apply only named targets until the list above is empty. Changes land in [../CHANGELOG.md](../CHANGELOG.md).
 
-On 2026-11-15 the live Grok CLI default reasoning effort was updated by hand to `medium` (see [../CHANGELOG.md](../CHANGELOG.md)). The file stays on this drift list. Do **not** `chezmoi apply` it until the remaining local drift is reviewed.
+On 2026-11-15 the Grok template was aligned to the live file: default model `grok-4.7`, effort `medium`, and no Zapier, OpenCode Zen, Cohere, Penpot, Agent Zero or Elgato MCP entries (see [../CHANGELOG.md](../CHANGELOG.md)). The dest stays on this list until a targeted apply is approved; that apply should only rewrite formatting (inline vs expanded tables). Do **not** `chezmoi apply` it, and do **not** run a full apply, until the owner says so. `.zshrc`, `.zshenv` and `aerospace.toml` still have other local drift.
 
 ## Policies unique to primary
 

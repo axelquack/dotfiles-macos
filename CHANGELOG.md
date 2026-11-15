@@ -10,6 +10,28 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-15 — Align Grok config template to the live file
+
+### Changed
+
+- `dot_grok/config.toml.tmpl`: `models.default` is now `grok-4.7` (it was `oc-go-qwen3-8-max`). `default_reasoning_effort` stays `medium`.
+- README and `docs/secrets-pass.md`: the Agent Zero chezmoi data key is no longer in the Grok examples. The optional Home Assistant URL key stays.
+- README: the private MCP label keys for Agent Zero, Penpot and Zapier are no longer read by the template. Search and browser label keys stay.
+- `docs/stream-deck.md`: the Elgato MCP server is not in the Grok template (it was also absent from the live file). Hardware keys that launch the TUI are unchanged. Grok cannot trigger MCP Deck keys until that server is added back.
+- `docs/primary.md` and `docs/home-machines-apps.md`: record the alignment. The Grok dest stays on the no-wholesale-apply list until a targeted apply is approved; a full `chezmoi apply` is still withheld because other dest files have local drift.
+
+### Removed
+
+- From the template: the Zapier MCP server, the Elgato MCP server, the Penpot MCP server, and the Agent Zero MCP block.
+
+### Notes
+
+- Local, not versioned here: the same Penpot and Agent Zero MCP entries, and the `disabled_mcp_servers` line that only named a Penpot server, were removed from the live `~/.grok/config.toml` on the primary Mac after a local backup. `chezmoi apply` was not run.
+- Already-open Grok CLI sessions do not reload the config. A running TUI might rewrite the dest file.
+- After this lands, a targeted `chezmoi apply ~/.grok/config.toml` should only rewrite formatting (inline tables vs expanded tables). Do not run it until the owner says so.
+
+**Why:** Axel (2026-11-15, 06:35 Europe/Berlin): "Grok template: align to live (grok-4.7, medium, no Zapier/Zen/Cohere) and also drop Penpot and agentzero".
+
 ## 2026-11-15 — Remove OpenCode Zen and Cohere keys
 
 ### Removed
