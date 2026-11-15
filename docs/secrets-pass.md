@@ -45,7 +45,7 @@ Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
 | Generated `~/.zshrc.local` | Home directory only |
 | Himalaya `config.toml` / Mail.app `.mobileconfig` | Home directory / `~/.cache` only; never `password.raw` in git |
 | Filled `himalaya-accounts.local` | gitignored (addresses + Pass titles) |
-| Grok LAN MCP URLs | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`, `grok_agentzero_mcp_url`) — optional; omit on hosts without those services |
+| Grok LAN MCP URL | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`) — optional; omit on hosts without Home Assistant |
 | UniFi NAS SMB IPs | gitignored `scripts/smb-hosts.local` (example committed) |
 | Hue bridge host / username | We Love Lights on the Mac, or gitignored `scripts/hue.local` (`hue.example` committed) |
 
@@ -149,14 +149,13 @@ cp scripts/pass-env-map.example scripts/pass-env-map.local
 
 ### Grok TUI (`~/.grok/config.toml`)
 
-Policy file is chezmoi-managed (`dot_grok/config.toml.tmpl`). MCP **tokens** stay in local `~/.grok/.env` (never git). Optional LAN MCP base URLs belong in **local** `~/.config/chezmoi/chezmoi.toml` `[data]`:
+Policy file is chezmoi-managed (`dot_grok/config.toml.tmpl`). Default model is `grok-4.7` and default reasoning effort is `medium`. MCP **tokens** stay in local `~/.grok/.env` (never git). The optional Home Assistant MCP URL belongs in **local** `~/.config/chezmoi/chezmoi.toml` `[data]`:
 
 ```toml
 grok_homeassistant_mcp_url = "http://HOMEASSISTANT_HOST/api/mcp"
-grok_agentzero_mcp_url     = "http://AGENTZERO_HOST/mcp/t-${AGENTZERO_MCP_TOKEN}/http/"
 ```
 
-Omit both keys on a machine that does not run those servers. Auth for Grok itself is `grok login` (OAuth), not `XAI_API_KEY`.
+Omit the key on a machine that does not run that server. Auth for Grok itself is `grok login` (OAuth), not `XAI_API_KEY`. The template does not include Zapier, Penpot, Agent Zero or Elgato MCP servers.
 
 ### Optional `pass-cli inject`
 

@@ -1,17 +1,21 @@
 {{- /*
   ~/.grok/config.toml — Grok Build TUI policy (chezmoi template)
-  Tokens live in ~/.grok/.env (local only). LAN MCP URLs come from local
-  chezmoi.toml data keys grok_homeassistant_mcp_url / grok_agentzero_mcp_url.
+  Tokens live in ~/.grok/.env (local only). The optional Home Assistant
+  MCP URL comes from the local chezmoi.toml data key grok_homeassistant_mcp_url.
   Auth is grok login (OAuth), not XAI_API_KEY.
   Do not emit TOML # comments: Grok TUI rewrites this file and strips them,
   which makes chezmoi think the dest drifted. [privacy] is TUI-local — re-injected
   from the destination at apply time (see end of this file).
-  2026-11-15: default_reasoning_effort is medium (Axel: "4: yes, medium default").
-  Raise effort per task when a task needs more depth. A full chezmoi apply is still
-  withheld: the live dest has other local drift (including the default model).
+  2026-11-15: models.default is grok-4.7 and default_reasoning_effort is medium
+  (Axel: "Grok template: align to live (grok-4.7, medium, no Zapier/Zen/Cohere)
+  and also drop Penpot and agentzero"). Raise effort per task when a task needs
+  more depth. Zapier, OpenCode Zen, Cohere, Penpot, Agent Zero and Elgato MCP
+  are not in this template. A full chezmoi apply is still withheld because
+  other dest files remain on the 2026-11-14 drift list; do not apply this
+  target until the owner says so.
 */ -}}
 [models]
-default = "oc-go-qwen3-8-max"
+default = "grok-4.7"
 web_search = "grok-4.5"
 default_reasoning_effort = "medium"
 
@@ -103,13 +107,6 @@ theme = "tokyonight"
 [session]
 auto_compact_threshold_percent = 50
 
-{{- with get . "grok_agentzero_mcp_url" }}
-[mcp_servers.{{ or (get $ "private_grok_agentzero_name") "agentzero-local" }}]
-url = "{{ . }}"
-description = "{{ or (get $ "private_grok_agentzero_description") "Agent Zero Researcher on a GPU host; enable when available" }}"
-enabled = false
-{{- end }}
-
 [mcp_servers.raindroptest]
 url = "https://api.raindrop.io/rest/v2/ai/mcp"
 description = "Raindrop.io bookmarks, collections and highlights (cloud)"
@@ -143,25 +140,6 @@ description = "{{ or (get $ "private_grok_browser_description") "Playwright \u20
 
 [mcp_servers.{{ or (get $ "private_grok_browser_name") "playwright-local" }}.headers]
 Authorization = "Bearer ${MCP_PLAYWRIGHT_AUTH_TOKEN}"
-
-[mcp_servers.{{ or (get $ "private_grok_design_name") "penpot-local" }}]
-url = "http://localhost:9001/mcp/stream?userToken=${PENPOT_MCP_TOKEN}"
-description = "{{ or (get $ "private_grok_design_description") "Penpot \u2014 decks/presentations via execute_code" }}"
-
-[mcp_servers.zapier]
-url = "https://mcp.zapier.com/api/mcp/sse"
-enabled = true
-description = "{{ or (get $ "private_grok_zapier_description") "Zapier MCP \u2014 social integrations and other Zapier apps" }}"
-
-[mcp_servers.zapier.headers]
-Authorization = "Bearer ${ZAPIER_MCP_TOKEN}"
-Accept = "application/json, text/event-stream"
-
-[mcp_servers.elgato]
-command = "npx"
-args = ["--yes", "@elgato/mcp-server@latest"]
-startup_timeout_sec = 90
-description = "Elgato Stream Deck MCP Deck — trigger keys on the MCP Actions profile (app must be running)"
 
 [marketplace]
 official_marketplace_auto_installed = true

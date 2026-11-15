@@ -505,7 +505,7 @@ Vault: `~/Obsidian/YourVault` · plugin `agent-client` · file
 | **Grok Build** | `~/.config/grok/launch-acp-with-env.sh` (`grok agent stdio`; SuperGrok OAuth via `grok login`) |
 | **nodePath** | stable fnm Node `…/installation/bin/node` |
 
-TUI policy (`~/.grok/config.toml`) is chezmoi-managed — see [`dot_grok/config.toml.tmpl`](../dot_grok/config.toml.tmpl) and [secrets-pass.md](./secrets-pass.md). Do not export `XAI_API_KEY` into interactive shells.
+TUI policy (`~/.grok/config.toml`) is chezmoi-managed — see [`dot_grok/config.toml.tmpl`](../dot_grok/config.toml.tmpl) and [secrets-pass.md](./secrets-pass.md). Default model is `grok-4.7` and default reasoning effort is `medium`. Zapier, Penpot, Agent Zero and Elgato MCP servers are not in the template. Do not export `XAI_API_KEY` into interactive shells. Do not `chezmoi apply` the dest until the owner says so.
 
 **Removed providers (2026-11-15):** OpenCode Zen (`OPENCODE_ZEN_API_KEY`, OpenCode provider id `opencode`) and Cohere (`COHERE_API_KEY`) are gone from `dot_grok/config.toml.tmpl` and from the local OpenCode config, env files, and OpenCode auth on the primary Mac. No running agent used them. OpenCode Go and native xAI stay. The OpenCode `small_model` now uses `opencode-go/deepseek-v4.1-flash`. Do not re-add either key without Axel.
 

@@ -13,7 +13,7 @@
 | Profile writer | [`scripts/streamdeck_profile.py`](../scripts/streamdeck_profile.py) |
 | Key icons | [`scripts/streamdeck_icon.swift`](../scripts/streamdeck_icon.swift) (Tokyo Night tiles + Elgato pack / SF Symbols / app icons) |
 | Apply | [`scripts/streamdeck-apply.sh`](../scripts/streamdeck-apply.sh) |
-| Grok → keys | `[mcp_servers.elgato]` in `dot_grok/config.toml.tmpl` (`npx @elgato/mcp-server`) |
+| Grok → keys | Not currently wired. The Grok template has no `[mcp_servers.elgato]` (aligned to the live config on 2026-11-15). Hardware keys that launch the TUI still work. |
 | AeroSpace | Stream Deck app **floats** on the current workspace and is **centered** on that display (`com.elgato.StreamDeck` + `center-floating-window.sh`) |
 
 Hardware is a **Stream Deck MK.2** (5×3). The Elgato app must be running for keys and for the MCP bridge.
@@ -100,13 +100,7 @@ Bottom row is **Hue** for Keller (Fitness Schreibtisch): Tokio, Lesen, Malibu pi
 
 The MCP Deck is an **8×4** virtual XL (not 15 keys). Stream Deck 7.5 **Preferences → General → Enable MCP Deck** is already on after first launch. Apply fills all 32 keys: ops, git, all ten AeroSpace workspaces, Cursor/Zed/Obsidian/Brave, Camera Hub, lights.
 
-Grok talks to that profile via official Elgato MCP (`npx @elgato/mcp-server@latest`). Needs:
-
-1. Stream Deck app running, MCP Deck enabled
-2. `node` / `npx` on PATH (fnm is fine from a Terminal-launched Grok)
-3. `chezmoi apply` so `~/.grok/config.toml` has `[mcp_servers.elgato]`
-
-Then `/mcps` should list `elgato`. Hardware keys stay private; only MCP Actions is exposed to the model.
+The MCP Actions profile is still generated for the Stream Deck app. Grok does **not** currently talk to it: `[mcp_servers.elgato]` was removed from `dot_grok/config.toml.tmpl` on 2026-11-15 because it was not in the live config. To wire it again later, add the official Elgato MCP (`npx @elgato/mcp-server@latest`) back to the template, apply only that dest when the owner says so, and check that `/mcps` lists `elgato`. Hardware keys stay private; only MCP Actions would be exposed to the model.
 
 Optional: in the Stream Deck UI, select an MCP key → AI button → add the phrases you would actually say (“apply dotfiles”, “load ssh agent”).
 

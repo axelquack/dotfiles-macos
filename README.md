@@ -156,9 +156,8 @@ sourceDir = "~/Developer/Projects/dotfiles-macos"
     proton_vault_id         = "YOUR_VAULT_ID"
     proton_git_item_id      = "YOUR_ITEM_ID"
     proton_ssh_host_item_id = "YOUR_SSH_HOST_ITEM_ID"
-    # Optional Grok TUI LAN MCP URLs (omit on hosts without these services)
+    # Optional Grok TUI LAN MCP URL (omit on hosts without Home Assistant)
     grok_homeassistant_mcp_url = "http://HOMEASSISTANT_HOST/api/mcp"
-    grok_agentzero_mcp_url     = "http://AGENTZERO_HOST/mcp/t-${AGENTZERO_MCP_TOKEN}/http/"
 EOF
 ```
 
@@ -172,7 +171,7 @@ chmod 600 ~/.config/chezmoi/chezmoi.toml
 
 - `ssh_private_hosts`: extra `~/.ssh/config` host blocks, rendered verbatim (see [docs/ssh-hosts.md](docs/ssh-hosts.md)).
 - `private_aerospace_comment_title`, `private_aerospace_comment_comms`: AeroSpace header comments.
-- `private_grok_agentzero_name`, `private_grok_agentzero_description`, `private_grok_search_name`, `private_grok_search_description`, `private_grok_browser_name`, `private_grok_browser_description`, `private_grok_design_name`, `private_grok_design_description`, `private_grok_zapier_description`: Grok MCP server names and descriptions.
+- `private_grok_search_name`, `private_grok_search_description`, `private_grok_browser_name`, `private_grok_browser_description`: Grok MCP server names and descriptions for the local search and browser servers.
 - `private_sd_ansible_comment`: Stream Deck Ansible action header.
 
 Every Mac that runs `chezmoi apply` needs the same keys as the primary, or its rendered files differ. Check with `chezmoi diff` first.
