@@ -10,6 +10,20 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-15 — Drop Penpot from Cursor MCP on the primary Mac
+
+### Changed
+
+- `docs/primary.md` and `docs/home-machines-apps.md`: record that `~/.cursor/mcp.json` is not chezmoi-managed, and that the Penpot MCP server was removed from the live file on the primary Mac.
+
+### Notes
+
+- Local, not versioned here: the Penpot server entry was removed from `~/.cursor/mcp.json` on the primary Mac after a local backup. The JSON was re-validated. The file is not chezmoi-managed and is not a symlink into this repo.
+- Regenerating that file with `grok-bot-stack/scripts/sync-cursor-mcp.sh` would write the Penpot entry again. Do not run it on primary until the script no longer includes Penpot.
+- Already-open Cursor sessions may keep the old server list until Cursor is reloaded.
+
+**Why:** Axel (2026-11-15, 06:42 Europe/Berlin): "Merge dotfiles-macos#18" and "Remove Penpot from ~/.cursor/mcp.json too".
+
 ## 2026-11-15 — Align Grok config template to the live file
 
 ### Changed
