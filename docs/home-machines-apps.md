@@ -507,6 +507,8 @@ Vault: `~/Obsidian/YourVault` · plugin `agent-client` · file
 
 TUI policy (`~/.grok/config.toml`) is chezmoi-managed — see [`dot_grok/config.toml.tmpl`](../dot_grok/config.toml.tmpl) and [secrets-pass.md](./secrets-pass.md). Do not export `XAI_API_KEY` into interactive shells.
 
+**Removed providers (2026-11-15):** OpenCode Zen (`OPENCODE_ZEN_API_KEY`, OpenCode provider id `opencode`) and Cohere (`COHERE_API_KEY`) are gone from `dot_grok/config.toml.tmpl` and from the local OpenCode config, env files, and OpenCode auth on the primary Mac. No running agent used them. OpenCode Go and native xAI stay. The OpenCode `small_model` now uses `opencode-go/deepseek-v4.1-flash`. Do not re-add either key without Axel.
+
 **Pitfall (2026-08-06):** Old wrapper always ran `opencode acp "$@"`. Agent Client also passes `acp` (and **re-injects** it if `args` is empty) → `opencode acp acp` → *ACP connection closed*, or stuck **Connecting…** after partial fix.  
 Wrapper now: if `$1 == acp` then `exec opencode "$@"` else `exec opencode acp "$@"`.  
 Same for **Kiro**: `kiro-cli acp acp` exits immediately (`unexpected argument 'acp'`). Wrapper is idempotent; plugin `args` is `["acp"]`.  
@@ -709,7 +711,7 @@ Service: `com.goodsnooze.MacWhisper` unless noted.
 | cloud STT (`POST /v1/stt`, model stt-model-id) | Yes | **MacWhisper cloud xAI** |
 | Provider chat (subscription OAuth) | Optional | Configure in OpenCode UI only |
 | Cohere Transcribe | Yes (`/v2/audio/transcriptions`) | External / future; **not** MacWhisper native |
-| Cohere North / Command | Yes | **OpenCode** chat only |
+| Cohere North / Command | Yes | **Not wired** since 2026-11-15 (Cohere provider and key removed from OpenCode and Grok TUI) |
 
 A chat subscription is not the same as unlimited API STT. STT is usually API-billed when using console API keys.
 
