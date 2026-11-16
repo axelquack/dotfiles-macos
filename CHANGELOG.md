@@ -10,6 +10,14 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-16 — Claude Code from the latest cask
+
+### Changed
+
+- `brewfile.home.machines` installs `cask "claude-code@latest"` instead of the stable `claude-code` cask.
+
+Why: the 2.1.325 security fix (zstd response decoding) was only on the latest channel; stable was still 2.1.311. Switch back to `claude-code` once stable is at or above 2.1.325.
+
 ## 2026-11-14 — Grok Bot from the Homebrew cask
 
 ### Changed
