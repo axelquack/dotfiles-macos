@@ -2,6 +2,8 @@
   ~/.grok/config.toml — Grok Build TUI policy (chezmoi template)
   Tokens live in ~/.grok/.env (local only). The optional Home Assistant
   MCP URL comes from the local chezmoi.toml data key grok_homeassistant_mcp_url.
+  The optional Twenty CRM MCP URL comes from grok_twenty_mcp_url (2026-11-17,
+  read-only API key, token MCP_TWENTY_AUTH_TOKEN in ~/.grok/.env).
   Auth is grok login (OAuth), not XAI_API_KEY.
   Do not emit TOML # comments: Grok TUI rewrites this file and strips them,
   which makes chezmoi think the dest drifted. [privacy] is TUI-local — re-injected
@@ -140,6 +142,15 @@ description = "{{ or (get $ "private_grok_browser_description") "Playwright \u20
 
 [mcp_servers.{{ or (get $ "private_grok_browser_name") "playwright-local" }}.headers]
 Authorization = "Bearer ${MCP_PLAYWRIGHT_AUTH_TOKEN}"
+
+{{- with get . "grok_twenty_mcp_url" }}
+[mcp_servers.twenty]
+url = "{{ . }}"
+description = "Twenty CRM (LAN) \u2014 read-only API key (companies, people, opportunities)"
+
+[mcp_servers.twenty.headers]
+Authorization = "Bearer ${MCP_TWENTY_AUTH_TOKEN}"
+{{- end }}
 
 [marketplace]
 official_marketplace_auto_installed = true

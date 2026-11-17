@@ -45,7 +45,7 @@ Disk files after bootstrap are a **cache**. Re-run scripts after reinstall.
 | Generated `~/.zshrc.local` | Home directory only |
 | Himalaya `config.toml` / Mail.app `.mobileconfig` | Home directory / `~/.cache` only; never `password.raw` in git |
 | Filled `himalaya-accounts.local` | gitignored (addresses + Pass titles) |
-| Grok LAN MCP URL | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`) — optional; omit on hosts without Home Assistant |
+| Grok LAN MCP URLs | Local `chezmoi.toml` data (`grok_homeassistant_mcp_url`, `grok_twenty_mcp_url`) — optional; omit on hosts without those services |
 | UniFi NAS SMB IPs | gitignored `scripts/smb-hosts.local` (example committed) |
 | Hue bridge host / username | We Love Lights on the Mac, or gitignored `scripts/hue.local` (`hue.example` committed) |
 
@@ -153,9 +153,14 @@ Policy file is chezmoi-managed (`dot_grok/config.toml.tmpl`). Default model is `
 
 ```toml
 grok_homeassistant_mcp_url = "http://HOMEASSISTANT_HOST/api/mcp"
+grok_twenty_mcp_url        = "http://TWENTY_HOST:3000/mcp"
 ```
 
-Omit the key on a machine that does not run that server. Auth for Grok itself is `grok login` (OAuth), not `XAI_API_KEY`. The template does not include Zapier, Penpot, Agent Zero or Elgato MCP servers.
+Omit a key on a machine that does not use that server.
+
+**Twenty CRM MCP (added 2026-11-17).** The template renders `[mcp_servers.twenty]` only when `grok_twenty_mcp_url` is set. It sends `Authorization = "Bearer ${MCP_TWENTY_AUTH_TOKEN}"`. The token is a Twenty API key bound to a custom read-only role (read all records; no update, delete, settings, tools, or user/agent assignment). It is created server-side, never in the browser, and stored in Pass as a login item (key in the password field). Map it locally in `scripts/pass-env-map.local` as `<Pass title>|MCP_TWENTY_AUTH_TOKEN|password` and write it to `~/.grok/.env` (mode 600). The key expires after 90 days; rotate it the same way and update Pass, `~/.grok/.env`, and Cursor.
+
+**Cursor (`~/.cursor/mcp.json`) is not chezmoi-managed.** Cursor supports `${env:NAME}` in `url` and `headers`, but `envFile` works only for stdio servers, and a Dock-launched Cursor does not inherit the zsh environment. So remote MCP entries in the local `mcp.json` hold the bearer value directly; keep that file at mode 600 and never copy it into this repo. Fill it from Pass without printing the token, e.g. `TW=$(pass-cli item view --vault-name VAULT --item-title "TITLE" --field password) jq '.mcpServers.twenty = {url: "http://TWENTY_HOST:3000/mcp", headers: {Authorization: ("Bearer " + env.TW)}}'` into a temp file, then replace `mcp.json`. Check with `cursor-agent mcp list`. Auth for Grok itself is `grok login` (OAuth), not `XAI_API_KEY`. The template does not include Zapier, Penpot, Agent Zero or Elgato MCP servers.
 
 ### Optional `pass-cli inject`
 
