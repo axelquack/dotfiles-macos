@@ -10,6 +10,21 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-17 — Grok template: optional Twenty CRM MCP
+
+### Added
+
+- `dot_grok/config.toml.tmpl` renders an optional `[mcp_servers.twenty]` block when the local chezmoi data key `grok_twenty_mcp_url` is set. The auth header uses `${MCP_TWENTY_AUTH_TOKEN}` from `~/.grok/.env`.
+- `docs/secrets-pass.md` documents the new data key, the read-only Twenty API key, its Pass mapping, 90-day rotation, and why the local Cursor `mcp.json` holds remote MCP tokens directly (mode 600, not managed here).
+
+### Notes
+
+- Template placeholders only. No URL, host, token, or Pass ID is committed.
+- Local, not versioned here: the live Grok config, `~/.grok/.env`, the local chezmoi data key, `scripts/pass-env-map.local`, and the Twenty entry in `~/.cursor/mcp.json` were set on the primary Mac.
+- `grok-bot-stack/scripts/sync-cursor-mcp.sh` does not know the Twenty entry yet. Running it would drop Twenty from `~/.cursor/mcp.json`.
+
+Why: Axel (2026-11-17, Europe/Berlin) approved Twenty's built-in MCP for Grok Build and for Cursor, LAN only, with a read-only key.
+
 ## 2026-11-15 — Drop Penpot from Cursor MCP on the primary Mac
 
 ### Changed
