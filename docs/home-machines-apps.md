@@ -371,7 +371,16 @@ Canonical steps: [himalaya.md](./himalaya.md). Mailbox inventory stays in a priv
 
 ## 12. OpenCode (CLI + desktop)
 
-**Install (SoT):** brew formula `opencode` + cask `opencode-desktop` in `brewfile.home.machines`.
+**Install (SoT):** brew formula `anomalyco/tap/opencode-v2` (OpenCode 2.x CLI) + cask `opencode-desktop` in `brewfile.home.machines`. Keep the CLI and the desktop app on the same major version.
+
+**Upgrading from 1.x (2026-11-18):**
+
+- Swap the formula: `brew unlink anomalyco/tap/opencode && brew install anomalyco/tap/opencode-v2`. The two formulas conflict because both install `opencode`.
+- Rollback: `brew unlink opencode-v2 && brew link anomalyco/tap/opencode`, as long as the old keg is still installed.
+- 2.x still reads the 1.x `opencode.jsonc` (legacy keys are translated). Check with `opencode debug config`, `opencode plugin list` and `opencode mcp list`.
+- 2.x keeps credentials in its own store (`opencode auth list` / `opencode auth switch`), not in `auth.json`. It imports `auth.json` once. Later 1.x logins or key rotations do not reach it, so stale keys show up as *API key has expired* or xAI `invalid_grant`. Fix with `opencode auth login`, or import fresh credentials with `opencode auth import` and switch to them.
+- The legacy per-provider `whitelist` has no 2.x equivalent, so the model picker lists every model of an enabled provider. `enabled_providers` still applies.
+- `scripts/sync-goose-from-opencode.sh` still reads `auth.json`, which 2.x no longer updates. Re-check it before the next Goose re-import.
 
 | Piece | Typical location | In this git repo? |
 |-------|------------------|-------------------|
@@ -469,13 +478,13 @@ eval "$(fnm env)"
 fnm install 24 && fnm default 24
 "$(chezmoi source-path)/scripts/install-npm-acp-agents.sh"
 "$(chezmoi source-path)/scripts/install-npm-cli-tools.sh"   # optional leftover CLIs; not used by Agent Client
-brew install opencode   # OpenCode ACP: opencode acp
+brew install anomalyco/tap/opencode-v2   # OpenCode ACP: opencode acp
 brew install --cask antigravity-cli   # agy TUI — not ACP / not Obsidian
 ```
 
 | Tool | Package | Role |
 |------|---------|------|
-| **OpenCode** (default agent) | brew `opencode` | `opencode acp` — uses local OpenCode config + auth (never commit) |
+| **OpenCode** (default agent) | brew `anomalyco/tap/opencode-v2` | `opencode acp` — uses local OpenCode config + auth (never commit) |
 | **Claude Code ACP** | `@agentclientprotocol/claude-agent-acp@0.68.0` | Agent Client “Claude Code” |
 | **Codex ACP** | `@agentclientprotocol/codex-acp@1.3.0` | Agent Client “Codex” |
 | **Antigravity CLI** | brew cask `antigravity-cli` → `/opt/homebrew/bin/agy` | Gemini successor. **Not in Agent Client** (no ACP). Use Terminal or Antigravity 2.0. |
@@ -514,7 +523,7 @@ Wrapper now: if `$1 == acp` then `exec opencode "$@"` else `exec opencode acp "$
 Same for **Kiro**: `kiro-cli acp acp` exits immediately (`unexpected argument 'acp'`). Wrapper is idempotent; plugin `args` is `["acp"]`.  
 Details: `hermes-stack/docs/guides/hermes-opencode-acp-editors.md`.
 
-**Pitfall (2026-11-02, primary):** Plugin **0.13.0** kept a dead `opencode acp` process marked connected. The next send failed with *ACP connection closed* and did not start a new process. **Restart agent** clears the chat before it reconnects. The primary vault `main.js` is patched so exit drops that connection and the next send reconnects. Backup next to `main.js`: `main.js.bak-pre-acp-reconnect-20261102`. A plugin update replaces `main.js` and drops the patch. The vault is not a git repo. Brew OpenCode on primary stays **1.19.4**. Do not upgrade the plugin until this behavior is upstream.
+**Pitfall (2026-11-02, primary):** Plugin **0.13.0** kept a dead `opencode acp` process marked connected. The next send failed with *ACP connection closed* and did not start a new process. **Restart agent** clears the chat before it reconnects. The primary vault `main.js` is patched so exit drops that connection and the next send reconnects. Backup next to `main.js`: `main.js.bak-pre-acp-reconnect-20261102`. A plugin update replaces `main.js` and drops the patch. The vault is not a git repo. Do not upgrade the plugin until this behavior is upstream. Brew OpenCode on primary moved to **2.3.2** on 2026-11-18; the wrapper still completes the ACP `initialize` and `session/new` handshake.
 
 ### Agent Client plugin settings (secondary, after fix)
 
