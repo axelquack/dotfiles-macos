@@ -38,7 +38,7 @@ Personal dotfiles and setup scripts for macOS, available at [github.com/axelquac
 | [pass-cli](https://protonpass.github.io/pass-cli/) | Proton Pass CLI — **secret vault** (SSH keys, host config, API keys) | [`docs/secrets-pass.md`](docs/secrets-pass.md) · local `chezmoi.toml` IDs only |
 | [Himalaya](https://github.com/pimalaya/himalaya) | CLI + TUI email (IMAP/SMTP) | [`docs/himalaya.md`](docs/himalaya.md) · config generated locally from Pass titles · `just <domain>` opens a mailbox from any directory |
 | [Deno](https://deno.com) | JavaScript / TypeScript runtime | brew formula |
-| [OpenCode](https://opencode.ai) | AI coding agent (CLI + desktop) | brew `opencode` + `opencode-desktop`; secrets **local only** |
+| [OpenCode](https://opencode.ai) | AI coding agent (CLI + desktop) | brew `anomalyco/tap/opencode-v2` + `opencode-desktop`; secrets **local only** |
 | Grok Build TUI | xAI coding agent (`~/.grok/bin/grok`) | `dot_grok/config.toml.tmpl`; OAuth via `grok login`; tokens local |
 
 *(Neovim/Vim config is managed in a separate repository.)*
@@ -49,7 +49,7 @@ Installed by `brewfile.home.machines`. This repo does **not** manage their API k
 
 | Package | Purpose | Config in this repo |
 |---------|---------|---------------------|
-| `opencode` + `opencode-desktop` | OpenCode CLI + GUI | PATH helpers in `dot_zshrc` only |
+| `anomalyco/tap/opencode-v2` + `opencode-desktop` | OpenCode 2.x CLI + GUI | PATH helpers in `dot_zshrc` only |
 | `claude` + `claude-code` | Anthropic desktop + CLI | — (app-managed) |
 | `block-goose` | Goose agentic assistant | custom provider JSON (no keys) in `dot_config/goose/custom_providers/`; SuperGrok OAuth imported locally via `scripts/sync-goose-from-opencode.sh` |
 | `aionui` | GUI for CLI AI agents | — (app-managed) |

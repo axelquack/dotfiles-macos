@@ -10,6 +10,20 @@ Newest first. Dates are Europe/Berlin, `YYYY-MM-DD`.
 
 Use one heading per change: `## YYYY-MM-DD — title`. Under it, keep only the subsections that have items. End with a Why line.
 
+## 2026-11-18 — OpenCode CLI 2.x
+
+### Changed
+
+- `brewfile.home.machines` installs `anomalyco/tap/opencode-v2` (2.3.2) instead of the 1.x `opencode` formula, so the CLI matches the 2.x desktop app.
+- `docs/home-machines-apps.md` and README name the new formula. They describe the swap, the rollback, the separate 2.x credential store, and the dropped per-provider model `whitelist`.
+
+### Notes
+
+- The existing 1.x config loads unchanged in 2.3.2. The local plugin and all enabled MCP servers loaded, and the ACP wrapper handshake works.
+- The Goose sync script still reads the 1.x `auth.json`. That needs a follow-up.
+
+Why: the desktop app was already on 2.3.2 while the CLI was on 1.19.5. The owner asked to upgrade and keep plugins working.
+
 ## 2026-11-17 — Grok template: optional Twenty CRM MCP
 
 ### Added

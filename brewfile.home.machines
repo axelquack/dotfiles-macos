@@ -113,7 +113,7 @@ brew "llmfit"                   # LLM fine-tuning tool
 brew "mas"                      # Command-line interface for Mac App Store
 # Intel (secondary): no bottle for mistral-vibe / pydantic deps (Homebrew Tier 3) — arm64 only
 brew "mistral-vibe" if Hardware::CPU.arm?  # Mistral Vibe CLI + vibe-acp (Obsidian Agent Client)
-brew "opencode"                 # OpenCode AI coding agent CLI (separate from opencode-desktop)
+brew "anomalyco/tap/opencode-v2"  # OpenCode 2.x CLI from the upstream tap (matches opencode-desktop 2.x). Conflicts with the 1.x `opencode` formula
 brew "p7zip"                    # 7-Zip file archiver (CLI)
 brew "unar"                     # The Unarchiver CLI — ComicTagger CBR read / CBR→CBZ export (Homebrew unrar gone; rar cask Gatekeeper-disabled)
 brew "ripgrep"                  # Fast recursive search tool (used by editors and scripts)
